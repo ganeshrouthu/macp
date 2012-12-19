@@ -1,0 +1,132 @@
+<?php
+define('LANG', 'und');
+/**
+ * Implementing hook_menu
+ */
+function job_menu(){
+  $items = array();
+  
+  /*$items['job_aplications'] = array(
+    'title' => t('User Job Application'),
+    'description' => 'User list applied for jobs',
+    'page callback'    => 'job_output',
+    'page arguments' => array('list'),
+    'access arguments' => array('access content'),
+    'file' => 'job.application.inc',
+  );*/
+  
+  $items['job_aplications'] = array(
+    'title' => t('User Job Application'),
+    'description' => 'User list applied for jobs',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('job_listings'),
+    //'access arguments' => array('access content'),
+    'access arguments' => array('access content'),
+    'file' => 'job.application.inc',
+  );
+  
+  
+  return $items;
+}
+
+/*
+ * Implementing hook_block_info
+ */
+ 
+function job_block_info() {
+  
+  $blocks['job_apply_link'] = array(
+  'info' => 'Job Apply Link',
+  );
+  return $blocks;
+}
+
+
+/*
+ * For implmenting hook_view 
+ * for creating/add block
+ */
+ 
+function job_block_view($delta = '') {
+  global $base_url, $user;
+  $block = array();
+  switch ($delta) {
+    case 'job_apply_link':
+      $block['subject'] = '';
+      $block['content'] = job_apply_link_block();
+    break;
+  }
+  return $block;
+}
+
+/*
+ * Implementing hook_block for adding Apply Now
+ * link in Careers at MACP cpntent page
+ */
+ 
+function job_apply_link_block() {
+	global $base_url;
+	$html = '';
+	if (arg(0) == 'node' && arg(1) > 0) {
+		$job_node = node_load(arg(1));
+		if ($job_node->type == 'careers_at_macp' && $job_node->nid) {
+			$html = '<a href="'.$base_url.'/node/add/job-application/' . $job_node->nid . '">Apply Now</a>';
+		}
+	}
+	return $html;
+}
+
+/*
+ * For implementing hook_form_alter()
+ */
+function job_form_job_application_node_form_alter(&$form, &$form_state, $form_id) {
+  
+  $form['title']['#title'] = 'Your Name';
+  $form['field_job_id']['und'][0]['value']['#default_value'] = arg(3);
+  $form['field_job_id']['und'][0]['value']['#type'] = 'hidden';
+}
+
+/*
+ * Implementing hook_form_submit()
+ */
+function job_node_submit($node, $form, &$form_state) {
+
+  /*if($form['#form_id'] == 'job_application_node_form') {
+    $valid_email = $form_state['values']['field_email_address']['und'][0]['value'];
+    
+    
+    
+    $body[] = 'Email: '.$valid_email.'<br />URL:';
+    
+    $to = 'nitin.patil@reisystems.in'; // Set this email address - emails will be sent to this email address! 
+        
+    $module = 'backup_migrate';
+		$key = microtime();
+		
+		$language = language_default();
+		
+		$file = $form_state['values']['field_upload_your_resume']['und'][0]['fid'];
+		$resume = file_load($file);
+		$path = file_create_url($resume->uri);
+		
+		$params = array();
+		$params['body'] = $body;
+		$params['subject'] = $form_state['values']['title'];
+		
+		$params['attachments'][] = array(
+  	  'filepath' => $path,
+  		'filecontent' => 'Attached Resume.',
+  		//'filename' => $attachment->filename,
+  		'filemime' => 'text/plain',
+		);
+
+		$from = $form_state['values']['field_email_address']['und'][0]['value'];
+
+		$send = TRUE;
+		
+	  //drupal_mail($module, $key, $to, $language, $params, $from, $send);
+
+  }*/
+  
+  
+}

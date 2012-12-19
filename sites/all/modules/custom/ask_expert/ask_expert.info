@@ -1,0 +1,5 @@
+name = Ask Expert
+description = Customise module for show ask expert details.
+package = REI
+core = 7.x
+php = 5.2

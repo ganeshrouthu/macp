@@ -1,0 +1,142 @@
+<?php
+define('LANG', 'und');
+
+/**
+ * Implementing hook_menu
+ */
+function job_menu(){
+  $items = array();
+ 
+  $items['aplications'] = array(
+    'title' => t('User resume'),
+    'description' => 'User list applied for jobs',
+    'page callback'    => 'job_output',
+    //'page callback' => 'drupal_get_form',
+    //'page arguments' => array('job_output'),
+    'page arguments' => array('list'),
+    'access arguments' => array('access content'),
+    'file' => 'job.application.inc',
+  );
+
+  $items['listing'] = array(
+    'title' => t('Listing'),
+    'description' => 'User list applied for jobs',
+    'page callback'    => 'job_listing',
+    'access arguments' => array('access content'),
+  );
+ 
+  return $items;
+}
+ 
+function job_form_job_application_node_form_alter(&$form, &$form_state, $form_id) {
+  //dsm($form, 'form');
+  $form['title']['#title'] = 'Your Name';
+  $form['field_job_id']['und'][0]['value']['#default_value'] = arg(3);
+  $form['field_job_id']['und'][0]['value']['#type'] = 'hidden';
+}
+
+function job_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'listing_pages') {
+    switch ($node->field_page_type[LANG][0]['safe_value']) {
+      case 'case_study' :
+        $case_studies = _format_listings('case_study');
+        $node->case_studies = listing_output($case_studies);
+        require_once path_to_theme() . '/templates/case_study_listing.tpl.php';
+      break;
+
+      case 'success_story' :
+        $success_stories = _format_listings('success_story');
+        $node->success_stories = listing_output($success_stories);
+        require_once path_to_theme() . '/templates/success_story_listing.tpl.php';
+      break;
+    }
+  }
+}
+
+function _format_listings($content_type = '') {
+  $formatted_array = array();
+  if (empty($content_type)) {
+    return $formatted_array;
+  }
+  $case_studies = node_load_multiple(array(), array('type' => $content_type));
+  if (count($case_studies)) {
+    foreach ($case_studies as $case_study) {
+      $temp['nid'] = $case_study->nid;
+      $temp['title'] = $case_study->title;
+      $formatted_array[] = $temp;
+    }
+  }
+  return $formatted_array;
+}
+
+function listing_output($listings) {
+global $base_path;
+  $header = array('Sr. No', 'Title', 'Actions');
+  $rows = array();
+  if (empty($listings)) {
+    $temp[] = 'No data available';
+  }
+  $i = 0;
+  foreach ($listings as $listing) {
+    ++$i;
+    $temp = array();
+    $temp[] = $i;
+    $temp[] = $listing['title'];
+    $temp[] = '<a href="node/' . $listing['nid'] . '">View</a> | ' 
+    . '<a href="node/' . $listing['nid'] . '/edit">Edit</a> | '
+    . '<a href="node/' . $listing['nid'] . '/delete">Delete</a>';
+    
+    $rows[] = $temp;
+  }
+  
+  
+
+  $table_attributes = array('id' => 'ralphs-node-table', 'align' => 'center');
+  $output = theme_table(
+    array(
+      "header" => $header,
+      "rows" => $rows,
+      "attributes" => array(),
+      "sticky" => true, // Table header will be sticky
+      "caption" => "",
+      "colgroups" => array(),
+      "empty" => t("Table has no row!") // The message to be displayed if table is empty
+    )
+  );
+  $test = theme('pager', array('quantity' => 10));
+  
+  return $output;
+}
+
+function job_listing() {
+  $output = '';
+  $nid = arg(1);
+  if (empty($nid)) {
+    return $output;
+  }
+  $current_node = node_load($nid);
+  $content_type = $current_node->field_page_type[LANG][0]['safe_value'];
+  if ($content_type) {
+    $output = listing_output(_format_listings($content_type));
+  }
+  return $output;
+}
+
+function job_block_info() {
+  // This example comes from node.module.
+  $blocks['listings'] = array(
+  'info' => t('Listing of pages'),
+  );
+  return $blocks;
+}
+
+function job_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'listings':
+      $block['subject'] = t('Listing Pages');
+      $block['content'] = job_listing();
+      break;
+  }
+  return $block;
+}

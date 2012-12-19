@@ -1,0 +1,61 @@
+<?php
+/**
+ * Implements hook_theme().
+ */
+function ask_expert_theme() {
+  return array(
+    'ask_expert' => array(
+      'template' => 'ask_expert',
+      'variables' => array('forums' => NULL, 'topics' => NULL, 'parents' => NULL, 'tid' => NULL, 'sortby' => NULL, 'ask_expert_per_page' => NULL),
+    ),
+    /*'ask_expert_list' => array(
+      'template' => 'ask_expert-list',
+      'variables' => array('ask_experts' => NULL, 'parents' => NULL, 'tid' => NULL),
+    ),
+    'ask_expert_topic_list' => array(
+      'template' => 'ask_expert-topic-list',
+      'variables' => array('tid' => NULL, 'topics' => NULL, 'sortby' => NULL, 'ask_expert_per_page' => NULL),
+    ),
+    'ask_expert_icon' => array(
+      'template' => 'ask_expert-icon',
+      'variables' => array('new_posts' => NULL, 'num_posts' => 0, 'comment_mode' => 0, 'sticky' => 0, 'first_new' => FALSE),
+    ),
+    'ask_expert_submitted' => array(
+      'template' => 'ask_expert-submitted',
+      'variables' => array('topic' => NULL),
+    ),
+    'ask_expert_form' => array(
+      'render element' => 'form',
+      'file' => 'ask_expert.admin.inc',
+    ),*/
+  );
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function ask_expert_menu() {
+ 
+  $items['ask_expert/my'] = array(
+    'title' => t('User Ask Question'),
+    'description' => 'list question ask by there own',
+    'page callback' => 'ask_expert_table',
+    //'page arguments' => array('ask_expert_listing'),
+    //'access arguments' => array('access content'),
+    'access arguments' => array('access content'),
+    'file' => 'ask_expert.ques_listing.inc',
+  );
+  
+  $items['ask_expert/all'] = array(
+    'title' => t('All Ask Question'),
+    'description' => 'list question ask by there all user',
+    'page callback' => 'ask_expert_all_table',
+    //'page arguments' => array('ask_expert_listing'),
+    //'access arguments' => array('access content'),
+    'access arguments' => array('access content'),
+    'file' => 'ask_expert.ques_listing.inc',
+  );
+   return $items;
+}
+

@@ -1,0 +1,5 @@
+name = Job
+description = Customise module for add link apply to job.
+package = REI
+core = 7.x
+php = 5.2

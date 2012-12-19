@@ -1,0 +1,9 @@
+<?php
+function _p($var, $flag = FALSE) {
+  echo '<pre>';
+  print_r($var);
+  echo '</pre>';
+  if ($flag) {
+    die();
+  }
+}

@@ -1,0 +1,5 @@
+name = Listing
+description = Customise module for dosplay node list.
+package = REI
+core = 7.x
+php = 5.2

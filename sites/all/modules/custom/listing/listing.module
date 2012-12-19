@@ -1,0 +1,40 @@
+<?php
+
+
+/**
+ * Implementing hook_menu
+ */
+function listing_menu(){
+  $items = array();
+ 
+  $items['listing/success-story'] = array(
+    'title' => 'Success Stories',
+    'description' => 'display the list of success stories.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('listing_success_story'),
+    //'access arguments' => array('access content'),
+    'access arguments' => array('access content overview'),
+    'file' => 'listing_node.success_story.inc',
+  );
+  
+    
+  $items['node_list/hello_world'] = array(
+        'title' => 'Hello World Test',
+        'page callback' => 'say_hello_world',
+        'access arguments' => array('access content'),
+        'type' => MENU_CALLBACK,
+     );
+  
+  return $items;
+}
+
+function say_hello_world() {
+    $vars = array();
+    $vars['type']="ul";
+    $vars['title'] = "";
+    $vars['attributes']=array("");
+    $vars['items'][0]="This is a simple proof of concept module";
+
+    return theme_item_list($vars);
+}
+
