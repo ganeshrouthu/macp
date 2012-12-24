@@ -32,7 +32,6 @@ function forum_page($forum_term = NULL) {
   else {
     $topics = '';
   }
-  
-  
+
   return theme('forums', array('forums' => $forum_term->forums, 'topics' => $topics, 'parents' => $forum_term->parents, 'tid' => $forum_term->tid, 'sortby' => $sortby, 'forums_per_page' => $forum_per_page));
 }

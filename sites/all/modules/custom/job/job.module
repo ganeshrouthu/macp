@@ -90,7 +90,7 @@ function job_form_job_application_node_form_alter(&$form, &$form_state, $form_id
  * Implementing hook_form_submit()
  */
 function job_node_submit($node, $form, &$form_state) {
-
+ 
   /*if($form['#form_id'] == 'job_application_node_form') {
     $valid_email = $form_state['values']['field_email_address']['und'][0]['value'];
     
@@ -127,6 +127,10 @@ function job_node_submit($node, $form, &$form_state) {
 	  //drupal_mail($module, $key, $to, $language, $params, $from, $send);
 
   }*/
+  
+  if($form['#form_id'] == 'ask_expert_node_form') {
+     //dsm($form_state, 'ask expert');
+  }
   
   
 }

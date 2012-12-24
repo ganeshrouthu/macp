@@ -15,7 +15,7 @@ function job_listings() {
     'resume' => array('data' => t('Resume')),
   );
   
- 
+  $options = array();
   $nodes = node_load_multiple(array(), array('type' => 'job_application'));
   foreach($nodes as $node){
   	$job_id = $node->field_job_id['und'][0]['value'];
@@ -25,8 +25,8 @@ function job_listings() {
       'job_title' => array(
         'data' => array(
           '#type' => 'link',
-          '#title' => $job_detail->title,
-          '#href' => 'node/' . $job_detail->nid,
+          '#title' => $node->title,
+          '#href' => 'node/' . $node->nid,
         ),
       ),
       'app_name' => $node->title,
@@ -40,7 +40,7 @@ function job_listings() {
     '#type' => 'tableselect',
     '#header' => $header,
     '#options' => $options,
-    '#empty' => t('No people available.'),
+    '#empty' => t('No applications available.'),
   );
   $form['pager'] = array('#markup' => theme('pager'));
   $form['operation'] = array('#type' => 'hidden', '#value' => 'delete');

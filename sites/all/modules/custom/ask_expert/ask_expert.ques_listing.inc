@@ -61,8 +61,9 @@ function ask_expert_all_table() {
 	global $user,$base_path;
   $user_name  = '';
   $output = '';
-  
-  $output .= '<a href =' . $base_path . 'ask_expert/my>Question Ask By Me</a>';
+  if (!in_array('administrator', array_values($user->roles))) {
+  	$output .= '<a href =' . $base_path . 'ask_expert/my>Question Ask By Me</a>';
+  }
   $table_rows = array();
   
   $header = array(

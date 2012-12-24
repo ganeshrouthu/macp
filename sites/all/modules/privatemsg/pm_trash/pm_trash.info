@@ -1,0 +1,6 @@
+name = Trash Mail
+description = Allows users to access Trash Mail.
+package = Mail
+core = 7.x
+dependencies[] = privatemsg
+
