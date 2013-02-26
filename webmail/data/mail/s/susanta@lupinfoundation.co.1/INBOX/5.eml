@@ -1,0 +1,72 @@
+Received: (qmail 15199 invoked by uid 30297); 16 Jan 2013 09:21:23 -0000
+Received: from unknown (HELO sg2pismtp01-001.prod.sin2.secureserver.net) ([10.18.227.67])
+          (envelope-sender <>)
+          by sg2plsmtp19-01.prod.sin2.secureserver.net (qmail-1.03) with SMTP
+          for <susanta@lupinfoundation.co>; 16 Jan 2013 09:21:23 -0000
+X-IronPort-Anti-Spam-Result: Ap4BAMlu9lC2MpEGm2dsb2JhbABBhj6lEAGSOhYOAQEBAQEICQsJFCeCHgECJ1QuAwECKwIjLhgJiAcDDg2XYI5RhFGESA1lkyGBCBFughYNgQmIYYYng1AFgVmCcoobh3otgU8
+Received: from sg2plsmtpa01-01.prod.sin2.secureserver.net ([182.50.145.6])
+  by sg2pismtp01-001.prod.sin2.secureserver.net with ESMTP; 16 Jan 2013 02:21:22 -0700
+Date: Wed, 16 Jan 2013 02:21:18 -0700
+From: Mail Delivery System <mailer-daemon@secureserver.net>
+To: susanta@lupinfoundation.co
+Subject: Delivery status notification
+MIME-Version: 1.0
+Content-Type: multipart/report; boundary="------------I305M09060309060P_160213583280780"
+X-Nonspam: None
+
+This is a multi-part message in MIME format.
+
+--------------I305M09060309060P_160213583280780
+Content-Type: text/plain; charset=UTF-8;
+Content-Transfer-Encoding: 8bit
+
+      This is an automatically generated Delivery Status Notification.      
+
+Delivery to the following recipients was aborted after 0 second(s):
+
+  * pavanshidankar198@gmail.com
+
+
+
+--------------I305M09060309060P_160213583280780
+Content-Type: message/delivery-status; charset=UTF-8;
+Content-Transfer-Encoding: 8bit
+
+Reporting-MTA: dns; sg2plsmtpa01-01.prod.sin2.secureserver.net [182.50.145.6]
+Received-From-MTA: dns; lupinfoundation.co [182.50.130.194]
+Arrival-Date: Wed, 16 Jan 2013 02:21:18 -0700
+
+
+Final-recipient: rfc822; pavanshidankar198@gmail.com
+Action: failed
+Status: 5.1.1
+Diagnostic-Code: smtp; 550 5.1.1 http://support.google.com/mail/bin/answer.py?answer=6596 zs4si20620189pbc.0
+Last-attempt-Date: Wed, 16 Jan 2013 02:21:18 -0700
+
+
+
+--------------I305M09060309060P_160213583280780
+Content-Type: text/rfc822-headers; Content-Transfer-Encoding: 8bit
+Content-Disposition: attachment
+
+MIME-Version: 1.0
+X-Mailer: AfterLogic WebMail PHP
+X-Originating-IP: 122.169.118.37
+X-Priority: 3 (Normal)
+Message-ID: <03f5446.89e9e5720b6d32c2d0bb94c586611d92@www.lupinfoundation.co>
+From: "Susanta Behera" <susanta@lupinfoundation.co>
+To: pavanshidankar198@gmail.com
+Disposition-Notification-To: "Susanta Behera" <susanta@lupinfoundation.co>
+X-Confirm-Reading-To: "Susanta Behera" <susanta@lupinfoundation.co>
+Subject: 
+Date: Wed, 16 Jan 2013 09:21:18 +0000
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: Quoted-Printable
+
+
+
+--------------I305M09060309060P_160213583280780--
+
+
+

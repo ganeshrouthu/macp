@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Implementing hook_init()
+ */
+function macp_api_init() {
+  //$curr_dir = _get_module_path(__DIR__);
+	drupal_add_css($curr_dir . 'css/override.css', array('group' => CSS_DEFAULT));
+}
+
+
+/**
+ * Implements hook_block_info()
+ */
+
+function macp_api_block_info() {
+  $blocks = array();
+	$blocks['deptwise_docs'] = array(
+		'info' => t('Department List for Documents'),
+		// DRUPAL_CACHE_PER_ROLE will be assumed.
+	);
+  return $blocks;
+}
+
+function macp_api_block_view($delta = ''){ 
+  $block = array();
+	switch ($delta) {
+		case 'deptwise_docs':
+			$block['subject'] = 'Department List';
+			$block['content'] = _get_mis_departments_for_docs();
+    break;
+  }
+  return $block;
+}
+
+function _get_mis_departments_for_docs() {
+	global $base_url;
+	$html = '';
+	if (arg(0) == 'node' && arg(1) > 0) {
+		$node = node_load(arg(1));
+		if ($node->type == 'misc_pages') {
+			$page_type = '';
+			if ($node->field_misc_type[LANGUAGE_NONE][0]['value'] == 'dept-docs') {
+				$temp = field_info_field('field_department');
+				$html .= '<ul>';
+				if (! empty($temp['settings']['allowed_values'])) {
+					foreach ($temp['settings']['allowed_values'] as $dept => $dept_name) {
+						$html .= '<li><a href="'.$base_url.'/departmentwise-documents/'.$dept.'">'.$dept_name.'</a></li>';
+					}
+				}
+				else {
+					$html .= '<li>No department available</li>';
+				}
+				$html .= '</ul>';
+			}
+		}
+	}
+	return $html;
+}

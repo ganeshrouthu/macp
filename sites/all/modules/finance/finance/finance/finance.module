@@ -1,0 +1,104 @@
+<?php
+/**
+ * Implementing hook_init
+ */
+function finance_init() {
+  module_load_include('inc', 'finance', 'finance-sqls');
+  module_load_include('inc', 'finance', 'misc-functions');
+  if (!defined('LANG')) {
+    define('LANG', 'und');
+  }
+  drupal_add_css(drupal_get_path('module', 'finance') . '/css/finance.css', array('group' => CSS_DEFAULT));
+  drupal_add_js(drupal_get_path('module', 'finance') . '/js/finance.js');
+  
+}
+
+/**
+ * Implementing hook_menu
+ */
+function finance_menu() {
+  $items = array();
+  $items['report'] = array(
+    'title' => 'Yearly Reports',
+    'page callback' => 'yearly_report',
+    'page arguments' => array(1, 2, 3, 4),
+    'access arguments' => array('access content'),
+    'file' => 'stored_procedures_data.inc',
+    'type' => MENU_CALLBACK
+  );
+
+  $items['macp-reports/%/%/%'] = array(
+    'title' => 'Yearly Reports',
+    'page callback' => 'yearly_report',
+    'page arguments' => array(1, 2, 3),
+    'access arguments' => array('access content'),
+    'file' => 'stored_procedures_data.inc',
+    'type' => MENU_CALLBACK
+  );
+
+  $items['reports'] = array(
+    'title' => 'Yearly Reports',
+    'page callback' => 'yearly_report',
+    'page arguments' => array(1, 2, 3),
+    'access arguments' => array('access content'),
+    'file' => 'stored_procedures_data.inc',
+    'type' => MENU_CALLBACK
+  );
+  return $items;
+}
+
+function finance_theme($existing, $type, $theme, $path) {
+  return array(
+    'DDRCS' => array(
+      'template' => 'templates/ddrcs-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'ATMA' => array(
+      'template' => 'templates/atma-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'dyAHD' => array(
+      'template' => 'templates/dyahd-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'DEPT-COMPL' => array(
+      'template' => 'templates/complaints-dept-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'DIST-PHASE-COMPL' => array(
+      'template' => 'templates/complaints-dist-phase-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'reports-listing' => array(
+      'template' => 'templates/reports-listing',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+    'RH-CWP' => array(
+      'template' => 'templates/rh-cwp',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+    'APMC-CWP' => array(
+      'template' => 'templates/apmc-cwp',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+    'DISTRICTS' => array(
+      'template' => 'templates/districts',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+
+    'DISTRICT-WISE-RHS' => array(
+      'template' => 'templates/district-wise-rhs',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+
+    'DISTRICT-WISE-APMCS' => array(
+      'template' => 'templates/district-wise-apmcs',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+
+    'DISTRICT-WISE-APMC' => array(
+      'template' => 'templates/district-wise-apmcs',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+  );
+}

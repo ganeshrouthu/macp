@@ -1,0 +1,150 @@
+<?php
+/**
+ * Implements hook_init().
+ */
+function rei_slider_init() {
+  $path = drupal_get_path('module', 'rei_slider');
+  drupal_add_js($path . '/js/custom.js');
+  if (drupal_is_front_page()) {
+  drupal_add_js($path . '/js/jquery.flexslider-min.js');
+  drupal_add_js($path . '/js/slide.js');
+  drupal_add_css($path . '/css/slide.css');
+}
+}
+
+/**
+ * Implements hook_menu().
+ */
+function rei_slider_menu() {
+  $items = array();
+
+  $items['admin/config/administration/image_count'] = array(
+    'title' => 'Slider Image Setting',
+    'description' => 'Configure the No of Image to show in slider.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('rei_slider_settings'),
+    'access arguments' => array('admin content'),
+	  'type'             => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+/**
+ * Implements hook_block_info().
+ */
+function rei_slider_block_info() {
+  $blocks['slider'] = array(
+    'info' => t('REI Slider'), 
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function rei_slider_block_view($delta = '') {
+  // This example is adapted from node.module.
+  $block = array();
+
+  switch ($delta) {
+    case 'slider':
+        $block['content'] = theme('slider_display');
+      break;
+  }
+  return $block;
+}
+/**
+ * Implements hook_theme().
+ */
+function rei_slider_theme($existing, $type, $theme, $path) {
+  return array(
+    'slider_display' => array(
+      'variables' => array('slides' => NULL),
+      'template' => 'rei_slider.slider',
+    ),
+  );
+}
+function rei_slider_block_configure($delta = '') {
+  $form = array();
+  if ($delta == 'slider') {
+    $img_count = variable_get('no_of_image', 5);
+    for($i = 1; $i <= $img_count; $i++) {
+      $form['slider_container'. $i] = array(
+        '#type' => 'fieldset',
+        '#title'=> t('Select Image '. $i),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+      );
+      $form['slider_container'.$i]['slider_title'.$i] = array(
+        '#type' => 'textfield',
+        '#title' => t('Image Title'),
+        '#default_value' => variable_get('slider_title_'. $i, 'Sample product'),
+      );
+      $form['slider_container'.$i]['slider_desc'.$i] = array(
+        '#type' => 'textarea',
+        '#title' => t('Image Description'),
+        '#default_value' => variable_get('slider_desc_'. $i, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt... '),
+      );
+      $form['slider_container'.$i]['slider'.$i] = array(
+      '#title' => t('Image '. $i),
+      '#type' => 'managed_file',
+      '#default_value' => variable_get('slider_image_'. $i, ''),
+      '#upload_location' => 'public://slider/',
+    );
+  }
+  }
+  return $form;
+}
+
+function rei_slider_block_save($delta = '', $edit = array()) {
+  if ($delta == 'slider') {
+    $img_count = variable_get('no_of_image', 5);
+    for($i = 1; $i <= $img_count; $i++) {
+      $fid = $edit['slider'.$i];
+      $fid = $edit['slider'.$i];
+      $fid_old = variable_get('slider_image_'. $i, '');
+      if($fid > 0 && $fid <> $fid_old) {
+        slider_configuration_image_save($i, $fid);
+      }
+      slider_configuration_title_save($i, $edit['slider_title'.$i]);
+      slider_configuration_desc_save($i, $edit['slider_desc'.$i]);
+    }
+  }
+}
+
+function slider_configuration_image_save($i, $fid) {
+  $fid_old = variable_get('slider_image_'. $i, '');
+  if($fid > 0 && $fid <> $fid_old) {
+    $old_file = file_load($fid_old);
+    if($old_file) {
+      file_delete($old_file, TRUE);
+    }
+    $file = file_load($fid);
+    $file->status = FILE_STATUS_PERMANENT;
+    file_save($file);
+    file_usage_add($file, 'rei_slider', 'slider_image', 1);
+    variable_set('slider_image_'.$i, $fid);
+  }
+  
+}
+function slider_configuration_title_save($i, $title) {
+  $title_old = variable_get('slider_title_'. $i, 'Sample product');
+  if($title <> $title_old) {
+    variable_set('slider_title_'. $i, $title);
+  }
+}
+function slider_configuration_desc_save($i, $desc) {
+  $desc_old = variable_get('slider_desc_'. $i, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt... ');
+  if($desc <> $desc_old) {
+    variable_set('slider_desc_'. $i, $desc);
+  }
+}
+
+function rei_slider_settings($form, &$form_state) {
+   $form = array();
+   $form['no_of_image'] = array(
+     '#type' => 'textfield',
+	 '#title' => t('No of Image in Slider'),
+	 '#default_value' => variable_get('no_of_image', 5),
+	);
+	return system_settings_form($form);
+}

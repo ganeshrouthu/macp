@@ -1,0 +1,10 @@
+Reporting-MTA: dns; sg2plsmtpa01-01.prod.sin2.secureserver.net [182.50.145.6]
+Received-From-MTA: dns; lupinfoundation.co [182.50.130.194]
+Arrival-Date: Wed, 16 Jan 2013 02:21:18 -0700
+
+
+Final-recipient: rfc822; pavanshidankar198@gmail.com
+Action: failed
+Status: 5.1.1
+Diagnostic-Code: smtp; 550 5.1.1 http://support.google.com/mail/bin/answer.py?answer=6596 zs4si20620189pbc.0
+Last-attempt-Date: Wed, 16 Jan 2013 02:21:18 -0700

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Miscellanenous Pages Content Type feature.
+ */
+
+include_once 'miscellanenous_pages_content_type.features.inc';

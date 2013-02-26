@@ -1,0 +1,254 @@
+<?php
+
+/**
+ * Implementing hook_init for create folder for
+ * store file of procurment module
+ */
+function procurement_init() {
+  // Since this file should only be loaded on the front page, it cannot be
+  // declared in the info file.
+  drupal_add_js(drupal_get_path('module', 'procurement') .'/procurement.js');
+  drupal_add_js(drupal_get_path('module', 'procurement') . '/jquery.validate.js');
+}
+
+
+/**
+ * Implementing hook_perm
+ */
+function procurement_permission() {
+  return array(
+    'content admin procurement' => array(
+      'title' => t('content admin access'), 
+      'description' => t('accees for content admin.'),
+    ),
+  );
+}
+
+/**
+ * Implementing hook_menu
+ */
+function procurement_menu(){
+  $items = array();
+  
+  $items['tender/download/user'] = array(
+    'title' => t('Tender download by users'),
+    'description' => 'Display users',
+    'page callback'    => 'tender_download_user',
+    'access callback' => 'check_user_role',
+    'file' => 'procurement_addendum_listing.inc',
+  );
+  
+  $items['procurement/add/tender'] = array(
+    'title' => 'Add New Tender',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('procurement_add_tender'),
+    'access callback' => 'check_user_role',
+    'file' => 'procurement_tender_listing.inc',
+  );
+  
+  $items['procurement/tenders'] = array(
+    'title' => t('Tender List'),
+    'description' => 'Display tender list for admin',
+    'page callback'    => 'procurement_tender_list',
+    'access callback' => 'check_user_role',
+    'file' => 'procurement_tender_listing.inc',
+  );
+  
+  $items['tender/%tender/delete'] = array(
+    'page callback'    => array('procurement_tender_delete'),
+    'page arguments' => array(1),
+    'access callback' => 'check_user_role',
+    'file' => 'procurement_tender_listing.inc',
+  );
+  
+  
+  
+  $items['procurement/%tender/edit'] = array(
+    'title' => 'Edit Tender',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('procurement_add_tender', 1),
+    'access callback' => 'check_user_role',
+    'file' => 'procurement_tender_listing.inc',
+  );
+  
+  $items['procurement/%tender/add/addendum'] = array(
+    'title' => 'Add New Addendum',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('procurement_add_addendum', 1),
+    'access callback' => 'check_user_role',
+    'file' => 'procurement_addendum_listing.inc',
+  );
+  
+  $items['procurement/%tender/%addendum/addendum/edit'] = array(
+    'title' => 'Edit addendum',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('procurement_add_addendum', 1, 2),
+    'access callback' => 'check_user_role',
+    'file' => 'procurement_addendum_listing.inc',
+  );
+  
+  $items['procurement/tenders/list'] = array(
+    'title' => t('Tender List'),
+    'description' => 'Display tender list for admin',
+    'page callback'    => 'procurement_user_tender_list',
+    'access callback' => 'check_user_login',
+    'file' => 'procurement_tender_listing.inc',
+  );
+  
+  $items['addendum/%tender/%addendum/details'] = array(
+    //'title' => t('Addendum'),
+    'description' => 'Display tender list for admin',
+    'page callback'    => array('addendum_detail'),
+    'page arguments' => array(1,2),
+    'access callback' => 'check_user_login',
+    
+    'file' => 'procurement_addendum_listing.inc',
+  );
+  
+  
+  $items['download/tender/%/%'] = array(
+    'title' => 'Download Tender',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('user_login_download_tender', 2,3),
+    'access callback' => 'check_user_login',
+    'file' => 'procurement_tender_listing.inc',
+  );
+  
+  $items['register/download/tender/%'] = array(
+    'title' => 'Download Tender',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('user_register_download_tender', 3),
+    'access callback' => 'check_user_login',
+    'file' => 'procurement_tender_listing.inc',
+  );
+  
+  $items['tuser/chnage_password'] = array(
+    'title' => 'Download Tender',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tuser_chnage_password'),
+    'access callback' => 'check_user_login',
+    'file' => 'procurement_tender_listing.inc',
+  );
+  
+  
+  
+  return $items;
+}
+
+function check_user_login() {
+  $ret = TRUE;
+  $login =  user_is_logged_in();
+  if($login) {
+    $ret = FALSE;
+  }
+   return $ret; 
+}
+
+function check_user_role() {
+	global $user;
+	return array_key_exists('3', $user->roles);
+
+}
+
+function tender_load($tid) {
+	return db_select('tender', 't')
+	  ->fields('t')
+	  ->condition('t.tid', $tid, '=')
+	  ->execute()
+	  ->fetchObject();  
+}
+
+/*
+ * for fetching record of perticuler addendum ID
+ */
+function addendum_load($aid) {
+	return db_select('addendum', 'a')
+	  ->fields('a')
+	  ->condition('a.aid', $aid, '=')
+	  ->execute()
+	  ->fetchObject();  
+} 
+
+
+function get_addendum_by_tid($tid) {
+	global $base_path;
+	$result = db_select('addendum', 'a')
+	  ->fields('a', array('tid', 'aid', 'atitle'))
+	  ->condition('a.tid', $tid, '=')
+	  ->execute();
+	
+	$output = '';
+  $output = '<ul>';
+	foreach($result as $addendum) {
+		$output .= '<li><a href =' . $base_path . 'procurement/' .$tid . '/' . $addendum->aid . '/addendum/edit>' . $addendum->atitle . '</a></li>';
+	}
+	$output .= '</ul>';
+	return $output;	  
+} 
+
+
+function get_addendum_file_tid($tid) {
+	global $base_path;
+	$result = db_select('addendum', 'a')
+	  ->fields('a', array('tid', 'aid', 'afid', 'atitle'))
+	  ->condition('a.tid', $tid, '=')
+	  ->execute();
+	
+	$tender = tender_load($tid);
+	$file = file_load($tender->tfid);
+	$output = '';
+  $output .= '<ul>';
+  if(!empty($file)) {
+  	$output .= '<li><a href =' . file_create_url($file->uri) . '>' . $file->filename . '</a></li>';
+  }
+	foreach($result as $addendum) {
+		//dsm($addendum, 'addendum');
+		$file = file_load($addendum->afid);
+		if(!empty($file)) {
+			$output .= '<li><a href =' . file_create_url($file->uri) . '>' . $file->filename . '</a></li>';
+		}
+	}
+	$output .= '</ul>';
+	return $output;	  
+}
+
+
+function get_user_addendum_file_tid($tid) {
+	global $base_path;
+	$result = db_select('addendum', 'a')
+	  ->fields('a', array('tid', 'aid', 'afid', 'atitle'))
+	  ->condition('a.tid', $tid, '=')
+	  ->execute();
+	
+	$tender = tender_load($tid);
+	$file = file_load($tender->tfid);
+	$output = '';
+  $output .= '<ul>';
+  $output .= '<li><a href =' . $base_path . 'download/tender/' . $tender->tid . '/' . $tender->tfid . '>' . $file->filename . '</a></li>';
+  
+	foreach($result as $addendum) {
+		$file = file_load($addendum->afid);
+		if(!empty($file)) {
+			$output .= '<li><a href =' . $base_path . 'download/tender/' . $tender->tid . '/' . $addendum->afid . '>' . $file->filename . '</a></li>';
+		}
+	}
+	$output .= '</ul>';
+	return $output;	  
+}
+
+
+function get_user_addendum_by_tid($tid) {
+	global $base_path;
+	$result = db_select('addendum', 'a')
+	  ->fields('a', array('tid', 'aid', 'atitle'))
+	  ->condition('a.tid', $tid, '=')
+	  ->execute();
+	
+	$output = '';
+  $output = '<ul>';
+	foreach($result as $addendum) {
+		$output .= '<li><a href =' . $base_path . 'addendum/' .$tid . '/' . $addendum->aid . '/details>' . $addendum->atitle . '</a></li>';
+	}
+	$output .= '</ul>';
+	return $output;	  
+} 

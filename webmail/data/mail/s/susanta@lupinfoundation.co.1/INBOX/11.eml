@@ -1,0 +1,44 @@
+Received: (qmail 31923 invoked by uid 30297); 11 Feb 2013 06:48:30 -0000
+Received: from unknown (HELO sg2pismtp01-003.prod.sin2.secureserver.net) ([10.18.227.69])
+          (envelope-sender <susanta@lupinfoundation.co>)
+          by sg2plsmtp19-02.prod.sin2.secureserver.net (qmail-1.03) with SMTP
+          for <susanta@lupinfoundation.co>; 11 Feb 2013 06:48:30 -0000
+X-IronPort-Anti-Spam-Result: AkwBAPWTGFG2MpEFmGdsb2JhbABEhk66SBYOAQEBAQEICQ0HFCeCSWsJAQI8AnoJiAABnm6OVZFijVGBEoIXgRMDqX2Bbw
+Received: from sg2plout10-02.prod.sin2.secureserver.net ([182.50.145.5])
+  by sg2pismtp01-003.prod.sin2.secureserver.net with ESMTP; 10 Feb 2013 23:48:19 -0700
+Received: from lupinfoundation.co ([65.242.97.45])
+	by sg2plout10-02.prod.sin2.secureserver.net with 
+	id yuoD1k0080ykyFV01uoEph; Sun, 10 Feb 2013 23:48:15 -0700
+MIME-Version: 1.0
+X-Mailer: AfterLogic WebMail PHP
+X-Originating-IP: 122.169.118.37
+X-Priority: 3 (Normal)
+Message-ID: <cf34645.c63e518a703821831b836cf5e07e0c40@reilinux>
+From: susanta@lupinfoundation.co
+To: susanta@lupinfoundation.co
+Subject: Testing mail, please ignore
+Date: Mon, 11 Feb 2013 06:48:08 +0000
+Content-Type: multipart/alternative;
+	boundary="--=_NextPart_d1a77b1ac2fcc7bca771f766062bfbbe"
+X-Nonspam: None
+
+----=_NextPart_d1a77b1ac2fcc7bca771f766062bfbbe
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: Quoted-Printable
+
+Testing mail, please ignore.
+
+
+----=_NextPart_d1a77b1ac2fcc7bca771f766062bfbbe
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: Quoted-Printable
+
+<html><body><font face=3D"Tahoma" size=3D"2">Testing mail, please ignore=
+.<br></font></body></html>
+
+----=_NextPart_d1a77b1ac2fcc7bca771f766062bfbbe--
+
+
+

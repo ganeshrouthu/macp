@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Report Template feature.
+ */
+
+include_once 'report_template.features.inc';

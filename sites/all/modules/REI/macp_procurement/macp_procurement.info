@@ -1,0 +1,10 @@
+name = MACP procurement
+description = procurement module for add tender.
+package = REI
+core = 7.x
+version = "7.14"
+project = "drupal"
+//scripts[] = procurement.js
+
+dependencies[] = date
+dependencies[] = macp_reports

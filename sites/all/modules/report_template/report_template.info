@@ -1,0 +1,11 @@
+name = Report Template
+description = Report Template
+core = 7.x
+package = Features
+version = 7.x-1.0
+project = report_template
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:1
+features[field][] = node-report_template-body
+features[node][] = report_template

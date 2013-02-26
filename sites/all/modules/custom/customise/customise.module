@@ -1,0 +1,13 @@
+<?php
+/**
+ * Implementing hook_form_alter
+ */
+function listing_form_alter(&$form, &$form_state) {
+	global $user;
+	if( $form['#form_id'] == 'book_node_form' || $form['#form_id'] == 'events_node_form' || $form['#form_id'] == 'upload_doucments_node_form' && $user->name != 'admin') {
+		$profile = profile2_load_by_user($user);
+	  $dept = $profile['personal_info']->field_department['und'][0]['value'];
+	  $form['field_department']['und']['#default_value'] = array($dept);
+	  $form['field_department']['und']['#attributes'] = array('disabled' => 'TRUE');
+	}
+}

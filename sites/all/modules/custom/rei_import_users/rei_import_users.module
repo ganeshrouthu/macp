@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Module file for importing users from CSV file.
+ */
+
+/**
+ * Implements hook_init().
+ */
+function rei_import_users_init() {
+  module_load_include('inc', 'rei_import_users', 'rei_import_users_misc');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function rei_import_users_menu() {
+  $items = array();
+  $items['admin/import/users'] = array(
+    'title' => 'REI Import Users',
+    'description' => 'REI Import Users',
+    'page callback' => 'rei_import_users',
+    'page arguments' => array(1, 2),
+    'access arguments' => array('administer rei_import_users'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'rei_import_users_misc.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function rei_import_users_node_insert($node) {
+  if ($node->type != 'import_users_csv') {
+    return TRUE;
+  }
+  global $base_url;
+  $nid = $node->nid;
+  $node_inserted = node_load($nid);
+  if (!defined('LANG')) {
+    define('LANG', 'und');
+  }
+  $file_name = substr($node_inserted->field_csv[LANG][0]['uri'], 9);
+  $csv_path = 'sites/default/files/' . $file_name;
+  if ($file_name && strlen($file_name) > 4) {
+    rei_import_users($csv_path);
+  }
+}

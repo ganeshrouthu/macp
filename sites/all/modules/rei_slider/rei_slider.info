@@ -1,0 +1,5 @@
+name = REI Slider
+description = "Provides a Slider for Index Page."
+package = REI Systems
+version = 7.0.1
+core = 7.x

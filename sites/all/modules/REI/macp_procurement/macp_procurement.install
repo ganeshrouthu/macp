@@ -1,0 +1,221 @@
+<?php
+/**
+ * @file
+ * Install file for procurement.module
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function macp_procurement_schema() {
+  $schema = array();
+  $schema['tender'] = array(
+    'description'       => '{tender} holds Tender information',
+    'fields'        => array(
+      'tid'    => array(
+        'description'   => 'Tender ID',
+        'type'          => 'serial',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+			'group_id'     => array(
+        'description'   => 'Tender Group',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'title' => array(
+        'description' => 'The title of Tender.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'tdesc'     => array(
+        'description'   => 'Description of Tender',
+        'type'          => 'text',
+        'not null'      => TRUE,
+        'size'          => 'big',
+      ),
+      'tfid'     => array(
+        'description'   => 'Tender file Location',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the node was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the node was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key'     => array('tid'),
+  );
+
+  $schema['addendum'] = array(
+    'description'       => '{addendum} holds the addendum information',
+    'fields'        => array(
+      'aid'    => array(
+        'description'   => 'Addendum ID',
+        'type'          => 'serial',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'tid'    => array(
+        'description'   => 'Tender ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'atitle' => array(
+        'description' => 'The title of addendum.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'adesc'     => array(
+        'description'   => 'Description of Addendum',
+        'type'          => 'text',
+        'not null'      => TRUE,
+        'size'          => 'big',
+      ),
+      'afid'     => array(
+        'description'   => 'Abendum file Location',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the node was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the node was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      
+    ),
+    'primary key'     => array('aid'),
+  );
+  
+  $schema['tuser'] = array(
+    'description'       => '{tuser} holds the info of user that download tender',
+    'fields'        => array(
+      'uid'    => array(
+        'description'   => 'tender user id',
+        'type'          => 'serial',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'pass' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Tender User's password (hashed).",
+      ),
+      'mail' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "tender User's e-mail address.",
+      ),
+      'agency_name' => array(
+        'description' => 'The name of agency.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'person_name' => array(
+        'description' => 'The name of person.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'cont_number' => array(
+        'description' => 'User conatact number (PT).',
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        //'default' => '',
+      ),
+      'mobile_number' => array(
+        'description' => 'User conatact number (mobile).',
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        //'default' => '',
+      ),
+      'website' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "User's website address.",
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the node was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+   ),
+   'primary key'     => array('uid'),
+  );
+  
+  $schema['tdownload'] = array(
+    'description'       => '{tdownload} holds download details of user',
+    'fields'        => array(
+      'did'    => array(
+        'description'   => 'Download ID',
+        'type'          => 'serial',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'uid'    => array(
+        'description'   => 'User ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'tid'    => array(
+        'description'   => 'Tender ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'fid'     => array(
+        'description'   => 'File Location',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the file was download.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      
+    ),
+    'primary key'     => array('did'),
+  );
+  
+
+  return $schema;
+}

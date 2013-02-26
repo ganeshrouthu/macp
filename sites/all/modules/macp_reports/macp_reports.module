@@ -1,0 +1,257 @@
+<?php
+/**
+ * Implementing hook_init()
+ */
+function macp_reports_init() {
+  if (!defined('LANG')) {
+    define('LANG', 'und');
+  }
+  $module_name = _get_module_name();
+  $curr_dir = _get_module_path();
+  module_load_include('inc', $module_name, 'finance-sqls');
+  module_load_include('inc', $module_name, 'misc-functions');
+  module_load_include('inc', $module_name, 'stored_procedures_data');
+  drupal_add_css($curr_dir . 'css/finance.css', array('group' => CSS_DEFAULT));
+  drupal_add_js($curr_dir . 'js/finance.js');
+}
+
+/**
+ * Implementing hook_node_view()
+ */
+function macp_reports_node_view($node, $view_mode, $langcode) {
+	if ($node->type != 'report_template') {
+		return $node;
+	}
+	$pars = _split_request_get_params();
+	extract($pars, EXTR_PREFIX_ALL, 'P');
+	if ($P_report_type == '') {
+		print 'Please select a report.';
+		return TRUE;
+	}
+	$report_html = yearly_report($P_report_type, $P_financial_year, $P_district_id);
+	$node->content['report_html'] = $report_html;
+	$node->title = ucwords($P_report_type) .' FY: ' . $P_financial_year;
+	
+	//_p($report_html, 1);
+	//$report_html = '';
+	$node->body = $report_html;
+	return $node;
+}
+
+function _get_module_name($dir_name = __DIR__) {
+  $module_name = '';
+  if (basename($dir_name)) {
+    $module_name = basename($dir_name);
+  }
+	return $module_name;
+}
+
+function _get_module_path($dir_name = __DIR__, $trailing_slash = TRUE) {
+  $module_name = _get_module_name($dir_name);
+  $module_path = drupal_get_path('module', $module_name);
+  if ($trailing_slash) {
+    $module_path .= '/';
+  }
+  return $module_path;
+}
+
+/**
+ * Implementing hook_menu
+ */
+function macp_reports_menu() {
+  $items = array();
+  $items['yearly-report'] = array(
+    'title' => 'Yearly Reports',
+    'page callback' => 'yearly_report',
+    'page arguments' => array(1, 2),
+    'access arguments' => array('access content'),
+  );
+  $items['export-to-csv'] = array(
+    'title' => 'Export Report to CSV',
+    'page callback' => 'export_to_csv',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function _odbc_exec($sql) {
+  $conn = _odbc_connect();
+  $result = FALSE;
+  if (function_exists('odbc_exec') && $conn) {
+    $result = odbc_exec($conn, $sql);
+  }
+  return $result;
+}
+
+function yearly_report($type = 'DDRCS', $financial_year = '2012-2013', $district_id = '') {
+  if (!strlen($type)) {
+    return 'Please enter Agency Type.';
+  }
+  switch ($type) {
+    case 'DDRCS':
+      $records = _get_ddrcs_records($type, $financial_year, $district_id);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    case 'ATMA':
+			$records = _get_atma_records($type, $financial_year, $district_id);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;    
+    case 'dyAHD':
+      $records = _get_dyAHD_records($type, $financial_year, $district_id);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    case 'DEPT-COMPL':
+			$records = _get_complaints_deptwise_records($financial_year);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    case 'DISTRICTS':
+      $records = _get_query_results(_sql_districts());
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    case 'DISTRICT-WISE-RHS':
+			$records = _get_districts_rhs_results($district_id);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    case 'DISTRICT-WISE-APMCS':
+			$records = _get_districts_apmcs_records($district_id);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    case 'DIST-PHASE-COMPL':
+			$records = _get_dist_phase_complaints($financial_year);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    case 'RH-CWP':
+			$records = _get_rh_cwp_records($financial_year);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    case 'APMC-CWP':
+			$records = _get_apmc_cwp_records($financial_year);
+      return _display_listing_theme($type, $financial_year, $records);
+    break;
+    default:
+      return 'Please select a proper Agency Type.';
+    break;
+  }
+}
+
+function macp_reports_theme($existing, $type, $theme, $path) {
+  return array(
+    'DDRCS' => array(
+      'template' => 'templates/ddrcs-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'ATMA' => array(
+      'template' => 'templates/atma-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'dyAHD' => array(
+      'template' => 'templates/dyahd-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'DEPT-COMPL' => array(
+      'template' => 'templates/complaints-dept-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'DIST-PHASE-COMPL' => array(
+      'template' => 'templates/complaints-dist-phase-report',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+    'reports-listing' => array(
+      'template' => 'templates/reports-listing',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+    'RH-CWP' => array(
+      'template' => 'templates/rh-cwp',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+    'APMC-CWP' => array(
+      'template' => 'templates/apmc-cwp',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+    'DISTRICTS' => array(
+      'template' => 'templates/districts',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+
+    'DISTRICT-WISE-RHS' => array(
+      'template' => 'templates/district-wise-rhs',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+
+    'DISTRICT-WISE-APMCS' => array(
+      'template' => 'templates/district-wise-apmcs',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+
+    'DISTRICT-WISE-APMC' => array(
+      'template' => 'templates/district-wise-apmcs',
+      'variables' => array('records' => array(), 'headings' => array(), ),
+    ),
+  );
+}
+
+function export_to_csv() {
+	global $base_url;
+	$type = arg(1);
+	$timestamp = time();
+	header('Content-Type: text/csv; charset=utf-8');
+	header("Content-Disposition: attachment; filename=MACP-{$type}-{$timestamp}.csv");
+	$file_name = $type .'-'.time() . '.csv';
+	$financial_year = (strlen(arg(2))) ? arg(2) : (date('Y') -1). '-' . date('Y');
+	$district_id = (strlen(arg(3))) ? arg(3) : 'all';
+	switch ($type) {
+    case 'DDRCS':
+			$header_titles = _get_ddrcs_header_titles();
+      $records = _get_ddrcs_records($type, $financial_year, $district_id);
+    break;
+    case 'ATMA':
+			$header_titles = _get_atma_header_titles();
+			$records = _get_atma_records($type, $financial_year, $district_id);
+    break;    
+    case 'dyAHD':
+			$header_titles = _get_dyADH_header_titles();
+      $records = _get_dyAHD_records($type, $financial_year, $district_id);
+    break;
+    case 'DEPT-COMPL':
+			$header_titles = _get_complaints_deptwise_header_titles();
+			$records = _get_complaints_deptwise_records($financial_year);
+    break;
+    case 'DISTRICT-WISE-RHS':
+			$header_titles = _get_district_wise_rhs_header_titles();
+			$records = _get_districts_rhs_results($district_id);
+    break;
+    case 'DISTRICT-WISE-APMCS':
+			$header_titles = _get_district_wise_apmcs_header_titles();
+			$records = _get_districts_apmcs_records($district_id);
+    break;
+    case 'DIST-PHASE-COMPL':
+			$header_titles = _get_district_phase_complaints_header_titles();
+			$records = _get_dist_phase_complaints($financial_year);
+    break;
+    case 'RH-CWP':
+			$header_titles = _get_rh_cwp_header_titles();
+			$records = _get_rh_cwp_records($financial_year);
+    break;
+    case 'APMC-CWP':
+			$header_titles = _get_apmc_cwp_header_titles();
+			$records = _get_apmc_cwp_records($financial_year);
+    break;
+  }
+	$list = array();
+	$list[] = $header_titles;
+	$multi_levels = array('APMC-CWP', 'RH-CWP', 'DISTRICT-WISE-APMCS', 'DISTRICT-WISE-RHS');
+	$rows = (in_array($type, $multi_levels)) ? $records['records'] : $records;
+	if (! empty($rows)) {
+		foreach ($rows as $row) {
+			$list[] = $row;
+		}
+	}
+	else {
+		$list[] = array('No records found.');
+	}
+	$fp = fopen('php://output', 'w');
+	foreach ($list as $fields) {
+		fputcsv($fp, $fields);
+	}
+}

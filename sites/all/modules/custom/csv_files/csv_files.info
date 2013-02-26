@@ -1,0 +1,10 @@
+name=CSV Files
+core = 7.x
+package = Features
+dependencies[] = features
+dependencies[] = file
+dependencies[] = text
+features[features_api][] = api:1
+features[field][] = node-import_users_csv-body
+features[field][] = node-import_users_csv-field_csv
+features[node][] = import_users_csv

@@ -1,0 +1,579 @@
+
+/***************** Added by Ganesh---- REI Systems ---- *******************************/
+
+
+
+body{
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#header{
+	display:block !important;
+	background-image:url('../images/banner.jpg');
+	background-size:100%;
+	height:142px;
+	background-color: #ffffff;
+	background-repeat: no-repeat;
+	background-position: top;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px;
+}
+#page{
+	width:960px;
+}
+#navigation{
+	float: left;
+	width: 696px;
+	height: 44px;
+	background-image: url('../images/bubg.jpg');
+	background-repeat: repeat-x;
+	background-position: top;
+	padding:0px; 
+}
+#navigation ul.links li{
+	float: left;
+	height: 30px;
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+	padding-left: 11px;
+	padding-right: 12px;
+	padding-top: 10px;
+	color: #176702;
+}
+#navigation ul.links li a{
+	text-decoration:none;
+	color: #176702;
+}
+#macp_search{
+	position: absolute;
+	top: 0px;
+	left: 690px;
+	background-image: url('../images/bubg.jpg');
+	float: left;
+	height: 34px;
+	background-repeat: repeat-x;
+	background-position: top;
+	padding-top: 10px;
+	width: 270px;
+}
+
+#macp-lang{
+width: 100px;
+position: relative;
+bottom: 50px;
+left: 150px;
+}
+
+.languagelink {
+    color: #4C7200;
+    text-decoration: none;
+}
+
+.languagelink:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+#block-ajax-register-ajax-register-block div ul li a{
+	color: #ffffff;
+}
+
+#block-ajax-register-ajax-register-block div ul li a:hover{
+	color:black;
+	text-decoration:none;
+}
+
+#block-ajax-register-ajax-register-block div ul li.first  {
+	border-right:1px solid white;
+	padding-right:3px;
+}
+
+#edit-search-block-form--2{
+	height:14px;
+	width:100px;
+	font-size:13px;
+	vertical-align:top;
+}
+
+#main{
+	padding-top:45px;
+	min-height:454px;
+}
+
+#block-rei-slider-slider  .entry-container{
+	position: absolute;
+	top: 170px;
+	width: 811px;
+	font-size: 10px;
+	max-width:none;
+}
+
+#slider .slide-image{
+	max-width:none;
+	width:99%;
+	background:none;
+}
+
+#slider{
+	height:226px;
+	background-image: url('../images/sliderbg.jpg');
+	margin-bottom:-15px;
+}
+
+#slider .post{
+	height:216px;
+}
+
+#slider .entry-container a{
+	color: #5F5F5F;
+	text-decoration:none;
+	font-weight:bold;
+	font-family:arial;
+}
+
+#content h1.title{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #487a00;
+	font-size: 22px;
+	font-weight: bold;
+	border-bottom: solid 4px #f4f4f4;
+}
+
+#content{
+	background-color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+	font-size: 12px;
+	line-height: 22px;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-bottom:20px;
+	margin-top:10px;
+}
+
+div#footer{
+	height: 24px;
+	padding-bottom: 6px;
+	padding-top: 6px;
+	background-image: url('../images/footerbg.jpg');
+	background-repeat: repeat-x;
+	font-family: Verdana, Geneva, sans-serif;
+	color: #a5ba85;
+	font-size: 10px;
+	padding-left: 10px;
+}
+
+#block-block-1{
+	margin-bottom:0px;
+	width: 960px;
+	padding-left: 10px;
+}
+
+.footerlink{
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.footerlink:hover{
+	color: #000000;
+	text-decoration: underline;
+}
+
+#block-search-form  #edit-actions  input{
+	width:22px;
+}
+
+.sidebar-second #content{
+	width:690px;
+}
+
+#block-quicktabs-macp-tabs h2.block-title{
+	display:none;
+}
+
+.accordion_blocks_container h2.ui-accordion-header{
+	background-image:url('../images/bubg.jpg');
+	color: #176702;
+}
+
+.accordion_blocks_container h2.ui-accordion-header a{
+	color: #176702;
+	font-weight:bold;
+}
+
+.useful {
+	list-style-image: url('../images/bullet.png');
+	margin:5px;
+	padding-left:22px;
+}
+
+#block-accordion-blocks-macp-side-tabs-1 h2.block-title{
+	display:none;
+}
+.useful li {
+	//line-height:20px;
+	 padding-bottom: 4px;
+        padding-top: 4px;
+}
+
+.useful li a{
+	text-decoration:none;
+	color:darkslategrey;
+	font-size:11px;
+	//text-decoration:underline;
+}
+
+.useful li a:hover {
+	//color: #176702;
+	text-decoration:underline;
+}
+
+.ui-accordion-content{
+	//background-image:url('../images/section.jpg');
+	//background-size: 100%;
+	background:#E9F1DA
+
+}
+
+/********************************************************************************* superfish css *******************************************************************/
+
+#block-superfish-1 h2{
+	display:none;
+}
+
+#superfish-1{
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#superfish-1 li ul > li{
+	width:650px;
+}
+
+#superfish-1 li ul > li ol > li{
+	margin-bottom:5px;
+}
+
+#superfish-1 > li {
+	padding: 10px;
+	border-right: 1px solid grey;
+	height: 15px;
+	position: relative;
+	top: 2px;
+}
+
+#superfish-1 > li:hover{
+	background:white;
+}
+
+#superfish-1 > li > a{
+	color:green;
+	text-decoration:none;
+}
+
+.sf-menu.sf-horizontal.sf-shadow ul{
+	background-image: url('../images/back.png');
+	background-size: 100%;
+	width: 555px;
+	margin-top: 11px;
+	margin-left: -6px;
+}
+
+#superfish-1 li > ul > li > ol > li{
+	width:280px;
+	margin:8px;
+	float:left;
+}
+
+div.sf-megamenu-column > ol > li > a{
+	padding-left:15px;
+	margin-bottom:5px;
+	font-weight:normal;
+	color:black;
+	background-image: url('../images/starbullet.jpg');
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+div.sf-megamenu-column > ol > li > ol > li > a{
+	margin-left: 15px;
+	padding-left: 10px;
+	font-weight: normal;
+	color: darkslategrey;
+	text-decoration: none;
+	background-image: url('../images/dash.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+div.sf-megamenu-column{
+	margin-left:15px;
+}
+
+div.sf-megamenu-column > a {
+	color:black;
+	margin-bottom:12px;
+	text-decoration:none;
+	margin-top:7px;
+      pointer-events:none;
+}
+
+#menu-581-1 ul li ol li a ,#menu-584-1 ul li ol li a{
+	color:black;
+	color: black;
+	font-weight: normal;
+	background-image: url('../images/starbullet.jpg');
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 15px;
+	text-decoration:none;
+}
+
+#menu-581-1 ul li ol li a:hover ,#menu-584-1 ul li ol li a:hover{
+text-decoration:underline;
+}
+
+#menu-584-1 ul{
+width:250px;
+margin-left:-3px;
+
+}
+
+
+#menu-581-1 ul li ol , #menu-584-1 ul li ol {
+	margin:10px;
+}
+
+#menu-580-1:hover ,#menu-581-1:hover, #menu-584-1:hover {
+	height:22px;
+}
+
+
+
+/************************************ side bars (photo gallery , video gallery blocks) ************************************/
+
+#block-block-9 , #block-block-10 , #block-block-11{
+ background-image: url("../images/section.jpg");
+    background-repeat: no-repeat;
+    background-size:100%;
+    height: 166px;
+    //margin-left: -8px;
+    //margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    
+}
+
+#block-block-9 p , #block-block-10 p , #block-block-11 p{
+    bottom: 18px;
+    color: #176702;
+    font-weight: bold;
+    position: relative;
+}
+
+.region-sidebar-first{
+	margin-left:-9px !important;
+	margin-top:10px;
+}
+
+.region-sidebar-second{
+	margin-left:775px !important;
+	margin-top:10px;
+}
+
+
+/************************** for teaser view of basic pages ***********************/
+.node-teaser header h2.node-title a{
+	pointer-events: none;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #487a00;
+	font-size: 22px;
+	font-weight: bold;
+	border-bottom: solid 4px #f4f4f4;
+	display:none;
+}
+
+/********************** Book navigation block **************************/
+
+div#block-book-navigation {
+background: #E9F1DA;
+}
+
+div#block-book-navigation div ul{
+margin: 7px;
+padding-left: 5px;
+}
+div#block-book-navigation div > ul{
+padding-left: 20px;
+}
+
+div#block-book-explorer-book-explorer div  ul > a:hover {
+	text-decoration: none;
+}
+
+
+div#block-book-explorer-book-explorer {
+	background: #E9F1DA;
+}
+
+div#block-book-explorer-book-explorer a{
+color:darkslategrey;
+text-decoration:none;
+font-size:11px;
+line-height:15px;
+
+}
+
+.block-book-explorer ul.menu li{
+padding-bottom: 4px;
+padding-top: 4px;
+}
+
+div#block-book-explorer-book-explorer a:hover{
+text-decoration:underline;
+}
+
+#block-book-explorer-book-explorer h2.block-title{
+color: #176702;
+font-size:12px;
+font-family:Arial;
+text-align:center;
+}
+
+/*********************************** end  *************************/
+
+
+#block-quicktabs-related-pages{
+margin-bottom:0px;
+}
+
+#block-quicktabs-common-links .ui-icon-triangle-1-s, #block-quicktabs-related-pages .ui-icon-triangle-1-s{
+display:none;
+}
+
+h3.ui-accordion-header{
+background-image:url('../images/section-head.jpg');
+}
+
+.clk1 , .clk2{
+ cursor: pointer;
+    height: 12px;
+    margin-left: -10px;
+    margin-top: 6px;
+    position: relative;
+    right: 6px;
+    top: 2px;
+}
+
+.tog{
+padding-left:12px;
+}
+
+#readmr , #gotop {
+color: #551A8B;
+cursor: pointer;
+position:relative;
+top:10px;
+}
+
+.breadcrumb a{
+text-decoration:none;
+}
+
+.breadcrumb a:hover{
+text-decoration:underline;
+}
+
+
+#readmr:hover , #gotop:hover{
+text-decoration:underline;
+}
+
+.rtejustify{
+//max-height:450px;
+}
+
+#teazer-body{
+//max-height: 480px;
+overflow: hidden;
+}
+/*
+
+
+div#block-book-explorer-book-explorer div ul{
+margin: 7px;
+padding-left: 5px;
+}
+div#block-book-explorer-book-explorer div > ul{
+padding-left: 20px;
+} */
+
+table {
+    width:100%;
+}
+
+/********************** Activity pages  *******************/
+
+#activity-node-form label[for='edit-title']{
+width:100px;
+float:left;
+}
+
+#activity-node-form label[for='edit-field-type-of-activity-und']{
+width:100px;
+float:left;
+}
+
+#activity-node-form label[for='edit-field-activity-location-und']{
+width:100px;
+float:left;
+
+}
+
+#hierarchical-select-0-wrapper select{
+width:100px;
+}
+
+#activity-node-form .tabledrag-toggle-weight{
+display:none;
+}
+
+.field-name-field-upload-activity-image{
+width:45%;
+float:left;
+background:#E9F1DA;
+margin-right:0px;
+padding-left:17px;
+}
+
+.field-name-field-upload-activity-image .field-item{
+width:50%;
+float:left;
+height:85px;
+}
+
+.field-name-field-video-upload .field-item{
+width:50%;
+height:85px;
+float:left;
+}
+.field-name-field-video-upload {
+width:45%;
+float:left;
+margin-left:15px;
+background:#E9F1DA;
+padding-left:20px;
+}
+
+.field-name-field-upload-activity-document{
+clear:left;
+}
+

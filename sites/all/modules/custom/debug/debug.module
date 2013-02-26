@@ -7,3 +7,34 @@ function _p($var, $flag = FALSE) {
     die();
   }
 }
+
+function debug_admin_paths() {
+  //if (arg(0) == 'node' && arg(1) == 152) {
+    global $user;
+    if (in_array('site administrator', $user->roles)) {
+      $paths = array(
+        'node/add' => FALSE, 
+        'node/*/edit' => FALSE,
+      );
+      return $paths;
+    }
+  //}
+}
+
+function debug_form_book_node_form_alter(&$form, &$form_state, $form_id) {
+  //$form['field_department']['und']['#default_value']['value'] = 'ATMA';
+  /*$form['field_department']['und']['#default_value'] = 'ATMA';
+  //_p($form['field_department']['und'], 1);
+
+  // Modification for the form with the given form ID goes here. For example, if
+  // FORM_ID is "user_register_form" this code would run only on the user
+  // registration form.
+
+  // Add a checkbox to registration form about agreeing to terms of use.
+  $form['terms_of_use'] = array(
+    '#type' => 'checkbox',
+    '#title' => t("I agree with the website's terms and conditions."),
+    '#required' => TRUE,
+  );
+*/
+}

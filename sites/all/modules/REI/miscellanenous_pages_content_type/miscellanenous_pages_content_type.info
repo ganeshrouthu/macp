@@ -1,0 +1,9 @@
+name = Miscellanenous Pages Content Type
+core = 7.x
+package = Features
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:1
+features[field][] = node-misc_pages-body
+features[field][] = node-misc_pages-field_misc_type
+features[node][] = misc_pages

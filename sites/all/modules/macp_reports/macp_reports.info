@@ -1,0 +1,5 @@
+name = MACP Reports
+description = SQL Data reporting of Financial Module
+package = REI
+core = 7.x
+php = 5.2

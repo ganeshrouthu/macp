@@ -1,0 +1,30 @@
+#reporting-index li {
+  float:left;
+  margin:5px;
+  display: inline;
+  width:250px;
+}
+
+#reporting-index {
+  list-style-type:square;
+}
+
+#reports-selector {
+  width:80%;
+  font-size:21px !important;
+}
+
+#heading-sel {
+  width:35%;
+  float:left;
+  text-align:right;
+}
+
+#dd-sel {
+  width:63%;
+  float:right;
+}
+
+#reports-dd {
+  font-size:21px;
+}

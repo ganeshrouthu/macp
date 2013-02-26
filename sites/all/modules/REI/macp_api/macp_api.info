@@ -1,0 +1,6 @@
+name = MACP APIs for different purposes.
+description = MACP APIs for different purposes.
+package = REI
+core = 7.x
+version = "7.14"
+project = "drupal"
