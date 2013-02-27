@@ -17,7 +17,7 @@ if (!empty($node->field_reports[LANG])) {
   foreach ($node->field_reports[LANG] as $report) {
     if (strlen($report['first']) && strlen($report['second'])) {
     ?>
-    <li><a href="<?php print $base_url .'/'.$report['second'];?>" target="_blank"><?php print $report['first'];?></a></li>
+    <li><a href="<?php print $base_url .'/'.$report['second'];?>"><?php print $report['first'];?></a></li>
     <?php
     }
   }
