@@ -117,7 +117,8 @@ function macp_procurement_menu(){
     'description' => 'Display tender list for admin',
     'page callback'    => array('addendum_detail'),
     'page arguments' => array(1,2),
-    'access callback' => 'check_user_role',
+    //'access callback' => 'check_user_role',
+    'access callback' => TRUE,
     'file' => 'procurement_addendum_listing.inc',
   );
 
@@ -126,7 +127,8 @@ function macp_procurement_menu(){
     'description' => 'Display tender list for admin',
     'page callback'    => array('addendum_detail'),
     'page arguments' => array(1,2),
-    'access callback' => 'check_user_role',
+    //'access callback' => 'check_user_role',
+    'access callback' => TRUE,
     'file' => 'procurement_addendum_listing.inc',
   );
 
