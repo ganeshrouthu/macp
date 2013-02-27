@@ -255,3 +255,55 @@ function export_to_csv() {
 		fputcsv($fp, $fields);
 	}
 }
+
+function macp_reports_block_info() {
+  $blocks = array();
+	$blocks['print_pdf_export'] = array(
+		'info' => t('Print PDF Export Options')
+	);	
+  return $blocks;
+}
+
+function macp_reports_block_view($delta = ''){ 
+  $block = array();
+	switch ($delta) {
+		case 'print_pdf_export':
+      $block['subject'] = '';
+      $block['content'] = _place_print_pdf_export_options();
+		break;
+  }
+  return $block;
+}
+
+function _place_print_pdf_export_options() {
+	$html = '';
+	$html .= '<div class="print-pdf-export">';
+	$html .= print_pdf_insert_link();
+	$html .= print_insert_link();
+	if (arg(0) == 'node') {
+		$curr_node = node_load(arg(1));
+		if ($curr_node->type == 'report_template') {
+			$html .= export_to_csv_link();
+		}
+	}
+	$html .= '</div>';
+	return $html;
+}
+
+function export_to_csv_link() {
+	global $base_url;
+	$pars = _split_request_get_params();
+	if (empty($pars)) {
+		return '';
+	}
+	extract($pars, EXTR_PREFIX_ALL, 'P');
+	$export_csv_link = $base_url .'/export-to-csv/'.implode('/', $pars);
+	$export_image = $base_url . '/sites/default/files/misc/doc_excel_csv.png';
+	$html = '';
+	$html .= '<span class="print_pdf">';
+	$html .= '<a rel="nofollow" class="print-pdf" title="Export this report to CSV." 
+						href="' .$export_csv_link . '">';
+	$html .= '<img title="PDF version" alt="Export to CSV" src="'.$export_image.'" class="print-icon"></a>';
+	$html .= '</span>';
+	return $html;
+}

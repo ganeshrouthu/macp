@@ -54,11 +54,10 @@ function procurement_add_addendum($form, $form_state, $tender = NULL, $addendum 
     	'#default_value' => 'add', 
   	);
   }
-  
-  
+
   $form['add_title_add'] = array(
     '#type' => 'textfield', 
-    '#title' => t('Title of the addendum'),
+    '#title' => t('Title'),
     '#size' => 60, 
     '#maxlength' => 128, 
     '#default_value' => empty($addendum->atitle) ? '' : $addendum->atitle, 
@@ -66,7 +65,7 @@ function procurement_add_addendum($form, $form_state, $tender = NULL, $addendum 
   );
   
   $form['add_desc'] = array(
-  	'#title' => t('Brief of the addendum'),
+  	'#title' => t('Brief Description'),
     '#type' => 'textarea',
     '#default_value' => empty($addendum->adesc) ? '' : $addendum->adesc, 
     '#cols' => 60, 
@@ -75,31 +74,29 @@ function procurement_add_addendum($form, $form_state, $tender = NULL, $addendum 
 
   $form['add_upload'] = array(
     '#type' => 'managed_file',
-    '#title' => t('Upload addendum'),
+    '#title' => t('Upload Documents'),
     '#upload_location' => 'public://addendum/',
     '#required' => TRUE,
-		'#description' => 'Please upload files with these extensions only: txt pdf PDF doc docx ppt pptx xls xlsx<br/>',
+		'#description' => 'Please upload files with these extensions only: pdf doc docx',
     '#default_value' => empty($addendum) ? '' :$addendum->afid,
 		"#upload_validators" => array(
-														"file_validate_extensions" => array("txt pdf PDF doc docx ppt pptx xls xlsx"),
+														"file_validate_extensions" => array("pdf PDF doc docx"),
 														'file_validate_size' => array(8 * 1048576),
 														),
  	);
-
+	//$cancel_url = _prepare_cancel_url('procurement/manage-tenders');	
+	$cancel_url = $base_url . '/procurement/manage-tenders';	
  	$form['add_submit'] = array(
  	  '#type' => 'submit', 
  	  //'#value' => empty($addendum) ? t('Add Addendum') :t('Edit Addendum')
- 	  '#value' => t('Save')
- 	);
-
-	$form['cancel'] = array(
- 	  '#type' => 'link',
- 	  '#href' => $base_url . '/procurement/manage-tenders',
- 	  '#title' => t('Cancel')
+ 	  '#value' => t('Save'),
+		//'#suffix' => '<input class="cancel-btn" type="button" value="Cancel" alt="'.$cancel_url.'" />'
+		
+		'#prefix' => '<div class="submit-buttons">',
+		'#suffix' => '<span class="cancel-btn-div"><input class="cancel-btn" type="button" value="Cancel" alt="'.$cancel_url.'" /></span></div>'
  	);
  	return $form;
 }
-
 
 /* 
  * hook_submit for add_addendum form to selected tender
@@ -175,18 +172,13 @@ function delete_addendum($aid) {
  */
 function addendum_detail($tender = NULL, $addendum = NULL) {
 	$file = file_load($addendum->afid);
-  $output = '';
-  $output .= '<div class="">';
-  $output .= '<table>';
-  $output .= '<tr><td align="center" colspan=2><b>'.$addendum->atitle . ' details</b></td></tr>';
-  $output .= '<tr><td>Tender Title</td><td>' . $tender->title .'</td></tr>';
-  $output .= '<tr><td>Addendum Title</td><td>' . $addendum->atitle .'</td></tr>';
-  $output .= '<tr><td>Addendum Desc</td><td>' . $addendum->adesc .'</td></tr>';
-  $output .= '<tr><td>Upload Doc</td><td><a href =' . file_create_url($file->uri) . '>' . $file->filename . '</a></td></tr>';
-  $output .= '</table>';
-  $output .= '</div>';
-  
-  return $output;
+	$theme_parameters = array(
+											'records' => $addendum,
+											'tender' => $tender,
+											'file' => $file,
+                      'headings' => 'View Addendum Details',
+                      );
+  return theme('addendum-view', $theme_parameters);
 }
 
 /*

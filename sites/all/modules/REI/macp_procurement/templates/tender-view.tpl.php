@@ -1,27 +1,26 @@
-<table align="left" border="0" cellspacing="0" cellpadding="0" width="auto" class="macp-table">
-	<tr align="left" valign="top">
-		<td><strong>Tender Title: </strong></td>
-		<td><?php print $records->title;?></td>
+<?php global $base_url;?>
+<table align="left" border="0" cellspacing="0" cellpadding="0" width="auto" class="macp-table view-tender">
+<tr align="left" valign="top">
+		<td class="td-label"><strong>Title: </strong></td>
+		<td class="td=data"><?php print $records->title;?></td>
 	</tr>
 	<tr align="left" valign="top">
-		<td><strong>Tender Group</strong></td>
+		<td><strong>Teder For</strong></td>
 		<td><?php print $records->group;?></td>
 	</tr>
 	<tr align="left" valign="top">
 		<td><strong>Brief Description: </strong></td>
 		<td><?php print $records->tdesc;?></td>
 	</tr>
-	<tr align="left" valign="top">
-		<td><strong>Tender Files: </strong></td>
-<td><?php print $records->addendum_files;?></td>
-	</tr>
-	<tr align="left" valign="top">
-		<td><strong>Created Date: </strong></td>
-		<td><?php print $records->created_date;?></td>
-	</tr>
-	<tr align="left" valign="top">
-		<td><strong>Updated: </strong></td>
-		<td><?php print $records->updated_date;?></td>
-	</tr>
 	
+	<tr align="left" valign="top">
+		<td><strong>Uploaded Documents: </strong></td>
+		<td><?php print $records->tender_files;?></td>
+	</tr>
+	<tr align="left" valign="top">
+		<td><strong>Downloaded By: </strong></td>
+<td>
+<a href="<?php print $base_url;?>/procurement/tender/downloaded_user/<?php print $records->tid.'/' . $records->title;?>">Agencies</a>
+</td>
+	</tr>
 </table>

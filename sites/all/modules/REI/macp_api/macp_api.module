@@ -5,7 +5,7 @@
  */
 function macp_api_init() {
   //$curr_dir = _get_module_path(__DIR__);
-	drupal_add_css($curr_dir . 'css/override.css', array('group' => CSS_DEFAULT));
+	drupal_add_css(drupal_get_path('module', 'macp_api') . '/css/override.css', array('group' => CSS_DEFAULT));
 }
 
 

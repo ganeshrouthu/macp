@@ -105,3 +105,21 @@ background: #F2F2F2;
     margin: 0 !important;
     padding: 0 !important;
 }
+
+#block-print-print-links, .export-csv {
+	float:right;
+}
+
+.print-export {
+	float:right;
+	clear:all;
+}
+
+.print-pdf-export {
+	float:right;
+	clear:all;
+}
+
+.report-filters {
+	margin:40px 0 0 0;
+}

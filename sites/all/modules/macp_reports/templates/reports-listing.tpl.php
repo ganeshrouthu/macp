@@ -81,15 +81,7 @@ if ($P_district_id != 'all' && !empty($districts)) {
 	$url_district = $districts[$P_district_id]['Dist_Name'];
 }
 ?>
-<?php
-if (arg(0) != 'printpdf') {
-?>
-<div>
-<a href="<?php print $base_url;?>/export-to-csv/<?php print implode('/', $pars);?>" target="_blank">Export to CSV</a>
-</div>
-<?php
-}
-?>
+
 <?php
 if (arg(0) == 'printpdf') {
 ?>
@@ -100,7 +92,7 @@ Report Type: <?php print $P_report_type;?> | Financial Year: <?php print $P_fina
 }
 else {
 ?>
-<table border="0" cellspacing="0" cellpadding="0" align="center" class="macp-table">
+<table border="0" cellspacing="0" cellpadding="0" align="center" class="macp-table report-filters">
 	<thead>
   <tr align="left" valign="top">
 		<td>State</td>
@@ -147,37 +139,13 @@ else {
 		<td>Report Type</td>
 		<td>
 		<?php
-		$type_text = '';
-		if ($print_drop_downs) {
-		?>
-		<select name="macp_report_types" id="macp_report_types" class="reports-filter">
-		<option value="<?php print $base_url;?>/finance-reports">All</option>
-		<?php
+		if (isset($pars['report_type'])) {
+			print $pars['report_type'];
 		}
 		?>
-    <?php
-    if (!empty($report_types)) {
-      foreach ($report_types as $report_type => $report_type_desc) {
-        $report_type_url = _prepare_report_filters('report_type', $report_type);
-        $selected_report_type = ($P_report_type == $report_type) ? 'selected="selected"' : '';
-				if ($pars['report_type'] == $report_type) {
-					$type_text = $report_type_desc;
-				}
-      ?>
-			<?php
-				if ($print_drop_downs) {
-			?>
-      <option value="<?php print $report_type_url;?>" <?php print $selected_report_type;?>><?php print $report_type_desc;?></option>
-			<?php
-				}
-      }
-    }
-    ?>
-<?php print ($print_drop_downs) ? '</select>' : $P_report_type;?>
-</td>
+		</td>
     <td>Financial Year</td>
 		<td>
-    
     <?php
 		$financial_year_text = '';
 		if ($print_drop_downs) {

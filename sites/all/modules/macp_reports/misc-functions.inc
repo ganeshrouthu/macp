@@ -193,6 +193,7 @@ function _get_atma_records($type, $financial_year, $district_id) {
 	$records = array();
 	$district_id = arg(3);
 	$sql_atma = _sql_atma_yearly_report($type, $financial_year, $district_id);
+//	_p($sql_atma, 1);
 	$result = _odbc_exec($sql_atma);
 	$fields = array(
 			'Funds_Released',
@@ -543,4 +544,27 @@ function _get_apmc_cwp_header_titles() {
 					'Phy',
 					'Fin'
 				);
+}
+
+function _get_mis_report_groups() {
+  $arr = array();
+  $vocabs = taxonomy_get_vocabularies();
+  $vid = NULL;
+  if (! empty($vocabs)) {
+    foreach ($vocabs as $vocab) {
+      if ($vocab->machine_name == 'mis_report_groups') {
+        $vid = $vocab->vid;
+      }
+    }
+  }
+  if (! $vid) {
+    return $arr;
+  }
+  $report_groups = taxonomy_get_tree($vid);
+  if (! empty($report_groups)) {
+    foreach ($report_groups as $report_group) {
+      $arr[$report_group->tid] = $report_group->description;
+    }
+  }
+  return $arr;
 }

@@ -118,5 +118,10 @@ jQuery(document).ready(function () {
       
     },
   });
-  
+
+	jQuery(".cancel-btn").click(function () {
+		var url_to = jQuery(this).attr("alt");
+		window.location = url_to;
+		//alert(url_to);
+	});
 })

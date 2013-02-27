@@ -1,0 +1,114 @@
+.proc-tbox {
+	width:200px;
+}
+
+ul.tender-addendums {
+	padding:0 0 0 20px;
+	margin:0;
+	list-style:none;
+}
+
+#procurement-add-tender textarea, #procurement-add-addendum textarea {
+	width:300px !important;
+}
+
+#procurement-add-tender label, #procurement-add-addendum label {
+	width:140px !important;
+	float:left;
+	display:inline;
+	padding-left:20px;
+}
+
+#procurement-add-tender .form-text, #procurement-add-addendum .form-text {
+	width:300px !important;
+}
+
+#procurement-add-tender .form-file {
+	width:210px !important;
+}
+
+#procurement-add-tender .description, #procurement-add-addendum .description {
+	padding-left:160px !important;
+	margin-bottom:10px;
+}
+
+#procurement-add-tender .grippie, #procurement-add-addendum .grippie {
+	display:none;
+}
+
+#procurement-add-tender .form-type-textarea {
+	padding:0px;
+	margin:0px;
+}
+
+#procurement-add-addendum .form-type-textarea {
+	padding:0px;
+	margin:0px;
+	
+}
+
+#procurement-add-tender .submit-buttons, #procurement-add-addendum .submit-buttons {
+	padding:0px;
+	margin-left:160px;
+}
+
+#procurement-add-tender .cancel-btn-div, #procurement-add-addendum .cancel-btn-div {
+	padding-left:10px;
+	margin-left:0px;
+}
+
+#edit-upload-upload {
+/*	width:400px !important;*/
+}
+
+#edit-group-id {
+	width:300px !important;
+}
+
+#edit-date {
+	padding:0px;
+	margin:0px;
+}
+
+/* View Tender */
+table.view-tender{
+	width:90% !important;
+}
+
+table.view-tender .td-label{
+	width:35% !important;
+}
+
+table.view-tender .td-data{
+	width:65% !important;
+}
+
+table.tender-table {
+	width:90% !important;
+}
+
+/* View Addendum */
+table.view-addendum{
+	width:90% !important;
+}
+
+table.view-addendum .td-label{
+	width:35% !important;
+}
+
+table.view-addendum .td-data{
+	width:65% !important;
+}
+
+table.view-addendum td, table.view-addendum th{
+	padding:5px;
+}
+
+table.view-tender td, table.view-tender th{
+	padding:5px;
+}
+
+/* Procurement Links */
+.proc-links {
+
+}
