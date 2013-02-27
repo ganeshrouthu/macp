@@ -113,7 +113,6 @@ function macp_procurement_menu(){
   );
 
   $items['addendum/%tender/%addendum/details'] = array(
-    //'title' => t('Addendum'),
     'description' => 'Display tender list for admin',
     'page callback'    => array('addendum_detail'),
     'page arguments' => array(1,2),
@@ -122,7 +121,6 @@ function macp_procurement_menu(){
   );
 
   $items['procurement/%tender/%addendum/details'] = array(
-    //'title' => t('Addendum'),
     'description' => 'Display tender list for admin',
     'page callback'    => array('addendum_detail'),
     'page arguments' => array(1,2),
