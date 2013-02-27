@@ -301,7 +301,7 @@ function export_to_csv_link() {
 	$export_image = $base_url . '/sites/default/files/misc/doc_excel_csv.png';
 	$html = '';
 	$html .= '<span class="print_pdf">';
-	$html .= '<a rel="nofollow" class="print-pdf" title="Export this report to CSV." 
+	$html .= '<a rel="nofollow" class="Export to CSV" title="Export this report to CSV." 
 						href="' .$export_csv_link . '">';
 	$html .= '<img title="PDF version" alt="Export to CSV" src="'.$export_image.'" class="print-icon"></a>';
 	$html .= '</span>';
