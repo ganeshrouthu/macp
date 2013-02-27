@@ -50,6 +50,7 @@ ul.tender-addendums {
 #procurement-add-tender .submit-buttons, #procurement-add-addendum .submit-buttons {
 	padding:0px;
 	margin-left:160px;
+	float:left;
 }
 
 #procurement-add-tender .cancel-btn-div, #procurement-add-addendum .cancel-btn-div {
@@ -111,4 +112,9 @@ table.view-tender td, table.view-tender th{
 /* Procurement Links */
 .proc-links {
 
+}
+
+.delete-buttons {
+	float:left;
+	margin:0 0 0 10px;
 }

@@ -46,6 +46,8 @@ function procurement_add_addendum($form, $form_state, $tender = NULL, $addendum 
       '#weight' => 15,
       '#submit' => array('addendum_delete'),
       '#attributes' => array('class' => array('delete-add')),
+			'#prefix' => '<div class="delete-buttons">',
+		'#suffix' => '</div>'
     );
   	
   }else {
