@@ -520,60 +520,256 @@ table {
     width:100%;
 }
 
-/********************** Activity pages  *******************/
 
-#activity-node-form label[for='edit-title']{
-width:100px;
-float:left;
+
+
+
+/********** special for some fields ************/
+/*
+#-success-story-node-form .form-item-field-location-und{
+margin-top:40px;
 }
 
-#activity-node-form label[for='edit-field-type-of-activity-und']{
-width:100px;
-float:left;
-}
-
-#activity-node-form label[for='edit-field-activity-location-und']{
-width:100px;
-float:left;
-
-}
-
-#hierarchical-select-0-wrapper select{
-width:100px;
-}
-
-#activity-node-form .tabledrag-toggle-weight{
+.file-upload-js-error{
 display:none;
 }
 
-.field-name-field-upload-activity-image{
+#edit-field-innovation-video-und{
+margin-bottom:35px;
+}
+
+#edit-field-casestudy-video-und{
+margin-bottom:35px;
+
+}
+*/
+
+
+#edit-field-type-of-case-study-und, #edit-field-type-of-activity-und, #edit-field-type-of-success-story-und , #edit-field-type-of-innovation-und{
+width:71%;
+}
+/*
+.field-name-field-upload-activity-image .field-item:first-child{
+display:block;
+margin-left: 25%;
+margin-bottom:10%;
+}
+
+.field-name-field-video-upload .field-item:first-child{
+display:block;
+margin-left: 25%;
+margin-bottom:10%;
+}
+
+.node-activity div.field{
+margin-bottom:10px;
+}
+
+.field-name-field-upload-activity-document div.field-items {
+margin-top:-20px;
+}
+
+.field-name-field-video-upload .field-item:first-child img , .field-name-field-upload-activity-image .field-item:first-child img{
+height:80px;
+}
+
+.field-name-field-upload-activity-image .field-item, .field-name-field-video-upload .field-item{
+display:none;
+}
+*/
+
+
+/********** applies to all forms  ************/
+
+ .node-form .vertical-tabs{
+display:none;
+}
+.node-form label{
+width: 22%;
+float: left;
+clear:left;
+}
+
+.node-form  .form-type-managed-file .description{
+display:none;
+}
+
+.node-form .form-textarea-wrapper{
+width: 71%;
+float: left;
+margin-bottom:10px;
+}
+
+.node-form fieldset{
+clear:left;
+width:66%;
+margin-left:124px;
+margin-top:15px;
+//border:none;
+}
+
+.node-form legend{
+font-weight:bold;
+position:absolute;
+left:20%;
+}
+
+.node-form fieldset label{
+margin-right:265px;
+}
+
+.node-form .tabledrag-toggle-weight-wrapper{
+display:none;
+}
+
+.node-form input[type="file"]{
+width:223px;
+}
+
+
+/*
+.node-form fieldset{
+border:none;
+clear:left;
+height:45px;
+padding:0px;
+}
+
+
+.node-form fieldset legend span{
+font-weight:bold;
+position: relative;
+top: 28px;
+}
+
+.node-form .form-type-managed-file label{
+float: left;
+width: 120px;
+font-weight: normal;
+position: relative;
+top: 25px;
+left: 125px;
+}
+
+.node-form .form-type-managed-file div input.form-file{
+width: 200px;
+border: 1px solid grey;
+margin-right: 10px;
+margin-left:4px;
+}
+
+*/
+.node-form input[type='text']{
+width:70%;
+}
+
+.node-form .form-item{
+margin:10px 10px 10px 0;
+}
+
+.node-form .form-item, .form-actions{
+clear:left;
+}
+
+.node-form .error{
+position:relative;
+top:18px;
+}
+
+.node-form #hierarchical-select-0-wrapper select{
+width:128px;
+}
+
+.field .field-label{
+width:140px;
+}
+
+.field-item table th{
+display:none;
+}
+
+.field-item table{
+margin-top:5px;
+}
+
+
+
+.field-type-image .field-item {
+display: none;
+}
+
+.field-type-image .field-item:first-child{
+display:block;
+margin-left: 25%;
+margin-bottom:10%;
+width:40%;
+float:left;
+}
+
+.field-type-file .field-item a.media-colorbox img{
+display: none;
+}
+
+.field-type-file .field-item:first-child a.media-colorbox img{
+display:block;
+margin-left: 25%;
+margin-bottom:10%
+}
+
+.field-type-file .field-item:first-child{
+//width:40%;
+//float:left;
+}
+
+div.field-type-image{
+width:45%;
+float:left;
+background:#E9F1DA;
+margin-right:15px;
+padding-left:17px;
+clear:left;
+height:125px;
+}
+
+div.field-name-field-video-upload, div.field-name-field-casestudy-video, div.field-name-field-innovation-video, div.field-name-field-success-video {
 width:45%;
 float:left;
 background:#E9F1DA;
 margin-right:0px;
 padding-left:17px;
+//clear:left;
 }
 
-.field-name-field-upload-activity-image .field-item{
-width:50%;
+.field-type-image .field-label{
+ //left: 70px;
+   // position: relative;
+   // top: 100px;
+}
+div.field-name-field-video-upload .field-label{
+ //left: 70px;
+   // position: relative;
+    //top: 100px;
+
+} 
+
+#media-tab-library #container{
+padding:0px;
+}
+
+.media-player .media-player-controls, .minplayer-default-controls{
+bottom:8px !important;
+}
+
+.node-form #edit-cancel,.node-form #edit-delete{
+padding:1px;
+margin-left:25px;
+}
+
+div.field-items{
+margin-bottom:10px;
+}
+
+.field-name-field-activity-location .field-item, .field-name-field-case-location .field-item, .field-name-field-location .field-item{
 float:left;
-height:85px;
+margin-right:7px;
 }
-
-.field-name-field-video-upload .field-item{
-width:50%;
-height:85px;
-float:left;
-}
-.field-name-field-video-upload {
-width:45%;
-float:left;
-margin-left:15px;
-background:#E9F1DA;
-padding-left:20px;
-}
-
-.field-name-field-upload-activity-document{
-clear:left;
-}
-
