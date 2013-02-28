@@ -684,9 +684,9 @@ width:128px;
 width:140px;
 }
 
-.field-item table th{
+/*.field-item table th{
 display:none;
-}
+}*/
 
 .field-item table{
 margin-top:5px;
@@ -705,7 +705,7 @@ margin-bottom:10%;
 width:40%;
 float:left;
 }
-
+/*
 .field-type-file .field-item a.media-colorbox img{
 display: none;
 }
@@ -715,13 +715,13 @@ display:block;
 margin-left: 25%;
 margin-bottom:10%
 }
-
+*/
 .field-type-file .field-item:first-child{
 //width:40%;
 //float:left;
 }
 
-div.field-type-image{
+/*div.field-type-image{
 width:45%;
 float:left;
 background:#E9F1DA;
@@ -729,6 +729,28 @@ margin-right:15px;
 padding-left:17px;
 clear:left;
 height:125px;
+}*/
+
+/*done on 28-02-2013*/
+div.field-name-field-upload-activity-image{
+width:45%;
+float:left;
+background:#E9F1DA;
+margin-right:15px;
+padding-left:17px;
+clear:left;
+height:125px;
+}
+
+
+div.field-name-field-unitwise-images {
+width:100%;
+float:left;
+/*background:#E9F1DA;*/
+margin-right:15px;
+padding-left:17px;
+clear:left;
+height:170px;
 }
 
 div.field-name-field-video-upload, div.field-name-field-casestudy-video, div.field-name-field-innovation-video, div.field-name-field-success-video {
@@ -739,6 +761,14 @@ margin-right:0px;
 padding-left:17px;
 //clear:left;
 }
+/*unitwise video gallery*/
+div.field-name-field-unitwise-videos {
+width:100%;
+margin-right:0px;
+padding-left:17px;
+//clear:left;
+}
+/*end unitwise video gallery*/
 
 .field-type-image .field-label{
  //left: 70px;
@@ -776,8 +806,8 @@ margin-right:7px;
 }
 
 th {
- background-color: #B4DE85;
- font-size: 16px;
+ background-color: #9dcab0;
+ font-size: 14px;
  font-weight: bold;
  padding: 0;
  text-align: center;
@@ -792,11 +822,16 @@ border: 1px solid #999999;
 tbody {
 /*border-color:#999999;*/
   /*border-top: none;*/
-  text-align:center;
+  text-align:left;
+  border: 1px solid #999999;
 }
-tr:nth-child(even) {background: #e3eed1 }
+tr:nth-child(even) {background:#cfe5d8 }
 tr:nth-child(odd) {background: none}
 
 td {
 border: 1px solid #999999;
+}
+
+h2 {
+text-align:center;
 }
