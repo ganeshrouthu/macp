@@ -773,6 +773,7 @@ margin-bottom:10px;
 .field-name-field-activity-location .field-item, .field-name-field-case-location .field-item, .field-name-field-location .field-item{
 float:left;
 margin-right:7px;
+}
 
 th {
  background-color: #B4DE85;
@@ -798,5 +799,4 @@ tr:nth-child(odd) {background: none}
 
 td {
 border: 1px solid #999999;
-
 }
