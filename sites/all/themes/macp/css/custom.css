@@ -828,8 +828,8 @@ th {
  background-color: #9dcab0;
  font-size: 14px;
  font-weight: bold;
- padding: 0;
- text-align: center;
+ padding-left:10px;
+ text-align:left;
  border:1px solid #999999
 }
 
