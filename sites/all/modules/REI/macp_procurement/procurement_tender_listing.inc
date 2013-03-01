@@ -21,8 +21,7 @@ function procurement_add_tender($form, $form_state, $tender = NULL, $addendum = 
   );
   $form['group_id'] = array(
     '#type' => 'select', 
-    '#title' => t('Tender For'),
-    '#description' => 'Please select a Tender For',
+    '#title' => t('Tender Group'),
     '#options' => _tender_groups(),
     '#default_value' => empty($tender->group_id) ? '' : $tender->group_id, 
 		'#required' => TRUE,
@@ -30,18 +29,19 @@ function procurement_add_tender($form, $form_state, $tender = NULL, $addendum = 
 
   $form['date'] = array(
     '#type' => 'date_popup',
-    //'#title' => 'Last date of tender/EOI',
-    '#title' => 'Submission Date',
+    '#title' => t('Submission Date'),
     '#default_value' => empty($tender->created) ? '' : date("Y-m-d H:i:s", $tender->created),
     '#date_type' => DATE_DATETIME,
     '#date_timezone' => date_default_timezone(),
-    '#date_format' => 'm/d/Y h:i A',
+    '#date_format' => 'd/m/Y h:i A',
 		'#date_text_parts' => array('hour', 'minute'),
     '#date_increment' => 1,
     '#date_year_range' => '0:+3',
     '#required' => TRUE,
 		'#datepicker_options' => array('minDate' => 'today'),
 		'#attributes' => array('readonly' => 'true'),
+		'#prefix' => '<div class="date-time-picker">',
+		'#suffix' => '</div>',
   );
   
   $form['desc'] = array(
@@ -51,22 +51,42 @@ function procurement_add_tender($form, $form_state, $tender = NULL, $addendum = 
     '#cols' => 60, 
     '#rows' => 5,
   );
-  
+
   $form['upload'] = array(
     '#type' => 'managed_file',
-    '#title' => t('Upload tender/EOI'),
+    '#title' => t('Upload Document 1'),
     '#upload_location' => 'public://procurement/',
     '#required' => TRUE,
 		'#description' => 'Please upload files with these extensions only: pdf doc docx',
-    '#default_value' => empty($tender) ? '' :$tender->tfid,
+    '#default_value' => empty($tender->tfid) ? '' : $tender->tfid, 
 		"#upload_validators" => array(
 														"file_validate_extensions" => array("pdf PDF doc docx"),
 														'file_validate_size' => array(8 * 1048576),
 														),
  	);
-//	$cancel_url = _prepare_cancel_url('procurement/manage-tenders');
-	$cancel_url = $base_url . '/procurement/manage-tenders';
 
+	$form['upload-another'] = array(
+  	'#title' => t('Upload another file'),
+    '#type' => 'checkbox',
+		'#class' => array('description'),
+    '#default_value' => 0,
+  );
+
+	$form['upload_2'] = array(
+    '#type' => 'managed_file',
+    '#title' => t('Upload Document 2'),
+    '#upload_location' => 'public://procurement/',
+		'#description' => 'Please upload files with these extensions only: pdf doc docx',
+		'#default_value' => empty($tender->tender_files) ? '' : $tender->tender_files, 
+		"#upload_validators" => array(
+														"file_validate_extensions" => array("pdf PDF doc docx"),
+														'file_validate_size' => array(8 * 1048576),
+														),
+		'#states' => array(
+											'visible' => array('input[name="upload-another"]' => array('checked' => TRUE))
+											),
+ 	);
+	$cancel_url = $base_url . '/procurement/manage-tenders';
  	$form['add_submit'] = array(
  	  '#type' => 'submit',
  	  '#value' => t('Save'),
@@ -76,24 +96,34 @@ function procurement_add_tender($form, $form_state, $tender = NULL, $addendum = 
   return $form;
 }
 
+function _upload_tender_files($form, &$form_state) {
+	$file_2 = file_load($form_state['values']['upload_2']);
+	$file_2->status = FILE_STATUS_PERMANENT;
+	file_save($file_2);
+	file_usage_add($file_2, 'procurement', $file_2->filename, 1);
+
+	$tender_files = '';
+	if ($form_state['values']['upload_2'] > 0) {
+		$tender_files = $form_state['values']['upload_2'];
+	}
+	return $tender_files;
+}
+
 /*
  * hook_form_submit for add tender form
  */
 function procurement_add_tender_submit($form, &$form_state) {
-/*
-	_p($form_state);
-	_p('Here', 1);
-*/
-//	_p($form_state['complete form']['upload']['#file']->filename, 1);
   $created_date = strtotime($form_state['values']['date']);
   $date = date('m/d/Y h:i:s', time());
   $updated_date = strtotime($date);
+	$tender_files = _upload_tender_files($form, $form_state);
   if(!empty($form_state['values']['tid'])) {
     db_update('tender') // Table name no longer needs {}
   		->fields(array(
    		   'title' => $form_state['values']['title'],
    		   'tdesc' => $form_state['values']['desc'],
    		   'tfid'  => $form_state['values']['upload'],
+   		   'tender_files'  => $form_state['values']['upload_2'],
    		   'group_id'  => $form_state['values']['group_id'],
    		   'created' => $created_date,
     	   'changed' => $updated_date,
@@ -108,18 +138,21 @@ function procurement_add_tender_submit($form, &$form_state) {
     file_save($file);
     file_usage_add($file, 'procurement', $file->filename, 1);
     //End chnage by Nitin 1 Feb 2013
-     
+		drupal_set_message('Tender edited successfully.', 'success');
     $form_state['redirect'] = 'procurement/manage-tenders';
   }
 	else {
 		$added_date = time();
   	$result = db_query("INSERT INTO {tender} 
-									(title, group_id, tdesc, tfid, created, changed, added) 
+									(title, group_id, tdesc, tfid,
+									tender_files, created, 
+									changed, added) 
 									VALUES (
 									'".$form_state['values']['title']."', 
 									'".$form_state['values']['group_id']."', 
 									'".$form_state['values']['desc']."', 
 									".$form_state['values']['upload'].", 
+									'".$form_state['values']['upload_2']."',
 									".$created_date.",
 									".$created_date.", 
 									".$added_date.")");
@@ -133,19 +166,15 @@ function procurement_add_tender_submit($form, &$form_state) {
 		//$file->filename = '';
     $file = file_load($form_state['values']['upload']);
     $file->status = FILE_STATUS_PERMANENT;
-		
-//		_p($file, 1);
-		
     file_save($file);
-//		_p($file, 1);
-    file_usage_add($file, 'procurement', $file->filename, 1);
-    //end chnage by Nitin 1 Feb 2013
+		file_usage_add($file, 'procurement', $file->filename, 1);
+    drupal_set_message('Tender added successfully.', 'success');
   	$form_state['redirect'] = 'procurement/manage-tenders';
   }
 }
 
 /*
- * Group Tenders by Teder For.
+ * Group Tenders by Tender For.
  */
 function _tenders_group_by_tender_group($tenders) {
 	$arr = array();
@@ -169,9 +198,9 @@ function procurement_tender_list() {
   $table_rows = array();
   $header = array(
     array('data' => t('Title')),
-    array('data' => t('Submit to MACP office on or before')),
-    array('data' => t('Action')), 
+		array('data' => t('Submit to MACP office on or before'), 'align' =>'right'),
     array('data' => t('Downloaded By')),
+    array('data' => t('Action')), 
   );
   $limit = variable_get('codes_per_page',10);
   $query = db_select('tender', 't')
@@ -184,8 +213,7 @@ function procurement_tender_list() {
         ->condition('created', $current_date, '>=')
 				->orderBy('added', 'DESC');	//ORDER BY created
   $result = $query->execute();
-	$ecn_curr_path = str_replace('/', '--', current_path());
-	// Get tenders by Teder Fors
+	// Get tenders by Tender Fors
 	$tender_sets = _tenders_group_by_tender_group($result);
 	if (!empty($tender_sets)) {
 		foreach($tender_sets as $tender_group => $tender_set) {
@@ -201,17 +229,16 @@ function procurement_tender_list() {
 					$tender_addendums = get_addendum_for_tenders($tender->tid);
 					$file = file_load($tender->tfid);
 					$get = get_addendum_by_tid($tender->tid);
-					//$add = l(t('Add Addendum'),  'procurement/' . $tender->tid . '/add/addendum/' . $ecn_curr_path);
 					$add = l(t('Add Addendum'),  'procurement/' . $tender->tid . '/add/addendum/');
-					//$edit = l(t('Edit'),  'procurement/' . $tender->tid . '/edit/' . $ecn_curr_path);
 					$edit = l(t('Edit'),  'procurement/' . $tender->tid . '/edit/');
 					$delete = l(t('Delete'),  'tender/' . $tender->tid . '/delete', array('attributes' => array('class' => array('confirm-delete'))));
 					$tender_title = l($tender->title,  'procurement/view-tender/' . $tender->tid);
+					$date_time_str = date('d M Y ', $tender->created) .' upto '. date('g:i a', $tender->created);
 					$table_rows[] = array(
 						array('data' => $tender_title),
-						array('data' => date('d M Y g:i a', $tender->created)),
-						array('data' => $add . ' | ' . $edit . ' | ' . $delete ),
+						array('data' => $date_time_str),
 						array('data' => l(t('Agencies'), 'procurement/tender/downloaded_user/'.$tender->tid.'/' . $tender->title)),
+						array('data' => $add . ' | ' . $edit . ' | ' . $delete ),
 					);
 					if (strlen($tender_addendums)) {
 						$table_rows[] = array(
@@ -276,19 +303,15 @@ function procurement_user_tender_list() {
   $table_rows = array();
   $header = array(
     array('data' => t('Title')),
-    array('data' => t('Submit to MACP office on or before')),
+    array('data' => t('Submit to MACP office on or before'), 'align' =>'right'),
   );
   $limit = variable_get('codes_per_page',10);
   $query = db_select('tender', 't')->extend('PagerDefault')->limit($limit); 
-  //Date Condition added by santhosh for creating archives on 01Feb2013
   $current_date = date('m/d/Y');
   $current_timestamp = strtotime($current_date);
   $query->fields('t')
         ->condition('created', $current_timestamp, '>=')
 				->orderBy('added', 'DESC');	//ORDER BY created
-        //->extend('TableSort')  // Add table sort extender.
-        //->orderByHeader($header);  // Add order by headers.
-        //->orderByHeader($header);  // Add order by headers.
   $result = $query->execute();
 
 	// Get tenders by Tender Groups	
@@ -307,10 +330,10 @@ function procurement_user_tender_list() {
 					$tender_addendums = get_addendum_for_tenders($tender->tid);
 					$file = file_load($tender->tfid);
 					$tender_title = l($tender->title,  'procurement/view-tender/' . $tender->tid);
+					$date_time_str = date('d M Y ', $tender->created) .' upto '. date('g:i a', $tender->created);
 					$table_rows[] = array(
 						array('data' => $tender_title),
-						array('data' => date('d M Y g:i a', $tender->created), 
-						'align' =>'right'),
+						array('data' => $date_time_str, 'align' =>'right'),
 					);
 					if (strlen($tender_addendums)) {
 						$table_rows[] = array(
@@ -336,6 +359,7 @@ function procurement_user_tender_list() {
  * Hook_form for user to login aand download the tender
  */
 function user_login_download_tender($form, $form_state, $tid, $fid) {
+	global $base_url;
 	if(isset($_SESSION['tender_user'])) {
 		$user_detail = db_select('tuser', 'tu')
 	    ->fields('tu', array('uid'))
@@ -390,7 +414,7 @@ function user_login_download_tender($form, $form_state, $tid, $fid) {
     '#size' => 60,
     '#prefix' => "<span style='color:red; float:right; position:absolute; left:142px;'>*</span>",
     '#maxlength' => 128,
-    //'#required' => TRUE,
+    '#required' => TRUE,
   );
   
   
@@ -398,18 +422,19 @@ function user_login_download_tender($form, $form_state, $tid, $fid) {
     '#title' => t('Password'),
     '#type' => 'password',
     '#size' => 60,
-    '#prefix' => "<span style='color:red; float:right; position:absolute; left:80px;'>*</span>",
     '#maxlength' => 15,
-    //'#required' => TRUE,
+    '#required' => TRUE,
   );
-  
+  $cancel_url = $base_url . '/procurement/tenders';
   $form['submit'] = array(
  	  '#type' => 'submit', 
- 	  '#value' => t('Download Tender'),
+ 	  '#value' => t('Login'),
+		'#prefix' => '<div class="submit-buttons">',
+		'#suffix' => '<span class="cancel-btn-div"><input class="cancel-btn" type="button" value="Cancel" alt="'.$cancel_url.'" /></span></div>'
  	);
 
  	$items = array();
-  $items[] = l(t('Register new'), 'register/download/tender/' . arg(2) . '/' .arg(3), array('attributes' => array('title' => t('Create a new tender user account.'))));
+  $items[] = l(t('Register new'), 'procurement/register/download-tender/' . arg(2) . '/' .arg(3), array('attributes' => array('title' => t('Create a new tender user account.'))));
   $items[] = l(t('Forgot password'), 'tuser/change_password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
   $form['links'] = array('#markup' => theme('item_list', array('items' => $items)));
   
@@ -463,14 +488,14 @@ function user_login_download_tender_submit($form, &$form_state) {
 	    		      'created' => $created_date,
 	    		    ))->execute();
 	    		  drupal_set_message('record added');
-        	} 
+        	}
           download_file($file_download);
         }
 			}	
 	  }
 	  else {
 	  	form_set_error('email_id', 'Your email or password is incorrect');
- 		  drupal_set_message('Your email or password is incorrect', 'error');
+ 		  //drupal_set_message('Your email or password is incorrect', 'error');
 	  }
     
 	}
@@ -497,11 +522,11 @@ function download_file($file = FALSE) {
   readfile($file);
 }
 
-
 /*
- * Hook_form for user to regiser anonymous user and download the tender
+ * hook_form for user to regiser anonymous user and download the tender
  */
 function user_register_download_tender($form, $form_state, $tid, $fid) {
+	global $base_url;
   $form['fid'] = array(
     '#type' => 'hidden', 
     '#title' => t('fid'),
@@ -526,7 +551,6 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#type' => 'textfield', 
     '#title' => t('Email ID'),
     '#size' => 60,
-    //'#prefix' => "<span style='color:red; float:right; position:absolute; left:77px;'>*</span>",
     '#maxlength' => 128,
     '#required' => TRUE,
   );
@@ -534,7 +558,6 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
   $form['new_pass'] = array(
     '#title' => t('Password'),
     '#type' => 'password',
-    //'#prefix' => "<span style='color:red; float:right; position:absolute; left:79px;'>*</span>",
     '#size' => 25,
     '#maxlength' => 15,
 		'#required' => TRUE,
@@ -542,45 +565,40 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
   
   $form['confirm_passord'] = array(
     '#type' => 'password',
-    '#title' => t('Confirm password'),
-    //'#prefix' => "<span style='color:red; float:right; position:absolute; left:139px;'>*</span>",
+    '#title' => t('Confirm Password'),
     '#size' => 25,
 		'#required' => TRUE,
   );
   
   $form['agency_name'] = array(
     '#type' => 'textfield', 
-    '#title' => t('Name of agency'),
+    '#title' => t('Name of Agency'),
     '#size' => 60,
-    //'#prefix' => "<span style='color:red; float:right; position:absolute; left:125px;'>*</span>",
     '#maxlength' => 55,
     '#required' => TRUE,
   );
   
   $form['person_name'] = array(
     '#type' => 'textfield', 
-    '#title' => t('Name of person'),
+    '#title' => t('Name of Person'),
     '#size' => 60,
-    //'#prefix' => "<span style='color:red; float:right; position:absolute; left:125px;'>*</span>",
     '#maxlength' => 55,
     '#required' => TRUE,
   );
   
   $form['cont_number'] = array(
     '#type' => 'textfield', 
-    '#title' => t('Contact number (PT)'),
+    '#title' => t('Contact Number'),
     '#size' => 60,
-    //'#prefix' => "<span style='color:red; float:right; position:absolute; left:161px;'>*</span>",
-    '#maxlength' => 55,
-    '#required' => TRUE,
+    '#maxlength' => 10,
+    //'#required' => TRUE,
   );
   
   $form['mobile_number'] = array(
     '#type' => 'textfield', 
-    '#title' => t('Contact number (Mobile)'),
+    '#title' => t('Mobile Number'),
     '#size' => 60,
-    //'#prefix' => "<span style='color:red; float:right; position:absolute; left:188px;'>*</span>",
-    '#maxlength' => 55,
+    '#maxlength' => 10,
     '#required' => TRUE,
   );
   
@@ -590,10 +608,12 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#size' => 60,
     '#maxlength' => 55,
   );
-  
+  $cancel_url = $base_url . '/procurement/tenders';
   $form['submit'] = array(
  	  '#type' => 'submit', 
- 	  '#value' => t('Submit Form'),
+ 	  '#value' => t('Register'),
+		'#prefix' => '<div class="submit-buttons">',
+		'#suffix' => '<span class="cancel-btn-div"><input class="cancel-btn" type="button" value="Cancel" alt="'.$cancel_url.'" /></span></div>'
  	 );
   
   return $form;
@@ -615,7 +635,8 @@ function user_register_download_tender_submit($form, &$form_state) {
 	if($details->rowCount() > 0) {
 	  $user_det = $details->fetchObject();
 	  form_set_error('email_id', 'Email ID already exist');
-	}else{
+	}
+	else {
 	  $rec = db_insert('tuser') // Table name no longer needs {}
 	  	->fields(array(
     		'pass'          => $pass,
@@ -629,10 +650,11 @@ function user_register_download_tender_submit($form, &$form_state) {
     		'created'       => $created_date,
 	  	))->execute();
 	  	
-	  	drupal_set_message('Your account is registered. Login here to download the tenders');
+	  	drupal_set_message('Your account is registered. Login to download the tenders');
       $tid = $form_state['values']['tid'];
       $fid = $form_state['values']['fid'];
-      drupal_goto("download/tender/$tid/$fid");
+			$goto_url = (arg(3) == 0 && arg(4) == 0) ? 'procurement/tenders' : 'procurement/download/tender/'.$tid . '/' . $fid;
+			drupal_goto($goto_url);
 	}
 }
 
@@ -740,7 +762,7 @@ function change_password_submit($form, &$form_state){
 	  drupal_goto('tuser/change_password');
 	}
 }
-//Added by santhosh for archives on 01Feb2013
+
 function procurement_archives_edit_list($record) {
   global $user,$base_path;
   $output = '';
@@ -748,7 +770,7 @@ function procurement_archives_edit_list($record) {
   $output .= "<h1>".$record['month']." Tender's List</h1>";
   $header = array(
     array('data' => t('Title')),
-    array('data' => t('Submit to MACP office on or before')),
+		array('data' => t('Submit to MACP office on or before'), 'align' =>'right'),
     array('data' => t('Downloaded By')),
     array('data' => t('Action')),
   );
@@ -785,9 +807,10 @@ function procurement_archives_edit_list($record) {
 					$delete = l(t('Delete'),  'tender/' . $tender->tid . '/delete', array('attributes' => array('class' => array('confirm-delete'))));
 					$tender_title = l($tender->title,  'procurement/view-tender/' . $tender->tid);
 					$date_formatter = 'j-m-Y';
+					$date_time_str = date('d M Y ', $tender->created) .' upto '. date('g:i a', $tender->created);
 					$table_rows[] = array(
 						array('data' => $tender_title),
-						array('data' => date('d M Y g:i a', $tender->created)),
+						array('data' => $date_time_str),
 						array('data' => l(t('Agencies'), 'procurement/tender/downloaded_user/'.$tender->tid.'/' . $tender->title)),
 						array('data' => $add . ' | ' . $edit . ' | ' . $delete ),
 					);
@@ -903,7 +926,6 @@ function procurement_view_tender_details($tender_id = 0) {
   $header = array(array('data' => t('View Tender Details'), 'colspan' => 5));
   $limit = variable_get('codes_per_page',10);
   $query = db_select('tender', 't')->extend('PagerDefault')->limit($limit); 
-  //Date Condition added by santhosh for creating archives on 01Feb2013
   $current_date = date('m/d/Y');
   $current_timestamp = strtotime($current_date);
   $query->fields('t')

@@ -5,22 +5,27 @@
 		<td class="td=data"><?php print $records->title;?></td>
 	</tr>
 	<tr align="left" valign="top">
-		<td><strong>Teder For</strong></td>
+		<td><strong>Tender Group</strong></td>
 		<td><?php print $records->group;?></td>
 	</tr>
 	<tr align="left" valign="top">
 		<td><strong>Brief Description: </strong></td>
 		<td><?php print $records->tdesc;?></td>
 	</tr>
-	
 	<tr align="left" valign="top">
 		<td><strong>Uploaded Documents: </strong></td>
 		<td><?php print $records->tender_files;?></td>
 	</tr>
+<?php
+if (_is_content_admin_logged_in()) {
+?>
 	<tr align="left" valign="top">
 		<td><strong>Downloaded By: </strong></td>
 <td>
 <a href="<?php print $base_url;?>/procurement/tender/downloaded_user/<?php print $records->tid.'/' . $records->title;?>">Agencies</a>
 </td>
 	</tr>
+<?php
+}
+?>
 </table>

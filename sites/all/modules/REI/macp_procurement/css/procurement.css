@@ -8,18 +8,18 @@ ul.tender-addendums {
 	list-style:none;
 }
 
-#procurement-add-tender textarea, #procurement-add-addendum textarea {
+#procurement-add-tender textarea, #procurement-add-addendum textarea, #user-register-download-tender .form-text {
 	width:300px !important;
 }
 
-#procurement-add-tender label, #procurement-add-addendum label {
-	width:140px !important;
+#procurement-add-tender label, #procurement-add-addendum label, #user-register-download-tender label, #user-login-download-tender label {
+	width:120px !important;
 	float:left;
 	display:inline;
 	padding-left:20px;
 }
 
-#procurement-add-tender .form-text, #procurement-add-addendum .form-text {
+#procurement-add-tender .form-text, #procurement-add-addendum .form-text, #user-login-download-tender .form-text {
 	width:300px !important;
 }
 
@@ -44,22 +44,25 @@ ul.tender-addendums {
 #procurement-add-addendum .form-type-textarea {
 	padding:0px;
 	margin:0px;
-	
 }
 
-#procurement-add-tender .submit-buttons, #procurement-add-addendum .submit-buttons {
-	padding:0px;
-	margin-left:160px;
-	float:left;
+#procurement-add-tender .submit-buttons, #procurement-add-addendum .submit-buttons, #user-register-download-tender .submit-buttons {
+	padding:10px;
+	margin-left:120px;
 }
 
-#procurement-add-tender .cancel-btn-div, #procurement-add-addendum .cancel-btn-div {
+#user-login-download-tender .submit-buttons {
+	padding:10px;
+	margin-left:130px;
+}
+
+#procurement-add-tender .form-submit, #procurement-add-addendum .form-submit, #user-register-download-tender .form-submit {
+	margin:10px;
+}
+
+#procurement-add-tender .cancel-btn-div, #procurement-add-addendum .cancel-btn-div, #user-login-download-tender .cancel-btn-div {
 	padding-left:10px;
 	margin-left:0px;
-}
-
-#edit-upload-upload {
-/*	width:400px !important;*/
 }
 
 #edit-group-id {
@@ -109,12 +112,92 @@ table.view-tender td, table.view-tender th{
 	padding:5px;
 }
 
-/* Procurement Links */
-.proc-links {
-
+.inner-table {
+	padding:0;
+	margin:0;
+	background-color:#E7F3DE;
 }
 
-.delete-buttons {
+.inner-table tr{
+	background-color:#E7F3DE !important;
+}
+
+.form-item-date-date label{
+	/*
+	float:left !important;
+	padding-left:60px !important;
+	width:200px;
+	font-style:italic !important:
+	*/
+}
+
+.form-item-date-time div.description, .form-item-date-date div.description {
+	display:none;
+}
+
+.messages {
+	cursor:pointer;
+}
+
+.addendum-table tr:nth-child(even) {
+	background: #F2F2F2;
+}
+
+#edit-date label {
 	float:left;
-	margin:0 0 0 10px;
+	padding-left:0 !important;
+	width:35px !important;
+}
+
+/*
+#edit-date .form-text {
+	width:150px !important;
+}
+*/
+
+#procurement-add-tender #edit-date-timeEntry-popup-1 {
+	width:70px !important;
+	float:left !important;
+}
+
+#procurement-add-tender #edit-date-datepicker-popup-0 {
+	width:80px !important;
+	float:left !important;
+}
+
+#procurement-add-tender .form-item-date-time label {
+	padding-left:10px !important;
+	width:35px !important;
+}
+
+#procurement-add-tender .form-item-date-date label {
+	display:none !important;
+}
+
+#user-login-download-tender .item-list ul{
+	margin-left:100px;
+}
+
+#user-login-download-tender .item-list ul li{
+	padding-left:10px;
+	list-style:none;
+	float:left;
+}
+
+.plupload {
+	margin-left:141px !important;
+	width:300px !important;
+}
+
+.proc-manage-links {
+	padding-right:28px !important;
+}
+
+.form-item-upload-another {
+	padding-left:140px;
+	/*font-size:0.85em;*/
+}
+
+#procurement-add-tender .form-item-upload-another {
+	margin:0px !important;
 }

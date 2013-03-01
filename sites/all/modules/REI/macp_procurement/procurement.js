@@ -1,8 +1,23 @@
 jQuery(document).ready(function () {
+	jQuery(".messages").click(function () {
+		jQuery(this).hide();
+	});
   jQuery(".delete-add").click(function() {
     return confirm('Are you sure you want to delete?')
   });
-  
+	//procurement-add-tender
+  //edit-upload-upload-button
+	//edit-upload-2-ajax-wrapper
+	
+	jQuery("#procurement-add-tender #edit-upload-upload-button").click(function() {
+		jQuery("#edit-upload-2-ajax-wrapper").show();
+	});
+	
+	jQuery("#upload-another").click(function() {
+		jQuery("#procurement-add-tender #edit-upload-2-ajax-wrapper").css({display:'block !important'});
+		return false;
+	});
+
   jQuery(".confirm-delete").click(function() {
     return confirm('Are you sure you want to delete?')
   });
@@ -22,13 +37,11 @@ jQuery(document).ready(function () {
       pass: {
         required: "Please provide a password",
         minlength: "Your password must be at least 5 characters long"
-      }
-      /*
-      ,
-      email_id: {
+      },
+			email_id: {
         required: "Please enter a valid email address"
-      */
       }
+		}
   });	
   
   jQuery("#user-register-download-tender").validate({
@@ -49,20 +62,21 @@ jQuery(document).ready(function () {
       agency_name: {
         required: true,
         minlength: 5,
+				maxlength: 10
       },
       person_name: { 
         required: true,
         minlength: 5,
+        maxlength: 10
       },
       cont_number: {
-        required: true,
-        minlength: 10,
-        maxlength: 10,
+				required: false,
+        minlength: 5
       },
       mobile_number: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        minlength: 5,
+				maxlength: 10
       },
     },
     messages: {
@@ -82,10 +96,12 @@ jQuery(document).ready(function () {
       cont_number: {
       	required: "Contact number is required",
         minlength: "Contact number must be at least 5 cheractors",
+        maxlength: "Please enter no more than 10 numbers.",
       },
       mobile_number: {
         required: "Mobile number is required",
         minlength: "Mobile number must be at least 5 cheractors",
+				maxlength: "Please enter no more than 10 numbers.",
       }
     },
   });

@@ -75,8 +75,6 @@ function _display_listing_theme($type, $financial_year, $records = array()) {
                             'headings' => $headings,
                             'index' => _display_reports_listing()
                       );
-
-  //return (!empty($records)) ? theme($type, $theme_parameters) : 'No data available.';
   return theme($type, $theme_parameters);
 }
 
@@ -166,8 +164,6 @@ function _get_ddrcs_records($type, $financial_year, $district_id) {
 			$records[] = $temp;
 		}
 	}
-	
-	//_p($records);
 	return $records;
 }
 
@@ -193,7 +189,6 @@ function _get_atma_records($type, $financial_year, $district_id) {
 	$records = array();
 	$district_id = arg(3);
 	$sql_atma = _sql_atma_yearly_report($type, $financial_year, $district_id);
-//	_p($sql_atma, 1);
 	$result = _odbc_exec($sql_atma);
 	$fields = array(
 			'Funds_Released',
@@ -546,25 +541,238 @@ function _get_apmc_cwp_header_titles() {
 				);
 }
 
-function _get_mis_report_groups() {
-  $arr = array();
-  $vocabs = taxonomy_get_vocabularies();
-  $vid = NULL;
-  if (! empty($vocabs)) {
-    foreach ($vocabs as $vocab) {
-      if ($vocab->machine_name == 'mis_report_groups') {
-        $vid = $vocab->vid;
-      }
-    }
-  }
-  if (! $vid) {
-    return $arr;
-  }
-  $report_groups = taxonomy_get_tree($vid);
-  if (! empty($report_groups)) {
-    foreach ($report_groups as $report_group) {
-      $arr[$report_group->tid] = $report_group->description;
-    }
-  }
-  return $arr;
+function macp_reports_add_custom_report($form, $form_state, $nid = NULL) {
+	$form['nid'] = array(
+    '#type' => 'hidden', 
+    '#title' => t('nid'),
+    '#default_value' => $nid,
+  );
+
+  global $base_url;
+	$custom_report = array();
+	$report_groups = _get_mis_report_groups();
+	if ($nid > 0) {
+		$custom_report = _load_custom_report($nid);
+	}
+	
+	/*	field_report_url 	title field_upload_doc 	*/
+	$form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#size' => 60,
+    '#maxlength' => 128, 
+    '#default_value' => !empty($custom_report['title']) ? $custom_report['title'] : '',
+    '#required' => TRUE,
+  );
+	$form['field_reports_group'] = array(
+    '#type' => 'select',
+    '#title' => t('Report Group'),
+    '#default_value' => !empty($custom_report['field_reports_group']) ? $custom_report['field_reports_group'] : '',
+    '#required' => TRUE,
+    '#options' => $report_groups,
+  );
+
+	$form['field_report_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Report URL'),
+    '#size' => 60,
+    '#maxlength' => 128, 
+    '#default_value' => !empty($custom_report['field_report_url']) ? $custom_report['field_report_url'] : '',
+    //'#required' => TRUE,
+  );
+	
+	$form['tid'] = array(
+    '#type' => 'hidden', 
+    '#title' => t('tender id'),
+    '#size' => 60, 
+    '#maxlength' => 128, 
+    '#default_value' => empty($tender->tid) ? '' : $tender->tid, 
+  );
+    
+  $form['field_upload_doc'] = array(
+    '#type' => 'managed_file',
+    '#title' => t('Upload PDF'),
+    '#upload_location' => 'public://mis-reports/',
+//    '#required' => TRUE,
+		'#description' => 'Please upload files with these extensions only: pdf',
+    '#default_value' => !empty($custom_report['field_upload']) ? $custom_report['field_upload'] : '',
+		"#upload_validators" => array(
+														"file_validate_extensions" => array("pdf PDF"),
+														'file_validate_size' => array(8 * 1048576),
+														),
+ 	);
+	$cancel_url = $base_url . '/mis/custom-reports-list';
+ 	$form['add_submit'] = array(
+ 	  '#type' => 'submit',
+ 	  '#value' => t('Save'),
+ 	  '#prefix' => '<div class="submit-buttons">',
+		'#suffix' => '<span class="cancel-btn-div"><input class="cancel-btn" type="button" value="Cancel" alt="'.$cancel_url.'" /></span></div>'
+ 	);
+  return $form;
+}
+
+function macp_reports_add_custom_report_validate($form, &$form_state) {
+	extract($form_state['values'], EXTR_PREFIX_ALL, 'fs');
+	if ($fs_field_report_url == '' && $fs_field_upload_doc == 0) {
+		form_set_error('field_report_url', 'Either add a url or upload a document.');
+	}
+}
+
+
+function macp_reports_add_custom_report_submit($form, &$form_state) {
+	global $base_url;
+	if ($form_state['values']['nid'] > 0) {
+		$node = ($form_state['values']['nid']>0) ? node_load($form_state['values']['nid']) : new stdClass();
+	}
+	else {
+		$node = new stdClass();
+		$node->type = 'custom_reports';
+		$node->language = LANGUAGE_NONE;
+	}
+	$node->title = $form_state['values']['title'];
+	$node->field_report_url[LANGUAGE_NONE][0]['value'] = $form_state['values']['field_report_url'];
+	$node->field_upload[LANGUAGE_NONE][0]['value'] = $form_state['values']['field_upload_doc'];
+	$node->field_reports_group[LANGUAGE_NONE][0]['tid'] = $form_state['values']['field_reports_group'];
+	if ($form_state['values']['field_upload_doc'] != 0) {
+		$file = file_load($form_state['values']['field_upload_doc']);
+		$file->status = FILE_STATUS_PERMANENT;
+		file_save($file);
+
+		$uploaded_file['fid'] = $file->fid;
+		$uploaded_file['uid'] = $file->uid;
+		$uploaded_file['filename'] = $file->filename;
+		$uploaded_file['uri'] = $file->uri;
+		$uploaded_file['status'] = $file->status;
+		$uploaded_file['filemime'] = 'application/pdf';
+		$uploaded_file['status'] = 1;
+		$uploaded_file['type'] = 'default';
+		$uploaded_file['display'] = 1;
+		$uploaded_file['timestamp'] = time();
+		file_usage_add($file, 'macp_reports', $file->filename, 1);
+		$node->field_upload_doc[LANGUAGE_NONE][0] = $uploaded_file;
+	}
+	if ($form_state['values']['nid'] > 0) {
+		$success_message = 'Custom report edited successfully.';
+		$error_message = 'Problem in adding custom report.';
+	}
+	else {
+		$success_message = 'Custom report added successfully.';
+		$error_message = 'Problem in editing custom report.';
+	}
+
+	if($node = node_submit($node)) { // Prepare node for saving
+    node_save($node);
+		drupal_set_message($success_message, 'success');
+		drupal_goto($base_url. '/mis/custom-reports-list');
+	}
+	else {
+			drupal_set_message($error_message, 'error');
+	}
+}
+
+function _load_custom_report($nid = FALSE) {
+	if ($nid > 0) {
+		$temp_node = node_load($nid);
+		$custom_report['field_reports_group'] = (isset($temp_node->field_reports_group[LANGUAGE_NONE][0]['tid'])) ? $temp_node->field_reports_group[LANGUAGE_NONE][0]['tid'] : '';
+		$custom_report['nid'] = (isset($temp_node->nid)) ? $temp_node->nid : '';
+		$custom_report['title'] = (isset($temp_node->title)) ? $temp_node->title : '';
+		$custom_report['field_report_url'] = (isset($temp_node->field_report_url[LANGUAGE_NONE][0]['value'])) ? $temp_node->field_report_url[LANGUAGE_NONE][0]['value'] : '';
+		$custom_report['field_upload'] = (isset($temp_node->field_upload[LANGUAGE_NONE][0]['value'])) ? $temp_node->field_upload[LANGUAGE_NONE][0]['value'] : '';
+		$custom_report['field_upload_doc'] = (isset($temp_node->field_upload_doc)) ? $temp_node->field_upload_doc : '';
+		return $custom_report;
+	}
+}
+
+
+function mis_reports_custom_reports_list() {
+  global $user, $base_path, $base_url;
+  $output = '';
+  $table_rows = array();
+  $header = array(
+    array('data' => t('Report Title')),
+    array('data' => t('File Uploaded')),
+    array('data' => t('Actions')),
+  );
+	$add_new_link = l('Add New', $base_url.'/mis/add/custom_reports');
+	$table_rows[] = array(
+					array(
+						'data' => $add_new_link,
+						'colspan' => 3,
+						'align' => 'right',
+					),
+				);
+	$nodes = node_load_multiple(array(), array('type' => 'custom_reports'));
+	$custom_reports = array();
+	if (! empty($nodes)) {
+		krsort($nodes);
+		foreach ($nodes as $custom_node) {
+			$term_id = $custom_node->field_reports_group[LANGUAGE_NONE][0]['tid'];
+			$term = taxonomy_term_load($term_id);
+			$report_nid = $custom_node->nid;
+			$temp = array();
+			$temp['nid'] = $custom_node->nid;
+			$temp['title'] = $custom_node->title;
+			$temp['field_report_url'] = (isset($custom_node->field_report_url[LANGUAGE_NONE][0]['value'])) ? $custom_node->field_report_url[LANGUAGE_NONE][0]['value'] : '';
+			$temp['field_upload'] = (isset($custom_node->field_upload[LANGUAGE_NONE][0]['value'])) ? $custom_node->field_upload[LANGUAGE_NONE][0]['value'] : '';
+			$temp['field_upload_doc'] = (isset($custom_node->field_upload_doc[LANGUAGE_NONE][0]['uri'])) ? $custom_node->field_upload_doc[LANGUAGE_NONE][0]['uri'] : '';
+			$custom_reports[$term->name][$report_nid] = $temp;
+		}
+	}
+	if (!empty($custom_reports)) {
+		foreach($custom_reports as $report_group => $custom_report_nodes) {
+			if (!empty($custom_report_nodes)) {
+				$table_rows[] = array(
+					array(
+						'data' => '<b>'.$report_group.'</b>',
+						'colspan' => 3,
+						'align' => 'center',
+					),
+				);
+				foreach($custom_report_nodes as $report) {
+					if ($report['field_upload']) {
+						$file = file_load($report['field_upload']);
+					}
+					$edit = l(t('Edit'),  'mis/edit/custom_reports/' . $report['nid']);
+					$delete = l(t('Delete'),  'mis/delete/custom_reports/' . $report['nid'], array('attributes' => array('class' => array('confirm-delete'))));
+					$tender_title = l($report['title'], $report['field_report_url'], array('attributes' => array('target'=>'_blank')));
+
+					if (strlen($report['field_upload_doc'])) {
+						$file_download = file_create_url($report['field_upload_doc']);
+						$uploaded_doc = l('Uploaded Doc',  $file_download, array('attributes' => array('target'=>'_blank')));
+					}
+					else {
+						$uploaded_doc = 'No document uploaded.';
+					}
+					$table_rows[] = array(
+						array('data' => $tender_title),
+						array('data' => $uploaded_doc),
+						array('data' => $edit . ' | ' . $delete ),
+					);
+				}
+			}
+		}
+	}
+  $attributes = array('class' => array('macp-table', 'tender-table'));
+	$theme_table = theme('table', 
+                    array(
+                      'header' => $header, 
+                      'rows' => $table_rows,
+                      'attributes' => $attributes,
+                      )
+                   );
+  $output .= '<div class="custom-reports-table">' . $theme_table . '</div>';
+  return $output;
+}
+
+function macp_reports_delete_custom_report($nid = NULL) {
+	global $base_url;
+	if ($nid > 0) {
+		node_delete($nid);
+		drupal_set_message('Custom report deleted successfully.', 'success');
+		drupal_goto($base_url. '/mis/custom-reports-list');
+	}
+	else {
+		drupal_set_message('Please select a custom report to delete.', 'error');
+		drupal_goto($base_url. '/mis/custom-reports-list');
+	}
 }

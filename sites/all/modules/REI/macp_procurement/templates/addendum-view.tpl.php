@@ -8,7 +8,7 @@
 		<td class="td-data"><?php print $records->atitle;?></td>
 	</tr>
 	<tr align="left" valign="top">
-		<td><strong>Teder Title</strong></td>
+		<td><strong>Tender Title</strong></td>
 		<td><?php print $tender->title;?></td>
 	</tr>
 	<tr align="left" valign="top">
@@ -18,7 +18,7 @@
 	<tr align="left" valign="top">
 		<td><strong>Uploaded Documents: </strong></td>
 <td>
-<a href ="<?php print file_create_url($file->uri)?>">Addendum-<?php print $file->filename;?></a>
+<a href ="<?php print file_create_url($file->uri)?>"><?php print $file->filename;?></a>
 </td>
 	</tr>
 	</table>

@@ -123,3 +123,80 @@ background: #F2F2F2;
 .report-filters {
 	margin:40px 0 0 0;
 }
+
+.macp-report-table {
+	width:90%;
+}
+
+#macp-reports-add-custom-report label {
+	width:140px !important;
+	float:left;
+	display:inline;
+	padding-left:20px;
+}
+
+/*
+#macp-reports-add-custom-report .form-text {
+}
+*/
+#macp-reports-add-custom-report .form-text {
+	width:300px !important;
+}
+
+#macp-reports-add-custom-report .form-select {
+	width:300px !important;
+}
+
+#macp-reports-add-custom-report .form-file {
+	width:210px !important;
+}
+
+#macp-reports-add-custom-report .description {
+	padding-left:160px !important;
+	margin-bottom:10px;
+}
+
+#macp-reports-add-custom-report .submit-buttons {
+	padding:0px;
+	margin-left:160px;
+}
+
+
+#macp-reports-add-custom-report .cancel-btn-div {
+	padding-left:10px;
+	margin-left:0px;
+}
+
+#edit-upload-upload {
+/*	width:400px !important;*/
+}
+
+#edit-group-id {
+	width:300px !important;
+}
+
+/* Custom Report Table */
+.custom-reports-table {
+	padding:0 auto;
+}
+
+#block-quicktabs-test {
+	width:90% !important;
+}
+
+#block-quicktabs-test h2.block-title{
+	display:none !important;
+}
+
+#macp-custom-reports ol.groups, #macp-mis-reports ol.groups {
+	list-style-type:upper-roman;
+}
+
+#macp-custom-reports ol.groups li a, #macp-mis-reports ol.groups li a{
+	color:blue;
+}
+
+#macp-mis-reports, #macp-custom-reports{
+	height:350px !important;
+	overflow-y:scroll;
+}

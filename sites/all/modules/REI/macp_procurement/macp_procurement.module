@@ -64,7 +64,7 @@ function macp_procurement_menu(){
     'file' => 'procurement_addendum_listing.inc',
   );
   $items['procurement/add/tender'] = array(
-    'title' => 'Add New Tender',
+    'title' => 'Add New Tender/EOI/Advt.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('procurement_add_tender'),
     'access callback' => 'check_user_role',
@@ -84,7 +84,7 @@ function macp_procurement_menu(){
     'file' => 'procurement_tender_listing.inc',
   );
   $items['procurement/%tender/edit'] = array(
-    'title' => 'Edit Tender',
+    'title' => 'Edit Tender/EOI/Advt.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('procurement_add_tender', 1),
     'access callback' => 'check_user_role',
@@ -113,14 +113,16 @@ function macp_procurement_menu(){
   );
 
   $items['addendum/%tender/%addendum/details'] = array(
+    //'title' => t('Addendum'),
     'description' => 'Display tender list for admin',
     'page callback'    => array('addendum_detail'),
     'page arguments' => array(1,2),
-    'access callback' => TRUE,
+    'access callback' => 'check_user_role',
     'file' => 'procurement_addendum_listing.inc',
   );
 
   $items['procurement/%tender/%addendum/details'] = array(
+    //'title' => t('Addendum'),
     'description' => 'Display tender list for admin',
     'page callback'    => array('addendum_detail'),
     'page arguments' => array(1,2),
@@ -129,14 +131,14 @@ function macp_procurement_menu(){
   );
 
   $items['download/tender/%/%'] = array(
-    'title' => 'Download Tender',
+    'title' => 'Login to Download Tender',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('user_login_download_tender', 2,3),
     'access callback' => 'check_user_role',
     'access callback' => TRUE,
     'file' => 'procurement_tender_listing.inc',
   );
-  $items['register/download/tender/%'] = array(
+  $items['procurement/register/download-tender/%'] = array(
     'title' => 'Registration form',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('user_register_download_tender', 3),
@@ -144,7 +146,6 @@ function macp_procurement_menu(){
     'access callback' => TRUE,
     'file' => 'procurement_tender_listing.inc',
   );
-
   $items['procurement/download/tender/%'] = array(
     'title' => 'Registration form',
     'page callback' => 'procurement_download_tender_files',
@@ -153,7 +154,6 @@ function macp_procurement_menu(){
     'access callback' => TRUE,
     'file' => 'procurement_tender_listing.inc',
   );
-
   $items['procurement/tender/downloaded_user/%/%'] = array(
     'title' => 'Users who downloaded This Tender',
     'page callback' => 'procurement_tender_downloaded_users',
@@ -162,7 +162,6 @@ function macp_procurement_menu(){
     'access callback' => TRUE,
     'file' => 'procurement_tender_listing.inc',
   );
-
   $items['tuser/change_password'] = array(
     'title' => 'Forgot Password',
     'page callback' => 'drupal_get_form',
@@ -179,13 +178,12 @@ function macp_procurement_menu(){
     'file' => 'procurement_tender_listing.inc',
   );
   $items['procurement/archives/%archives/edit'] = array(
-    'page callback'    => 'procurement_archives_edit_list',
+    'page callback' => 'procurement_archives_edit_list',
     'page arguments' => array(2),
     'access callback' => 'check_user_role',
     'file' => 'procurement_tender_listing.inc',
   );
   $items['procurement/addendum/%/delete'] = array(
-    //'title' => t('Addendum'),
     'description' => 'Delete Addendum',
     'page callback'    => array('delete_addendum'),
     'page arguments' => array(2),
@@ -194,7 +192,6 @@ function macp_procurement_menu(){
   );
 
   $items['procurement/tender_user/logout'] = array(
-    //'title' => t('Addendum'),
     'description' => 'Delete Addendum',
     'page callback'    => array('procurement_user_logout'),
     'page arguments' => array(2),
@@ -275,31 +272,39 @@ function get_addendum_by_tid($tid = FALSE) {
 
 function get_addendum_for_tenders($tid = FALSE) {
 	global $base_path, $base_url;
-	$ecn_curr_path = str_replace('/', '--', current_path());
   $download_link = $base_url . '/procurement/download/tender/';
-	$output = '';
+	$html = '';
   if (!$tid) {
-    return $output;
+    return $html;
   }
 	$result = db_select('addendum', 'a')
 	  ->fields('a', array('tid', 'aid', 'atitle', 'afid'))
 	  ->condition('a.tid', $tid, '=')
 	  ->execute();
-	$lis = '';
+	$cntr = 0;
+	$tds = '';
 	if (!empty($result)) {
 		foreach($result as $addendum) {
-			$lis .= '<li>';
-			$lis .= '<a href =' . $base_url . '/procurement/' .$tid . '/' . $addendum->aid . '/details>' . $addendum->atitle . '</a>';
-			if (_is_content_admin_logged_in() && arg(0) == 'procurement' && arg(1) == 'manage-tenders') {
-				$edit_link = $base_url.'/procurement/'.$tid.'/'.$addendum->aid.'/addendum/edit/'.$ecn_curr_path;
-				$lis .=' <a href =' . $edit_link . '>Edit</a>';
-				$lis .=' | <a href =' . $base_url . '/procurement/addendum/' . $addendum->aid .'/delete class="confirm-delete">Delete</a>';
-				$lis .= '</li>';
+			++$cntr;
+			$tds .= '<tr align="left" valign="top">';
+			$tds .= '<td width="20">';
+			$tds .= '<td colspan="2"><a href =' . $base_url . '/procurement/' .$tid . '/' . $addendum->aid . '/details>' . $addendum->atitle . '</a></td>';
+			$tds .= '<td align="right" class="proc-manage-links">';
+			$allowed_urls = array('manage-tenders', 'archives');
+			if (_is_content_admin_logged_in() && arg(0) == 'procurement' && in_array(arg(1), $allowed_urls)) {
+				$edit_link = $base_url.'/procurement/'.$tid.'/'.$addendum->aid.'/addendum/edit/';
+				$tds .= '<a href =' . $edit_link . '>Edit</a> | 
+											<a href =' . $base_url . '/procurement/addendum/' . $addendum->aid .'/delete class="confirm-delete">Delete</a>';
+	
 			}
+			$tds .= '</td></tr>';
 		}
+
 	}
-	$out = (strlen($lis)) ? '<ul class="tender-addendums">'.$lis.'</ul>' : '';
-	return $out;
+	if ($cntr > 0) {
+		$html .= '<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" class="inner-table">'.$tds.'</table>';
+	}
+	return $html;
 } 
 
 function get_tender_files($tid) {
@@ -309,23 +314,34 @@ function get_tender_files($tid) {
 	  ->fields('a', array('tid', 'aid', 'afid', 'atitle'))
 	  ->condition('a.tid', $tid, '=')
 	  ->execute();
+
 	$tender = tender_load($tid);
+	
+//	_p($tender->tender_files, 1);
+	
 	$file = file_load($tender->tfid);
 	$output = '';
   $output .= '<ul class="tender-addendums" style="padding:0;margin:0;">';
   if(!empty($file)) {
-		$tender_file = 'Tender-' . $file->filename;
-  	$output .= '<li><a href="' . $download_link . $file->fid . '">' . $tender_file . '</a></li>';
+		$tender_file_name = 'Tender-' . $file->filename;
+  	$output .= '<li>' . l($tender_file_name, 'procurement/register/download-tender/' . arg(2) . '/' . $file->fid). '</a></li>';
   }
-	$cntr = 0;
+	
+	$file_2 = file_load($tender->tender_files);
+  if(!empty($file_2)) {
+		$tender_file_name_2 = 'Tender-' . $file_2->filename;
+  	$output .= '<li>' . l($tender_file_name_2, 'procurement/register/download-tender/' . arg(2) . '/' . $file_2->fid). '</a></li>';
+  }
+
+
   if (!empty($result)) {
 		$i = 0;
 		foreach($result as $addendum) {
 			++$i;
 			$file = file_load($addendum->afid);
 			if(!empty($file)) {
-				++$cntr;
-				$output .= '<li><a href =' . $base_path . 'download/tender/' . $tender->tid . '/' . $addendum->afid . '>' . 'Addendum-'.$file->filename . '</a></li>';
+				$output .= '<li>'.				
+				l('Addendum-'.$file->filename, 'procurement/register/download-tender/' . arg(2) . '/' .$addendum->afid) .'</li>';
 			}
 		}
 	}	
@@ -424,7 +440,7 @@ function macp_procurement_block_view($delta = ''){
 	switch ($delta) {
     case 'archives':
       if (check_user_role()) {
-        $block['subject'] = 'Tenders Archive';
+        $block['subject'] = '';
         $block['content'] = _get_archives_records();
       }
     break;
@@ -461,38 +477,41 @@ function _get_archives_records() {
                         WHERE t.created < {$current_timestamp} 
                         GROUP BY Month";
   $result = db_query($sql);
+	$html .= '<table class="macp-table">';
+	$html .= '<tr><td><b>Tenders Archive</b></td></tr>';
   foreach($result as $tender) {
     $variables = array($tender->Month, $tender->created);
     $argument = base64_encode(serialize($variables));
     $path = 'procurement/archives/'.$argument.'/edit';
-    $html .= l($tender->Month.' ('.$tender->Count.')', $path)."</br>";
+    $html .= '<tr><td>'.l($tender->Month.' ('.$tender->Count.')', $path)."</td></tr>";
   }
+	$html .= '</table>';
   return $html;
 }
 
 function _place_tender_misc_link() {
   @session_start();
 	$curr_path = current_path();
-	$ecn_curr_path = str_replace('/', '--', current_path());
   $arr_html = array();
-	$tenders_flag = (strpos($curr_path, 'procurement/tenders') !== false) ? FALSE:TRUE;
-	if ($tenders_flag) {
-		$arr_html[] = l(t('Tenders'),  'procurement/tenders');
-	}
+	$arr_html[] = l(t('Tenders'),  'procurement/tenders');
+	
   if (_is_content_admin_logged_in()) {
-		$manage_tenders_flag = (strpos($curr_path, 'procurement/manage-tenders') !== false) ? FALSE:TRUE;
-		if ($manage_tenders_flag) {
-			$arr_html[] = l(t('Manage Tenders'), 'procurement/manage-tenders');
-		}
-		$add_tender_flag = (strpos($curr_path, 'procurement/add/tender') !== false) ? FALSE:TRUE;
-    if ($add_tender_flag) {
-			//$arr_html[] = l(t('Add Tender'),  'procurement/add/tender/0/'.$ecn_curr_path);
-			$arr_html[] = l(t('Add Tender'),  'procurement/add/tender');
-		}
+		$arr_html[] = l(t('Manage Tenders'), 'procurement/manage-tenders');
+		$arr_html[] = l(t('Add Tender'),  'procurement/add/tender');
   }
   if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
     $arr_html[] = l(t('Logout'),  'procurement/tender_user/logout');
   }
+	else {
+		if (arg(0) == 'procurement' && arg(1) == 'register' && arg(2) == 'download-tender') {
+			$tender_id = (arg(3) > 0) ? arg(3) : 0;
+			$file_id = (arg(4) > 0) ? arg(4) : 0;
+			$arr_html[] = l(t('Login (Tender User)'),  'download/tender/'.$tender_id.'/'.$file_id.'');
+		}
+		else {
+			$arr_html[] = l(t('Login (Tender User)'),  'download/tender/0/0');
+		}
+	}
   $html = '<div class="proc-links">' . implode(' | ', $arr_html) .'</div>';
   return $html;
 }
@@ -508,15 +527,6 @@ function _is_content_admin_logged_in() {
     $flag = TRUE;
   }
   return $flag;
-}
-
-function _prepare_cancel_url($default_value) {
-	global $base_url;
-	$destination = (arg(4)) ? arg(4) : 'procurement/manage-tenders';
-	$destination = (arg(4)) ? arg(4) : $default_value;
-	$destination = str_replace('--', '/', $destination);
-	$cancel_url = $base_url . '/' . $destination;
-	return $cancel_url;
 }
 
 /*
