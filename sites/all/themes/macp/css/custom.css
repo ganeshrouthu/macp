@@ -842,7 +842,7 @@ border: 1px solid #999999;
 tbody {
 /*border-color:#999999;*/
   /*border-top: none;*/
-  text-align: center;
+  text-align: left;
   border: 1px solid #999999;
 }
 tr:nth-child(even) {background:#cfe5d8 }
