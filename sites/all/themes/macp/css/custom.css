@@ -850,6 +850,7 @@ tr:nth-child(odd) {background: none}
 
 td {
 border: 1px solid #999999;
+padding-left:10px;
 }
 
 h2 {
