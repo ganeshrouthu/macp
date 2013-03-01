@@ -450,6 +450,22 @@ text-align:center;
 
 /*********************************** end  *************************/
 
+/*macp menu block*/
+#block-menu-menu-macp a{
+text-decoration:none;
+font-size:11px;
+color:darkslategrey;
+
+}
+#block-menu-menu-macp ul li {
+list-style-image: url('../images/bullet.png');
+margin:4px;
+padding-left:1px;
+}
+
+/*macp menu block end*/
+
+
 
 #block-quicktabs-related-pages{
 margin-bottom:0px;
@@ -705,7 +721,7 @@ margin-bottom:10%;
 width:40%;
 float:left;
 }
-/*
+
 .field-type-file .field-item a.media-colorbox img{
 display: none;
 }
@@ -715,7 +731,7 @@ display:block;
 margin-left: 25%;
 margin-bottom:10%
 }
-*/
+
 .field-type-file .field-item:first-child{
 //width:40%;
 //float:left;
@@ -744,14 +760,17 @@ height:125px;
 
 
 div.field-name-field-unitwise-images {
-width:100%;
+width:170%;
 float:left;
-/*background:#E9F1DA;*/
-margin-right:15px;
-padding-left:17px;
+/*background:#E9F1DA;
+margin-right:15px;*/
+padding-left:0px;
+margin-left:-70px;
 clear:left;
-height:170px;
+height:260px;
+margin-top:10px;
 }
+
 
 div.field-name-field-video-upload, div.field-name-field-casestudy-video, div.field-name-field-innovation-video, div.field-name-field-success-video {
 width:45%;
@@ -811,6 +830,7 @@ th {
  font-weight: bold;
  padding: 0;
  text-align: center;
+ border:1px solid #999999
 }
 
 table {
@@ -822,7 +842,7 @@ border: 1px solid #999999;
 tbody {
 /*border-color:#999999;*/
   /*border-top: none;*/
-  text-align:left;
+  text-align: center;
   border: 1px solid #999999;
 }
 tr:nth-child(even) {background:#cfe5d8 }
@@ -834,4 +854,8 @@ border: 1px solid #999999;
 
 h2 {
 text-align:center;
+}
+
+h2 a {
+text-decoration:none;
 }
