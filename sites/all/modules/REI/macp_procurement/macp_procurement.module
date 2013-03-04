@@ -146,10 +146,10 @@ function macp_procurement_menu(){
     'access callback' => TRUE,
     'file' => 'procurement_tender_listing.inc',
   );
-  $items['procurement/download/tender/%'] = array(
+  $items['procurement/download/tender/%/%'] = array(
     'title' => 'Registration form',
     'page callback' => 'procurement_download_tender_files',
-    'page arguments' => array(3),
+    'page arguments' => array(3, 4),
     'access callback' => 'check_user_role',
     'access callback' => TRUE,
     'file' => 'procurement_tender_listing.inc',
