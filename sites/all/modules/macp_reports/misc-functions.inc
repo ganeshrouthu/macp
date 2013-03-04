@@ -576,7 +576,8 @@ function macp_reports_add_custom_report($form, $form_state, $nid = NULL) {
     '#type' => 'textfield',
     '#title' => t('Report URL'),
     '#size' => 60,
-    '#maxlength' => 128, 
+    '#maxlength' => 128,
+    '#description' => t('Either enter Repor URL or Upload PDF file.'),
     '#default_value' => !empty($custom_report['field_report_url']) ? $custom_report['field_report_url'] : '',
     //'#required' => TRUE,
   );

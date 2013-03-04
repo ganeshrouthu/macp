@@ -44,7 +44,7 @@ ul.tender-addendums {
 
 #procurement-add-tender .description, #procurement-add-addendum .description {
 	padding-left:160px !important;
-	margin-bottom:10px;
+	margin:0px !important;
 }
 
 #procurement-add-tender .grippie, #procurement-add-addendum .grippie {
@@ -118,14 +118,20 @@ table.view-tender .td-data{
 
 table.tender-table {
 	width:100% !important;
-	font-size:12px;
-	line-height:23px;
-	border:none !important;
+	font-size:13px !important;
+	line-height: 20px;
 }
 
-table.tender-table td, table.tender-table th{
+table.inner-table {
+	font-size:13px;
+	line-height:23px;
+	border:hidden !important;
+}
+
+table.inner-table td, table.tender-table th{
 	border-collapse:collapse !important;
 	border:none !important;
+	line-height:20px;
 }
 
 /* View Addendum */
@@ -227,7 +233,7 @@ table.view-tender td, table.view-tender th{
 }
 
 .proc-manage-links {
-	padding-right:28px !important;
+	padding-right:5px !important;
 }
 
 .form-item-upload-another {
@@ -301,4 +307,19 @@ table.view-tender td, table.view-tender th{
 
 #user-login-download-tender .form-item .form-text {
 	width:180px !important;
+}
+
+.addendum-links {
+	width:175px !important;
+}
+
+.align-center {
+	text-align:center;
+	width:90px;
+}
+
+#upload-another-file {
+	font-size:9px;
+	padding:0;
+	margin-top:-8px;
 }

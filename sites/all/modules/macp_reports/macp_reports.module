@@ -99,7 +99,7 @@ function macp_reports_menu() {
     'title' => t('Custom Reports List'),
     'description' => 'Display custom reports list for admin',
     'page callback'    => 'mis_reports_custom_reports_list',
-    'access callback' => TRUE,
+    'access callback' => 'is_mis_admin_logged_in',
     'file' => 'misc-functions.inc',
   );
   return $items;
@@ -108,7 +108,7 @@ function macp_reports_menu() {
 function is_mis_admin_logged_in() {
 	global $user;
 	$access = FALSE;
-	if ($user->uid == 1 || (in_array('site administrator', $user->roles))) {
+	if ($user->uid == 1 || (in_array('site administrator', $user->roles) || in_array('content admin', $user->roles))) {
 		$access = TRUE;
 	}
 	return $access;

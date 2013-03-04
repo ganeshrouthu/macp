@@ -68,6 +68,8 @@ function procurement_add_tender($form, $form_state, $tender = NULL, $addendum = 
 	$form['upload-another'] = array(
   	'#title' => t('Upload another file'),
     '#type' => 'checkbox',
+    '#prefix' => '<div id="upload-another-file">',
+    '#suffix' => '</div>',
 		'#class' => array('description'),
     '#default_value' => 0,
   );
@@ -97,14 +99,15 @@ function procurement_add_tender($form, $form_state, $tender = NULL, $addendum = 
 }
 
 function _upload_tender_files($form, &$form_state) {
-	$file_2 = file_load($form_state['values']['upload_2']);
-	$file_2->status = FILE_STATUS_PERMANENT;
-	file_save($file_2);
-	file_usage_add($file_2, 'procurement', $file_2->filename, 1);
-
 	$tender_files = '';
-	if ($form_state['values']['upload_2'] > 0) {
-		$tender_files = $form_state['values']['upload_2'];
+	if (isset($form_state['values']['upload_2']) && $form_state['values']['upload_2']> 0) {
+		$file_2 = file_load($form_state['values']['upload_2']);
+		$file_2->status = FILE_STATUS_PERMANENT;
+		file_save($file_2);
+		file_usage_add($file_2, 'procurement', $file_2->filename, 1);
+		if ($form_state['values']['upload_2'] > 0) {
+			$tender_files = $form_state['values']['upload_2'];
+		}
 	}
 	return $tender_files;
 }
@@ -199,8 +202,8 @@ function procurement_tender_list() {
   $header = array(
     array('data' => t('Title')),
 		array('data' => t('Submit to MACP office on or before'), 'align' =>'right'),
-    array('data' => t('Downloaded By')),
-    array('data' => t('Action')), 
+    array('data' => t('Downloaded By'), 'class' => array('align-center')), 
+		array('data' => t('Actions'), 'class' => array('align-center')),
   );
   $limit = variable_get('codes_per_page',10);
   $query = db_select('tender', 't')
@@ -238,7 +241,7 @@ function procurement_tender_list() {
 						array('data' => $tender_title),
 						array('data' => $date_time_str),
 						array('data' => l(t('Agencies'), 'procurement/tender/downloaded_user/'.$tender->tid.'/' . $tender->title)),
-						array('data' => $add . ' | ' . $edit . ' | ' . $delete ),
+						array('data' => $add . ' | ' . $edit . ' | ' . $delete, 'class' => array('addendum-links')),
 					);
 					if (strlen($tender_addendums)) {
 						$table_rows[] = array(
@@ -775,8 +778,8 @@ function procurement_archives_edit_list($record) {
   $header = array(
     array('data' => t('Title')),
 		array('data' => t('Submit to MACP office on or before'), 'align' =>'right'),
-    array('data' => t('Downloaded By')),
-    array('data' => t('Action')),
+    array('data' => t('Downloaded By'), 'class' => array('align-center')),
+		array('data' => t('Actions'), 'class' => array('align-center')),
   );
   $current_date = DATE('m/d/Y');
   $current_timestamp = strtotime($current_date);

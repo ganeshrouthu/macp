@@ -477,6 +477,9 @@ function _get_archives_records() {
                         WHERE t.created < {$current_timestamp} 
                         GROUP BY Month";
   $result = db_query($sql);
+
+
+/*
 	$html .= '<table class="macp-table">';
 	$html .= '<tr><td><b>Tenders Archive</b></td></tr>';
   foreach($result as $tender) {
@@ -486,6 +489,16 @@ function _get_archives_records() {
     $html .= '<tr><td>'.l($tender->Month.' ('.$tender->Count.')', $path)."</td></tr>";
   }
 	$html .= '</table>';
+	*/
+	$html .= '<ul class="tender-archives-ul useful">';
+//	$html .= '<li><b>Tenders Archive</b></li>';
+  foreach($result as $tender) {
+    $variables = array($tender->Month, $tender->created);
+    $argument = base64_encode(serialize($variables));
+    $path = 'procurement/archives/'.$argument.'/edit';
+    $html .= '<li>'.l($tender->Month.' ('.$tender->Count.')', $path)."</li>";
+  }
+	$html .= '</ul>';
   return $html;
 }
 
@@ -496,12 +509,12 @@ function _place_tender_misc_link() {
 
 	$manage_tenders_flag = (_is_content_admin_logged_in()) ? TRUE : FALSE;
 	$add_tender_flag = (_is_content_admin_logged_in()) ? TRUE : FALSE;
-	$arr_html['Manage Tenders'] = array('url' => 'procurement/manage-tenders',
-																			'flag' => $manage_tenders_flag);
-	$arr_html['Tenders']				=	array('url' => 'procurement/tenders',
+	$arr_html['Tenders List']				=	array('url' => 'procurement/tenders',
 																			'flag' => TRUE);
 	$arr_html['Add Tender']			=	array('url' => 'procurement/add/tender',
 																			'flag' => $add_tender_flag);
+	$arr_html['Manage Tenders'] = array('url' => 'procurement/manage-tenders',
+																			'flag' => $manage_tenders_flag);
 
 	if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
 		$arr_html['Logout'] =	array('url' => 'procurement/tender_user/logout',

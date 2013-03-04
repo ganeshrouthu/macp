@@ -1,4 +1,9 @@
 jQuery(function() {
+	jQuery("#quicktabs-test ul").css({
+																background:'none !important'
+																})
+
+
   jQuery("#reports-dd").change(function () {
     if (jQuery(this).val()) {
       window.location = jQuery(this).val();
