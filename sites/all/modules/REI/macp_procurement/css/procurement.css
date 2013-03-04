@@ -230,3 +230,59 @@ table.view-tender td, table.view-tender th{
 #procurement-add-tender .form-item-upload-another {
 	margin:0px !important;
 }
+
+/* Modal login form starts */
+#modal-content #user-login label {
+	width:80px !important;
+	float:left;
+	display:inline;
+	padding-left:20px;
+}
+
+#modal-content #user-login .description {
+	padding-left:100px;
+}
+
+#modal-content #user-login #edit-actions--2 {
+	padding-left:100px;
+}
+/* Modal login form ends */
+
+/* Modal register form starts */
+#modal-content #user-register-form label {
+	width:100px !important;
+	float:left;
+	display:inline;
+	padding-left:20px;
+}
+
+
+#modal-content #user-register-form #edit-account label {
+	padding-left:30px !important;
+}
+
+#modal-content #user-register-form .description {
+	display:none !important;
+}
+
+#modal-content #user-register-form .form-item {
+	margin:5px 0 !important;
+}
+
+#modal-content #user-register-form .form-text, #modal-content #user-register-form .form-select {
+	width:200px !important;
+}
+
+#modal-content #user-register-form #hierarchical-select-0-wrapper select {
+	width:100px !important;
+}
+
+#modal-content #user-register-form .dropbox {
+	margin-left:120px !important;
+}
+
+#modal-content #user-register-form #edit-actions--2 {
+	margin-left:130px !important;
+}
+
+/* Modal register form ends */
