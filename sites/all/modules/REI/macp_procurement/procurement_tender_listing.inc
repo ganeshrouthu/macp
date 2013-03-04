@@ -836,6 +836,7 @@ function procurement_archives_edit_list($record) {
 }
 
 function procurement_download_tender_files($file_id = FALSE) {
+	_p(func_get_args());
   if (! $file_id) {
     return TRUE;
   }
