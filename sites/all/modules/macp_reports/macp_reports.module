@@ -363,7 +363,7 @@ function export_to_csv_link() {
 	$html = '';
 	$html .= '<span class="print_pdf">';
 	$html .= '<a rel="nofollow" class="print-pdf" title="Export this report to CSV." 
-						href="' .$export_csv_link . '">';
+						href="' .$export_csv_link . '" target="_blank">';
 	$html .= '<img title="PDF version" alt="Export to CSV" src="'.$export_image.'" class="print-icon"></a>';
 	$html .= '</span>';
 	return $html;

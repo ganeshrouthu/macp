@@ -200,3 +200,21 @@ background: #F2F2F2;
 	height:350px !important;
 	overflow-y:scroll;
 }
+
+.heading {
+	padding-left:50px !important;
+	padding-right:5px !important;
+	float:left;
+	width:90px;
+}
+
+.print-content .heading {
+	padding-left:50px !important;
+	padding-right:5px !important;
+	float:left;
+	width:120px;
+}
+
+.print-site_name, .print-logo {
+	display:none;
+}
