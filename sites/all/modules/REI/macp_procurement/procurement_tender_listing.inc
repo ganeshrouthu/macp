@@ -669,7 +669,7 @@ function tuser_chnage_password($form, $form_state) {
     '#size' => 50,
   );
 
-  $cancel_url = $base_url . '/procurement/tenders';
+  $cancel_url = $base_url . '/procurement/register/download-tender/0/0';
   $form['submit'] = array(
  	  '#type' => 'submit', 
  	  '#value' => t('Submit'),
