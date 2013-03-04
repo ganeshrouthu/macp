@@ -123,6 +123,11 @@ table.tender-table {
 	border:none !important;
 }
 
+table.tender-table td, table.tender-table th{
+	border-collapse:collapse !important;
+	border:none !important;
+}
+
 /* View Addendum */
 table.view-addendum{
 	width:90% !important;
