@@ -117,7 +117,9 @@ table.view-tender .td-data{
 }
 
 table.tender-table {
-	width:90% !important;
+	width:100% !important;
+	font-size:12px;
+	line-height:23px;
 }
 
 /* View Addendum */
