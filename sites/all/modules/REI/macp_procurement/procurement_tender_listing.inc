@@ -661,16 +661,20 @@ function user_register_download_tender_submit($form, &$form_state) {
  * Function for chnage tender user chnage password
  */
 function tuser_chnage_password($form, $form_state) {
+	global $base_url;
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
     '#prefix' => "<span style='color:red; float:right; position:absolute; left:57px;'>*</span>",
     '#size' => 50,
   );
-  
+
+  $cancel_url = $base_url . '/procurement/tenders';
   $form['submit'] = array(
  	  '#type' => 'submit', 
  	  '#value' => t('Submit'),
+		'#prefix' => '<div class="submit-buttons">',
+		'#suffix' => '<span class="cancel-btn-div"><input class="cancel-btn" type="button" value="Cancel" alt="'.$cancel_url.'" /></span></div>'
  	 );  
   return $form;
 }

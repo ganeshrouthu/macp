@@ -12,14 +12,18 @@ ul.tender-addendums {
 	width:300px !important;
 }
 
-#procurement-add-tender label, #procurement-add-addendum label, #user-register-download-tender label, #user-login-download-tender label {
+#procurement-add-tender label, #tuser-chnage-password label, #procurement-add-addendum label, #user-register-download-tender label, #user-login-download-tender label {
 	width:120px !important;
 	float:left;
 	display:inline;
 	padding-left:20px;
 }
 
-#procurement-add-tender .form-text, #procurement-add-addendum .form-text, #user-login-download-tender .form-text {
+#procurement-add-tender label, #tuser-chnage-password label, #procurement-add-addendum label, #user-register-download-tender label, #user-login-download-tender label {
+	width:70px !important;
+}
+
+#procurement-add-tender .form-text, #tuser-chnage-password .form-text, #procurement-add-addendum .form-text, #user-login-download-tender .form-text {
 	width:300px !important;
 }
 
@@ -46,9 +50,13 @@ ul.tender-addendums {
 	margin:0px;
 }
 
-#procurement-add-tender .submit-buttons, #procurement-add-addendum .submit-buttons, #user-register-download-tender .submit-buttons {
+#procurement-add-tender .submit-buttons, #tuser-chnage-password .submit-buttons, #procurement-add-addendum .submit-buttons, #user-register-download-tender .submit-buttons {
 	padding:10px;
 	margin-left:120px;
+}
+
+#tuser-chnage-password .submit-buttons {
+	margin-left:80px !important;
 }
 
 #user-login-download-tender .submit-buttons {
@@ -60,7 +68,7 @@ ul.tender-addendums {
 	margin:10px;
 }
 
-#procurement-add-tender .cancel-btn-div, #procurement-add-addendum .cancel-btn-div, #user-login-download-tender .cancel-btn-div {
+#procurement-add-tender .cancel-btn-div, #tuser-chnage-password .cancel-btn-div, #procurement-add-addendum .cancel-btn-div, #user-login-download-tender .cancel-btn-div {
 	padding-left:10px;
 	margin-left:0px;
 }
