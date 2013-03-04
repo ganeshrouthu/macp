@@ -250,7 +250,7 @@ function procurement_tender_list() {
 		}
 	}
   $attributes = array('class' => array('macp-table', 'tender-table'));
-  $output .= '<br/>'.theme('table', 
+  $output .= theme('table', 
                                       array(
                                         'header' => $header, 
                                         'rows' => $table_rows, 
@@ -360,7 +360,7 @@ function procurement_user_tender_list() {
  */
 function user_login_download_tender($form, $form_state, $tid, $fid) {
 	global $base_url;
-	if(isset($_SESSION['tender_user'])) {
+	if(isset($_SESSION['tender_user']) && arg(2) > 0 && arg(3) > 0) {
 		$user_detail = db_select('tuser', 'tu')
 	    ->fields('tu', array('uid'))
 	    ->condition('tu.mail', $_SESSION['tender_user'], '=')
@@ -383,7 +383,6 @@ function user_login_download_tender($form, $form_state, $tid, $fid) {
 	    	    'created' => $created_date,
 	    	))->execute();
 		}
-		  
 		$file = file_load($fid);
 		$file_download = drupal_realpath($file->uri);
 		return download_file($file_download);
@@ -462,7 +461,7 @@ function user_login_download_tender_submit($form, &$form_state) {
 	  $cnt = $user_detail->rowCount(); 
 	    
 	  if($cnt == 1) { 
-	    if(!$user->uid) { 
+	    if(!$user->uid && $form_state['values']['fid'] > 0) { 
 	    	drupal_session_start();
 	    	$_SESSION['tender_user'] = $form_state['values']['email_id'];
 				variable_set(session_id(), $form_state['values']['email_id']);

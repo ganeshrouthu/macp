@@ -21,7 +21,7 @@ function _tender_groups() {
 	$groups = variable_get('tender_groups');
 	if (empty($groups)) {
 		$tender_groups = array();
-		$tender_groups[1] = 'Goods/Equipements';
+		$tender_groups[1] = 'Goods/Equipments';
 		$tender_groups[2] = 'Civil Works';
 		$tender_groups[3] = 'Consultants/Service Providers';
 		$tender_groups[4] = 'Recruitments';
@@ -493,27 +493,47 @@ function _place_tender_misc_link() {
   @session_start();
 	$curr_path = current_path();
   $arr_html = array();
-	$arr_html[] = l(t('Tenders'),  'procurement/tenders');
-	
-  if (_is_content_admin_logged_in()) {
-		$arr_html[] = l(t('Manage Tenders'), 'procurement/manage-tenders');
-		$arr_html[] = l(t('Add Tender'),  'procurement/add/tender');
-  }
-  if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
-    $arr_html[] = l(t('Logout'),  'procurement/tender_user/logout');
-  }
+
+	$manage_tenders_flag = (_is_content_admin_logged_in()) ? TRUE : FALSE;
+	$add_tender_flag = (_is_content_admin_logged_in()) ? TRUE : FALSE;
+	$arr_html['Manage Tenders'] = array('url' => 'procurement/manage-tenders',
+																			'flag' => $manage_tenders_flag);
+	$arr_html['Tenders']				=	array('url' => 'procurement/tenders',
+																			'flag' => TRUE);
+	$arr_html['Add Tender']			=	array('url' => 'procurement/add/tender',
+																			'flag' => $add_tender_flag);
+
+	if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
+		$arr_html['Logout'] =	array('url' => 'procurement/tender_user/logout',
+																			'flag' => TRUE);
+	}
 	else {
 		if (arg(0) == 'procurement' && arg(1) == 'register' && arg(2) == 'download-tender') {
 			$tender_id = (arg(3) > 0) ? arg(3) : 0;
 			$file_id = (arg(4) > 0) ? arg(4) : 0;
-			$arr_html[] = l(t('Login (Tender User)'),  'download/tender/'.$tender_id.'/'.$file_id.'');
+			$arr_html['Login (Tender User)'] = array('url' => 'download/tender/'.$tender_id.'/'.$file_id,
+																				'flag' => TRUE);
 		}
 		else {
-			$arr_html[] = l(t('Login (Tender User)'),  'download/tender/0/0');
+			$arr_html['Login (Tender User)'] = array('url' => 'download/tender/0/0',
+																				'flag' => TRUE);
 		}
 	}
-  $html = '<div class="proc-links">' . implode(' | ', $arr_html) .'</div>';
-  return $html;
+	$arr = array();
+	if (! empty($arr_html)) {
+		foreach ($arr_html as $link_title => $link_url) {
+			if ($link_url['flag']) {
+				if (strpos($curr_path, $link_url['url']) !== false) {
+					$arr[] = '<strong>' . $link_title . '</strong>';
+				}
+				else {
+					$arr[] = l(t($link_title), $link_url['url']);
+				}
+			}
+		}
+	}
+	$html = '<div class="proc-links">' . implode(' | ', $arr) .'</div>';
+	return $html;
 }
 
 /*
