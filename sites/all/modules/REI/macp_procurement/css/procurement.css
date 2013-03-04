@@ -286,3 +286,11 @@ table.view-tender td, table.view-tender th{
 }
 
 /* Modal register form ends */
+
+#errorContainer {
+	margin-left:140px;
+}
+
+#user-login-download-tender .form-item .form-text {
+	width:180px !important;
+}

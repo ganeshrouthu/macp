@@ -551,6 +551,7 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#title' => t('Email ID'),
     '#size' => 60,
     '#maxlength' => 128,
+    '#prefix' => '<div id="errorContainer" clear="all"></div>',
     '#required' => TRUE,
   );
   
