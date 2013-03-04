@@ -125,7 +125,8 @@ background: #F2F2F2;
 }
 
 .macp-report-table {
-	width:90%;
+	width:100%;
+	font-size:12px;
 }
 
 #macp-reports-add-custom-report label {
