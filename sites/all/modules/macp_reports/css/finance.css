@@ -184,7 +184,7 @@ background: #F2F2F2;
 	width:90% !important;
 }
 
-#block-quicktabs-test h2.block-title{
+#block-quicktabs-test h2.block-title, #block-quicktabs-macp-mis-reports-tabs h2.block-title{
 	display:none !important;
 }
 
