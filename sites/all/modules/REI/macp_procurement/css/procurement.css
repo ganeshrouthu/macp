@@ -120,6 +120,7 @@ table.tender-table {
 	width:100% !important;
 	font-size:12px;
 	line-height:23px;
+	border:none !important;
 }
 
 /* View Addendum */
