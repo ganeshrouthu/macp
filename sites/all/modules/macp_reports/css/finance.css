@@ -34,6 +34,7 @@
 .macp-table {
 width: 100% !important;
 border: 1px solid #B0B0B0;
+line-height:20px;
 }
 .macp-table tbody {
 /* Kind of irrelevant unless your .css is alreadt doing something else */

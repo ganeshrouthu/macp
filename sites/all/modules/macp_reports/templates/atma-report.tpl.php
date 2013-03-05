@@ -16,20 +16,6 @@ extract($headings, EXTR_PREFIX_ALL, 'H');
 </tr>
 
 <?php
-$records = array();
-$temp = array(
-'Accounting_Centers_Name' => 'ATMA - Ahmadnagar',
-'phase' => '1',
-'Funds_Released' => '170.28',
-'Expenditure_Year_Till_Date' => '50.45',
-'Expenditure' => '114.32',
-'Last_Financial_Year_Expenditure' => '63.87',
-'in_per' => '67%');
-$records[] = $temp;
-?>
-
-
-<?php
 if (!empty($records)) {
   $i=0;
   foreach ($records as $record) {
