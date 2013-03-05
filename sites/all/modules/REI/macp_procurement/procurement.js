@@ -65,8 +65,7 @@ jQuery(document).ready(function () {
       },
       agency_name: {
         required: true,
-        minlength: 5,
-				maxlength: 10
+        minlength: 5
       },
       person_name: { 
         required: true,
