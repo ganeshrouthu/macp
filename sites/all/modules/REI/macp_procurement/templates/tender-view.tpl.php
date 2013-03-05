@@ -35,9 +35,3 @@ if (_is_content_admin_logged_in()) {
 }
 ?>
 </table>
-
-<?php
-if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
-	//procurement/download/tender/%/%
-}
-?>

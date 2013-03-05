@@ -18,7 +18,16 @@
 	<tr align="left" valign="top">
 		<td><strong>Uploaded Documents: </strong></td>
 <td>
-<a href ="<?php print file_create_url($file->uri)?>"><?php print $file->filename;?></a>
+
+<?php
+if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
+	$download_link = $base_url . '/procurement/download/tender/'.$tender->tid.'/'.$records->afid;
+}
+else {
+	$download_link = $base_url . '/procurement/register/download-tender/'.$tender->tid.'/'.$records->afid;
+}
+?>
+<a href="<?php print $download_link;?>" target="_blank"><?php print $file->filename;?></a>
 </td>
 	</tr>
 	</table>
