@@ -313,7 +313,6 @@ function get_addendum_for_tenders($tid = FALSE) {
 function get_tender_files($tid) {
 	@session_start();
 	global $base_path, $base_url;
-  $download_link = $base_url . '/procurement/download/tender/';
 	$result = db_select('addendum', 'a')
 	  ->fields('a', array('tid', 'aid', 'afid', 'atitle'))
 	  ->condition('a.tid', $tid, '=')
@@ -349,8 +348,13 @@ function get_tender_files($tid) {
 			++$i;
 			$file = file_load($addendum->afid);
 			if(!empty($file)) {
-				$output .= '<li>'.				
-				l('Addendum-'.$file->filename, 'procurement/register/download-tender/' . arg(2) . '/' .$addendum->afid) .'</li>';
+				if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
+					$download_link = $base_url . '/procurement/download/tender/'.$tid.'/'.$addendum->afid;
+				}
+				else {
+					$download_link = $base_url . '/procurement/register/download-tender/'.$tid.'/'.$addendum->afid;
+				}
+				$output .= '<li>'.l('Addendum-'.$file->filename, $download_link) .'</li>';
 			}
 		}
 	}	
@@ -382,10 +386,6 @@ function get_user_addendum_file_tid($tid) {
 				$output .= '<li><a href =' . $base_path . 'download/tender/' . $tender->tid . '/' . $addendum->afid . '>' . 'Addendum-'.$file->filename . '</a></li>';
 			}
 		}
-	}
-	
-	if ($cntr < 1) {
-//		$output .= '<li>No addendum data available.</li>';
 	}
 	$output .= '</ul>';
 	return $output;	  
@@ -526,7 +526,6 @@ function _get_active_records() {
 	if (!empty($tenders)) {
 		foreach ($tenders as $tender_group => $group_tenders) {
 			if (!empty($group_tenders)) {
-				//$html .= '<li>Tenders/Advetisements ('.$tender_group.')</li>';
 				$html .= '<li class="group-title-li">Tender Group: '.$tender_group.'</li>';
 				foreach ($group_tenders as $tender) {
 					$path = LINK_VIEW_TENDER . $tender['tid'];
