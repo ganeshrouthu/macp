@@ -359,12 +359,13 @@ function export_to_csv_link() {
 	}
 	extract($pars, EXTR_PREFIX_ALL, 'P');
 	$export_csv_link = $base_url .'/export-to-csv/'.implode('/', $pars);
-	$export_image = $base_url . '/sites/default/files/misc/doc_excel_csv.png';
+	$module_path = drupal_get_path('module', 'macp_reports');
+	$export_image = $module_path . '/css/misc/doc_excel_csv.png';
 	$html = '';
 	$html .= '<span class="print_pdf">';
 	$html .= '<a rel="nofollow" class="print-pdf" title="Export this report to CSV." 
 						href="' .$export_csv_link . '" target="_blank">';
-	$html .= '<img title="PDF version" alt="Export to CSV" src="'.$export_image.'" class="print-icon"></a>';
+	$html .= '<img alt="Export to CSV" src="'.$export_image.'" class="print-icon"></a>';
 	$html .= '</span>';
 	return $html;
 }
