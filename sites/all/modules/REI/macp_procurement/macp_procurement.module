@@ -14,6 +14,7 @@ function macp_procurement_init() {
   drupal_add_css($curr_dir . 'css/procurement.css', array('group' => CSS_DEFAULT));
 	
 	define('LINK_VIEW_TENDER', $base_url . '/procurement/view-tender/');
+	variable_set('macp_from_mail', 'no-reply@macp.in');
 }
 
 /**

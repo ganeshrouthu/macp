@@ -661,7 +661,7 @@ function user_register_download_tender_submit($form, &$form_state) {
 			////////// SEND ACCOUNT REGISTRATION EMAIL ////////////
 			$email = $form_state['values']['email_id'];
 			if(valid_email_address($email)) {
-				$from = 'info@reisystems.in';
+				$from = variable_get('macp_from_mail', 'no-reply@macp.in');
 				$parm = base64_encode(serialize(array($email)));
 				$password_chage_url = '<a href="'.$base_url.'/change_password/'.$parm.'">Change Password</a>';
 
@@ -678,6 +678,8 @@ function user_register_download_tender_submit($form, &$form_state) {
 				$str .= 'Thanks and regards,<br/>';
 				$str .= 'MACP';
 
+				$str .= 'This email just an indication that you have registered at MACP.GOV.IN to download tender documents. MACP do not carry any obligation reverting back to you for submitting tender documents in time. The recipient should check this email and any attachments for the presence of viruses. The MACP accepts no liability for any damage caused by any virus transmitted by this email.';
+				
 				$body[] = $str;
 				$to = $email; 
 				$params = array(
