@@ -449,7 +449,7 @@ function user_login_download_tender($form, $form_state, $tid, $fid) {
 function user_login_download_tender_submit($form, &$form_state) {
 	@session_start();
 	@drupal_session_start();
-	global $user;
+	global $user, $base_url;
 	if(!valid_email_address($form_state['values']['email_id'])) {
     form_set_error('email_id', 'Your email address appears malformed');
   }
@@ -481,7 +481,6 @@ function user_login_download_tender_submit($form, &$form_state) {
         		$date = date('m/d/Y h:i:s', time());
   					$created_date = strtotime($date);
         		$user_det = $user_detail->fetchAssoc();
-
         	  $tdown = db_insert('tdownload')
 	    		    ->fields(array(
 	    		      'uid' => $user_det['uid'],
@@ -493,8 +492,12 @@ function user_login_download_tender_submit($form, &$form_state) {
         	}
           download_file($file_download);
         }
-			}	
-	  }
+			}
+			$_SESSION['tender_user'] = $form_state['values']['email_id'];
+			variable_set(session_id(), $form_state['values']['email_id']);
+			$goto = $base_url . '/procurement/tenders';
+			drupal_goto($goto);
+		}
 	  else {
 	  	form_set_error('email_id', 'Your email or password is incorrect');
  		  //drupal_set_message('Your email or password is incorrect', 'error');
@@ -652,11 +655,52 @@ function user_register_download_tender_submit($form, &$form_state) {
     		'website'       => $form_state['values']['website'],
     		'created'       => $created_date,
 	  	))->execute();
-	  	
-	  	drupal_set_message('Your account is registered. Login to download the tenders');
+	  	drupal_set_message('Your account is registered successfully.');
       $tid = $form_state['values']['tid'];
       $fid = $form_state['values']['fid'];
-			$goto_url = (arg(3) == 0 && arg(4) == 0) ? 'procurement/tenders' : 'procurement/download/tender/'.$tid . '/' . $fid;
+
+			////////// SEND ACCOUNT REGISTRATION EMAIL ////////////
+			$email = $form_state['values']['email_id'];
+			if(valid_email_address($email)) {
+				$from = 'info@reisystems.in';
+				$parm = base64_encode(serialize(array($email)));
+				$password_chage_url = '<a href="'.$base_url.'/change_password/'.$parm.'">Change Password</a>';
+
+				extract($form_state['values'], EXTR_PREFIX_ALL, 'fv');
+				$str = 'Hello ' . $fv_person_name .',';
+				$str .= 'Your account is created with MACP with following details: \n\n';
+				$str .= 'Email ID: ' . $fv_email_id .'\n';
+				$str .= 'Name of Agency: ' . $fv_agency_name .'\n';
+				$str .= 'Name of Person: ' . $fv_person_name .'\n';
+				$str .= 'Contact Number: ' . $fv_cont_number .'\n';
+				$str .= 'Mobile Number: ' . $fv_mobile_number .'\n';
+				$str .= 'Website: ' . $fv_website .'\n';
+				$str .= '\n\n\n';
+				$str .= 'Thanks and regards,\n';
+				$str .= 'MACP';
+
+				$body[] = $str;
+				drupal_set_message($base_url.'/change_password/'.$parm);
+				$to = $email; 
+				$params = array(
+				'body' => $body,
+				'subject' => 'MACP: Website Information Request',
+				);
+				if (drupal_mail('user_register_download_tender', 'uri request', $to, language_default(), $params, $from, TRUE)) {
+					drupal_set_message('Thanks, your account has been registered successfully.', 'success');
+				}
+				else {
+					drupal_set_message('There was an error registering you. Please try again later', 'error');
+				}
+			}
+			////////// SEND ACCOUNT REGISTRATION EMAIL ////////////
+			
+			/* Login user automatically */
+			$_SESSION['tender_user'] = $form_state['values']['email_id'];
+			variable_set(session_id(), $form_state['values']['email_id']);
+			/* Login user automatically */
+
+			$goto_url = 'procurement/tenders';
 			drupal_goto($goto_url);
 	}
 }
@@ -699,6 +743,20 @@ function tuser_chnage_password_mail($key, &$message, $params) {
   $message['body'] = $params['body'];
 }
 
+function user_register_download_tender_mail($key, &$message, $params) {
+  $headers = array(
+    'MIME-Version' => '1.0',
+    'Content-Type' => 'text/html; charset=UTF-8;',
+    'Content-Transfer-Encoding' => '8Bit',
+    'X-Mailer' => 'Drupal'
+  );
+  foreach ($headers as $key => $value) {
+    $message['headers'][$key] = $value;
+  }
+  $message['subject'] = $params['subject'];
+  $message['body'] = $params['body'];
+}
+
 /*
  * Hook_submit for tender user chnage password
  */
@@ -708,19 +766,24 @@ function tuser_chnage_password_submit($form, &$form_state) {
   $result = db_query('SELECT t.mail FROM {tuser} t WHERE t.mail = :mail', array(':mail' => $email));
    $record = $result->fetchAssoc();
   if(valid_email_address($email) && $record != ""){
-    $from = 'santhosh.kalla@reisystems.in';
+//    $from = 'santhosh.kalla@reisystems.in';
+    $from = 'info@reisystems.in';
     $parm = base64_encode(serialize(array($email)));
-    $body[] = 'Email: '.$email.'<br />URL: '.$base_url.'/change_password/'.$parm;
+		$password_chage_url = '<a href="'.$base_url.'/change_password/'.$parm.'">Change Password</a>';
+    $body[] = '
+		Hello User,
+		Please click on the link below to reset your password.<br/>'
+		. $password_chage_url;
     drupal_set_message($base_url.'/change_password/'.$parm);
     $to = $email; 
     $params = array(
     'body' => $body,
-    'subject' => 'Website Information Request',
+    'subject' => 'MACP: Website Information Request',
     );
-    if (drupal_mail('tuser_chnage_password', 'uri request', $to, language_default(), $params, $from, TRUE))
-    {
+    if (drupal_mail('tuser_chnage_password', 'uri request', $to, language_default(), $params, $from, TRUE)) {
         drupal_set_message('Thanks, the change password mail was successfully sent');    
-    } else {
+    }
+		else {
         drupal_set_message('There was an error subscribing you. Please try again later');
     }
   }else{

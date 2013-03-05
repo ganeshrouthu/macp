@@ -134,10 +134,6 @@ table.inner-table td, table.tender-table th{
 	line-height:20px;
 }
 
-/* View Addendum */
-table.view-addendum{
-	width:90% !important;
-}
 
 table.view-addendum .td-label{
 	width:35% !important;
@@ -322,4 +318,9 @@ table.view-tender td, table.view-tender th{
 	font-size:9px;
 	padding:0;
 	margin-top:-8px;
+}
+
+.group-title-li {
+	list-style:none;
+	font-weight:bold;
 }

@@ -6,11 +6,13 @@
 function macp_procurement_init() {
   // Since this file should only be loaded on the front page, it cannot be
   // declared in the info file.
+	global $base_url;
   $module_name = _get_module_name(__DIR__);
   $curr_dir = _get_module_path(__DIR__);
   drupal_add_js($curr_dir . 'jquery.validate.js');
   drupal_add_js($curr_dir .'procurement.js');
   drupal_add_css($curr_dir . 'css/procurement.css', array('group' => CSS_DEFAULT));
+  define('LINK_VIEW_TENDER', $base_url . '/procurement/view-tender/');
 }
 
 /**
@@ -308,6 +310,7 @@ function get_addendum_for_tenders($tid = FALSE) {
 } 
 
 function get_tender_files($tid) {
+	@session_start();
 	global $base_path, $base_url;
   $download_link = $base_url . '/procurement/download/tender/';
 	$result = db_select('addendum', 'a')
@@ -316,23 +319,28 @@ function get_tender_files($tid) {
 	  ->execute();
 
 	$tender = tender_load($tid);
-	
-//	_p($tender->tender_files, 1);
-	
 	$file = file_load($tender->tfid);
 	$output = '';
+	if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
+		$download_link = $base_url . '/procurement/download/tender/'.$tid.'/'.$tender->tfid;
+	}
+	else {
+		$download_link = $base_url . '/procurement/register/download-tender/'.$tid.'/'.$tender->tfid;
+	}
   $output .= '<ul class="tender-addendums" style="padding:0;margin:0;">';
   if(!empty($file)) {
 		$tender_file_name = 'Tender-' . $file->filename;
-  	$output .= '<li>' . l($tender_file_name, 'procurement/register/download-tender/' . arg(2) . '/' . $file->fid). '</a></li>';
+		$output .= '<li>';
+		$output .= l($tender_file_name, $download_link);
+		$output .= '</li>';
   }
-	
 	$file_2 = file_load($tender->tender_files);
   if(!empty($file_2)) {
 		$tender_file_name_2 = 'Tender-' . $file_2->filename;
-  	$output .= '<li>' . l($tender_file_name_2, 'procurement/register/download-tender/' . arg(2) . '/' . $file_2->fid). '</a></li>';
+  	$output .= '<li>';
+  	$output .= l($tender_file_name_2, $download_link);
+  	$output .= '</li>';
   }
-
 
   if (!empty($result)) {
 		$i = 0;
@@ -422,16 +430,17 @@ function macp_procurement_block_info() {
   if (check_user_role()) {
     $blocks['archives'] = array(
       'info' => t('Tenders Archive'),
-      // DRUPAL_CACHE_PER_ROLE will be assumed.
     );
   }
+	$blocks['active_tenders'] = array(
+		'info' => t('Active Tenders'),
+	);
 	$blocks['mis_reports'] = array(
 		'info' => t('MIS Reports'),
-		// DRUPAL_CACHE_PER_ROLE will be assumed.
 	);
 	$blocks['procurement_links'] = array(
-    'info' => t('Procurement Module Specific Links'),
-  );
+		'info' => t('Procurement Module Specific Links'),
+	);
   return $blocks;
 }
 
@@ -444,7 +453,10 @@ function macp_procurement_block_view($delta = ''){
         $block['content'] = _get_archives_records();
       }
     break;
-		
+		case 'active_tenders':
+			$block['subject'] = '';
+			$block['content'] = _get_active_records();
+    break;
 		case 'mis_reports':
       if (check_user_role()) {
         $block['subject'] = 'MIS Reports';
@@ -477,27 +489,51 @@ function _get_archives_records() {
                         WHERE t.created < {$current_timestamp} 
                         GROUP BY Month";
   $result = db_query($sql);
-
-
-/*
-	$html .= '<table class="macp-table">';
-	$html .= '<tr><td><b>Tenders Archive</b></td></tr>';
-  foreach($result as $tender) {
-    $variables = array($tender->Month, $tender->created);
-    $argument = base64_encode(serialize($variables));
-    $path = 'procurement/archives/'.$argument.'/edit';
-    $html .= '<tr><td>'.l($tender->Month.' ('.$tender->Count.')', $path)."</td></tr>";
-  }
-	$html .= '</table>';
-	*/
 	$html .= '<ul class="tender-archives-ul useful">';
-//	$html .= '<li><b>Tenders Archive</b></li>';
   foreach($result as $tender) {
     $variables = array($tender->Month, $tender->created);
     $argument = base64_encode(serialize($variables));
     $path = 'procurement/archives/'.$argument.'/edit';
     $html .= '<li>'.l($tender->Month.' ('.$tender->Count.')', $path)."</li>";
   }
+	$html .= '</ul>';
+  return $html;
+}
+
+function _get_active_records() {
+  $html = '';
+  $current_timestamp = strtotime(date('m/d/Y'));
+	$fields = array('tid', 'title', 'group_id');
+	$fields_str = implode(',', $fields);
+  $sql = "SELECT " . $fields_str ." FROM tender AS t 
+                        WHERE t.created >= {$current_timestamp}";
+  $result = db_query($sql);
+	$html .= '<ul class="tender-archives-ul useful">';
+	$tender_groups = _tender_groups();
+
+	$tenders = array();
+	if (!empty($result)) {
+		foreach($result as $tender) {
+			$group = (isset($tender_groups[$tender->group_id])) ? $tender_groups[$tender->group_id] : 'All Groups';
+			$temp_tender = array();
+			$temp_tender['tid'] = $tender->tid;
+			$temp_tender['title'] = $tender->title;
+			$tenders[$group][] = $temp_tender;
+		}
+	}
+	$arr = array();
+	if (!empty($tenders)) {
+		foreach ($tenders as $tender_group => $group_tenders) {
+			if (!empty($group_tenders)) {
+				//$html .= '<li>Tenders/Advetisements ('.$tender_group.')</li>';
+				$html .= '<li class="group-title-li">Tender Group: '.$tender_group.'</li>';
+				foreach ($group_tenders as $tender) {
+					$path = LINK_VIEW_TENDER . $tender['tid'];
+					$html .= '<li>'.l($tender['title'], $path)."</li>";
+				}
+			}
+		}
+	}
 	$html .= '</ul>';
   return $html;
 }

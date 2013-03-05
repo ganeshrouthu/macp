@@ -1,5 +1,11 @@
-<?php global $base_url;?>
-<table align="left" border="0" cellspacing="0" cellpadding="0" width="auto" class="macp-table view-tender">
+<?php
+@session_start();
+global $base_url;
+?>
+<table align="left" border="0" cellspacing="0" cellpadding="0" width="auto" class="macp-table view-tender tender-table">
+<tr>
+<th colspan="2">Details for Tender: <?php print $records->title;?></th>
+</tr>
 <tr align="left" valign="top">
 		<td class="td-label"><strong>Title: </strong></td>
 		<td class="td=data"><?php print $records->title;?></td>
@@ -29,3 +35,9 @@ if (_is_content_admin_logged_in()) {
 }
 ?>
 </table>
+
+<?php
+if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
+	//procurement/download/tender/%/%
+}
+?>

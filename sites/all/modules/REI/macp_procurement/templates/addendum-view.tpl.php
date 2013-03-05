@@ -1,5 +1,5 @@
 <?php global $base_url;?>
-<table align="left" border="0" cellspacing="0" cellpadding="0" width="auto" class="macp-table view-addendum">
+<table align="left" border="0" cellspacing="0" cellpadding="0" width="auto" class="macp-table tender-table">
 <tr>
 <th colspan="2">Details for Addendum: <?php print $records->atitle;?></th>
 </tr>
