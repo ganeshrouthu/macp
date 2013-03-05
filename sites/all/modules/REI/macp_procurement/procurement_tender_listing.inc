@@ -667,30 +667,24 @@ function user_register_download_tender_submit($form, &$form_state) {
 
 				extract($form_state['values'], EXTR_PREFIX_ALL, 'fv');
 				$str = 'Hello ' . $fv_person_name .',';
-				$str .= 'Your account is created with MACP with following details: \n\n';
-				$str .= 'Email ID: ' . $fv_email_id .'\n';
-				$str .= 'Name of Agency: ' . $fv_agency_name .'\n';
-				$str .= 'Name of Person: ' . $fv_person_name .'\n';
-				$str .= 'Contact Number: ' . $fv_cont_number .'\n';
-				$str .= 'Mobile Number: ' . $fv_mobile_number .'\n';
-				$str .= 'Website: ' . $fv_website .'\n';
-				$str .= '\n\n\n';
-				$str .= 'Thanks and regards,\n';
+				$str .= 'Your account is created with MACP with following details: <br/><br/>';
+				$str .= 'Email ID: ' . $fv_email_id .'<br/>';
+				$str .= 'Name of Agency: ' . $fv_agency_name .'<br/>';
+				$str .= 'Name of Person: ' . $fv_person_name .'<br/>';
+				$str .= 'Contact Number: ' . $fv_cont_number .'<br/>';
+				$str .= 'Mobile Number: ' . $fv_mobile_number .'<br/>';
+				$str .= 'Website: ' . $fv_website .'<br/>';
+				$str .= '<br/><br/><br/>';
+				$str .= 'Thanks and regards,<br/>';
 				$str .= 'MACP';
 
 				$body[] = $str;
-				drupal_set_message($base_url.'/change_password/'.$parm);
 				$to = $email; 
 				$params = array(
 				'body' => $body,
 				'subject' => 'MACP: Website Information Request',
 				);
-				if (drupal_mail('user_register_download_tender', 'uri request', $to, language_default(), $params, $from, TRUE)) {
-					drupal_set_message('Thanks, your account has been registered successfully.', 'success');
-				}
-				else {
-					drupal_set_message('There was an error registering you. Please try again later', 'error');
-				}
+				drupal_mail('user_register_download_tender', 'uri request', $to, language_default(), $params, $from, TRUE);
 			}
 			////////// SEND ACCOUNT REGISTRATION EMAIL ////////////
 			
