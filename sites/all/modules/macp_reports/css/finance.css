@@ -226,3 +226,11 @@ background: #F2F2F2;
 	background:none !important!;
 	border:1px solid #D6E3B5 !important;
 }
+
+.print-pdf-export img {
+	padding:5px;
+}
+
+.print-breadcrumb {
+	display:none;
+}

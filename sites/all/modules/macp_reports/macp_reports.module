@@ -322,7 +322,8 @@ function macp_reports_block_view($delta = ''){
 	switch ($delta) {
 		case 'print_pdf_export':
       $block['subject'] = '';
-      $block['content'] = _place_print_pdf_export_options();
+      //$block['content'] = _place_print_pdf_export_options();
+      $block['content'] = _print_pdf_export_link();
 		break;
 		case 'mis_reports_index':
       $block['subject'] = '';
@@ -360,13 +361,63 @@ function export_to_csv_link() {
 	extract($pars, EXTR_PREFIX_ALL, 'P');
 	$export_csv_link = $base_url .'/export-to-csv/'.implode('/', $pars);
 	$module_path = drupal_get_path('module', 'macp_reports');
-	$export_image = $module_path . '/css/misc/doc_excel_csv.png';
+	$export_image = $base_url .'/'.$module_path . '/css/misc/doc_excel_csv.png';
 	$html = '';
 	$html .= '<span class="print_pdf">';
 	$html .= '<a rel="nofollow" class="print-pdf" title="Export this report to CSV." 
 						href="' .$export_csv_link . '" target="_blank">';
 	$html .= '<img alt="Export to CSV" src="'.$export_image.'" class="print-icon"></a>';
 	$html .= '</span>';
+	
+	
+	//http://mcp/printpdf/448?DDRCS%2F2012-2013=
+	//http://mcp/print/448?DDRCS%2F2012-2013=
+	//http://mcp/export-to-csv/DDRCS/2012-2013/all
+	return $html;
+}
+
+function _print_pdf_export_link() {
+	global $base_url;
+	$html = '';
+	if (arg(0) == 'node') {
+		$curr_node = node_load(arg(1));
+		if ((isset($curr_node->type)) && $curr_node->type == 'report_template') {
+			$pars = _split_request_get_params();
+			if (! empty($pars)) {
+				$pars = array_values($pars);
+			}
+			$html .= '<div class="print-pdf-export">';
+			$query_str = implode('/', $pars);
+			$module_path = drupal_get_path('module', 'macp_reports');
+			$arr = array();
+			$module_path = drupal_get_path('module', 'macp_reports');
+
+			if (module_exists('print_pdf')) {
+				$arr['print-pdf']['title'] = 'PDF Version';
+				$arr['print-pdf']['link'] = $base_url . '/printpdf/'.arg(1). '?' . $query_str;
+				$arr['print-pdf']['image'] = $base_url .'/'.$module_path . '/css/misc/pdf_icon.gif';
+			}
+			if (module_exists('print')) {
+				$arr['print']['title'] = 'Printer Friendly Version';
+				$arr['print']['link'] = $base_url . '/print/'.arg(1). '?' . $query_str;
+				$arr['print']['image'] = $base_url .'/'.$module_path . '/css/misc/print_icon.gif';
+			}
+			$arr['export_csv']['title'] = 'Export to CSV';
+			$arr['export_csv']['link'] = $base_url . '/export-to-csv/' . $query_str;
+			$arr['export_csv']['image'] = $base_url .'/'.$module_path . '/css/misc/doc_excel_csv.png';
+
+			if (! empty($arr)) {
+				foreach ($arr as $class => $arr_child) {
+					$html .= '<span class="'.$class.'">';
+					$html .= '<a rel="nofollow" class="'.$class.'" title="'.$arr_child['title'].'" 
+										href="' .$arr_child['link'] . '" target="_blank">';
+					$html .= '<img src="'.$arr_child['image'].'" class="print-icon"></a>';
+					$html .= '</span>';
+				}
+			}
+			$html .= '</div>';
+		}
+	}
 	return $html;
 }
 
