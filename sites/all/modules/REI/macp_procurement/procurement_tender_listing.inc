@@ -712,7 +712,6 @@ function tuser_chnage_password($form, $form_state) {
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
-    '#prefix' => "<span style='color:red; float:right; position:absolute; left:57px;'>*</span>",
     '#size' => 50,
   );
 
@@ -765,13 +764,12 @@ function tuser_chnage_password_submit($form, &$form_state) {
   $result = db_query('SELECT t.mail FROM {tuser} t WHERE t.mail = :mail', array(':mail' => $email));
    $record = $result->fetchAssoc();
   if(valid_email_address($email) && $record != ""){
-//    $from = 'santhosh.kalla@reisystems.in';
     $from = 'info@reisystems.in';
     $parm = base64_encode(serialize(array($email)));
 		$password_chage_url = '<a href="'.$base_url.'/change_password/'.$parm.'">Change Password</a>';
-    $body[] = '
+    $body[] = "
 		Hello User,
-		Please click on the link below to reset your password.<br/>'
+		Please click on the link below to reset your password.\n"
 		. $password_chage_url;
     drupal_set_message($base_url.'/change_password/'.$parm);
     $to = $email; 
