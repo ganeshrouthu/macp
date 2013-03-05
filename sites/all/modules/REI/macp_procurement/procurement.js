@@ -79,8 +79,8 @@ jQuery(document).ready(function () {
       },
       mobile_number: {
         required: true,
-        minlength: 5,
-				maxlength: 10
+        minlength: 10,
+				maxlength: 11
       },
     },
 		invalidHandler: function(form, validator) {
@@ -117,20 +117,11 @@ jQuery(document).ready(function () {
 				else if (cont_number.length > 0 && cont_number.length < 5) {
 					message = 'Contact Number should be at least 5 digits long.';
 				}
-				else if (mobile_number.length > 0 && mobile_number.length < 5) {
-					message = 'Mobile Number should be at least 5 digits long.';
-				}
-				else if (agency_name.length > 0 && agency_name.length > 10) {
-					message = 'Agency Name should be more than 10 characters long.';
-				}
-				else if (person_name.length > 0 && person_name.length > 10) {
-					message = 'Person Name should not be more than 10 characters long.';
-				}
-				else if (cont_number.length > 0 && cont_number.length > 10) {
-					message = 'Contact Number should not be more than 10 digits long.';
+				else if (mobile_number.length > 0 && mobile_number.length < 10) {
+					message = 'Mobile Number should be at least 10 digits long.';
 				}
 				else if (mobile_number.length > 0 && mobile_number.length > 10) {
-					message = 'Mobile Number should not be more than 10 digits long.';
+					message = 'Agency Name should not be more than 10 characters long.';
 				}
 				jQuery("#errorContainer").html(message);
 			}
