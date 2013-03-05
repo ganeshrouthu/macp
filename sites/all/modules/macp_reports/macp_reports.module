@@ -343,7 +343,7 @@ function _place_print_pdf_export_options() {
 	$html .= print_insert_link();
 	if (arg(0) == 'node') {
 		$curr_node = node_load(arg(1));
-		if ($curr_node->type == 'report_template') {
+		if ((isset($curr_node->type)) && $curr_node->type == 'report_template') {
 			$html .= export_to_csv_link();
 		}
 	}
