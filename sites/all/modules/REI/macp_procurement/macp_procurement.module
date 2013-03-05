@@ -21,7 +21,7 @@ function macp_procurement_init() {
  */
 
 function _tender_groups() {
-	//$groups = variable_get('tender_groups');
+	$groups = variable_get('tender_groups');
 	if (empty($groups)) {
 		$tender_groups = array();
 		$tender_groups[1] = 'Goods/Equipments';
