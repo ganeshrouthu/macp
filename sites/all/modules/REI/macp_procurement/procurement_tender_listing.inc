@@ -771,7 +771,6 @@ function tuser_chnage_password_submit($form, &$form_state) {
 		Hello User,
 		Please click on the link below to reset your password.\n"
 		. $password_chage_url;
-    drupal_set_message($base_url.'/change_password/'.$parm);
     $to = $email; 
     $params = array(
     'body' => $body,
