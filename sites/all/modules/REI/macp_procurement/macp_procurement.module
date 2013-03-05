@@ -349,8 +349,13 @@ function get_tender_files($tid) {
 			++$i;
 			$file = file_load($addendum->afid);
 			if(!empty($file)) {
-				$output .= '<li>'.				
-				l('Addendum-'.$file->filename, 'procurement/register/download-tender/' . arg(2) . '/' .$addendum->afid) .'</li>';
+				if (isset($_SESSION['tender_user']) || FALSE != variable_get(session_id(), FALSE)) {
+					$download_link = $base_url . '/procurement/download/tender/'.$tid.'/'.$addendum->afid;
+				}
+				else {
+					$download_link = $base_url . '/procurement/register/download-tender/'.$tid.'/'.$addendum->afid;
+				}
+				l('Addendum-'.$file->filename, $download_link) .'</li>';
 			}
 		}
 	}	
@@ -526,7 +531,6 @@ function _get_active_records() {
 	if (!empty($tenders)) {
 		foreach ($tenders as $tender_group => $group_tenders) {
 			if (!empty($group_tenders)) {
-				//$html .= '<li>Tenders/Advetisements ('.$tender_group.')</li>';
 				$html .= '<li class="group-title-li">Tender Group: '.$tender_group.'</li>';
 				foreach ($group_tenders as $tender) {
 					$path = LINK_VIEW_TENDER . $tender['tid'];
