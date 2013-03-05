@@ -414,7 +414,6 @@ function user_login_download_tender($form, $form_state, $tid, $fid) {
     '#type' => 'textfield', 
     '#title' => t("Email ID (User ID)"),
     '#size' => 60,
-    '#prefix' => "<span style='color:red; float:right; position:absolute; left:142px;'>*</span>",
     '#maxlength' => 128,
     '#required' => TRUE,
   );

@@ -12,7 +12,8 @@ function macp_procurement_init() {
   drupal_add_js($curr_dir . 'jquery.validate.js');
   drupal_add_js($curr_dir .'procurement.js');
   drupal_add_css($curr_dir . 'css/procurement.css', array('group' => CSS_DEFAULT));
-  define('LINK_VIEW_TENDER', $base_url . '/procurement/view-tender/');
+	
+	define('LINK_VIEW_TENDER', $base_url . '/procurement/view-tender/');
 }
 
 /**
