@@ -896,6 +896,15 @@ margin:1em 0;
 	text-decoration:none;
 	color:#000000;
 }
+
+#case-study-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#case-study-node-form fieldset legend {
+	position:static;
+}
 /************************************/
 #activity-node-form .dropbox table {
 	margin-left:150px !important;
