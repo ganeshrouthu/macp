@@ -865,3 +865,25 @@ text-decoration:none;
 p,pre {
 margin:1em 0;
 }
+
+/**** Forms Customization ****/
+#activity-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#activity-node-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+#activity-node-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+#activity-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#activity-node-form .form-actions #edit-preview{
+	margin:0 0 0 10px !important;
+}
