@@ -520,7 +520,7 @@ text-decoration:underline;
 #teazer-body{
 //max-height: 480px;
 overflow: hidden;
-margin-top:-25px;
+margin-top:0px;
 }
 /*
 div#block-book-explorer-book-explorer div ul{
@@ -835,7 +835,7 @@ th {
 }
 
 table {
-line-height: 13px;
+line-height: 20px;
 width: 100%;
 border: 1px solid #bad19a;
 }
