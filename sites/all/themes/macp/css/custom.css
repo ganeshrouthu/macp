@@ -926,6 +926,15 @@ margin:1em 0;
 	text-decoration:none;
 	color:#000000;
 }
+
+#activity-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#activity-node-form fieldset legend {
+	position:static;
+}
 /************************************/
 #innovations-node-form .dropbox table {
 	margin-left:150px !important;
