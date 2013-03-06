@@ -969,6 +969,15 @@ margin:1em 0;
 #innovations-node-form .grippie {
 	display:none !important;
 }
+
+#innovations-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#innovations-node-form fieldset legend {
+	position:static;
+}
 /************************************/
 .node-_success_story-form .field-multiple-table {
 	margin-left:150px !important;
@@ -998,5 +1007,14 @@ margin:1em 0;
 
 .node-_success_story-form .form-actions #edit-preview {
 	margin:0 0 0 10px !important;
+}
+
+.node-_success_story-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+.node-_success_story-form fieldset legend {
+	position:static;
 }
 /************************************/
