@@ -794,6 +794,7 @@ function change_password($form_state, $record) {
   );
   $form['new_password'] = array(
     '#type' => 'password_confirm',
+		'#required' => TRUE,
     '#size' => 25,
   );
   $form['submit'] = array(
