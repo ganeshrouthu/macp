@@ -866,7 +866,37 @@ p,pre {
 margin:1em 0;
 }
 
-/**** Forms Customization ****/
+/*******************************/
+#case-study-node-form .field-multiple-table {
+    margin: 0 0 0 150px;
+    width: 482px;
+}
+
+#case-study-node-form #edit-field-upload-video-und-add-more {
+    margin: 0 0 0 150px;
+}
+
+#case-study-node-form .form-actions #edit-preview{
+	margin:0 0 0 10px !important;
+}
+
+#case-study-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#case-study-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#case-study-node-form .grippie {
+	display:none !important;
+}
+
+#case-study-node-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+/************************************/
 #activity-node-form .dropbox table {
 	margin-left:150px !important;
 }
@@ -887,3 +917,68 @@ margin:1em 0;
 #activity-node-form .form-actions #edit-preview{
 	margin:0 0 0 10px !important;
 }
+
+#activity-node-form .grippie {
+	display:none !important;
+}
+
+#activity-node-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+/************************************/
+#innovations-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+#innovations-node-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .form-actions #edit-preview {
+	margin:0 0 0 10px !important;
+}
+
+#innovations-node-form .grippie {
+	display:none !important;
+}
+/************************************/
+.node-_success_story-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+.node-_success_story-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form .dropbox table {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+
+.node-_success_story-form .grippie {
+	display:none !important;
+}
+
+.node-_success_story-form .form-actions {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form .form-actions #edit-preview {
+	margin:0 0 0 10px !important;
+}
+/************************************/
