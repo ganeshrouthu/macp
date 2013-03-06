@@ -1017,4 +1017,26 @@ margin:1em 0;
 .node-_success_story-form fieldset legend {
 	position:static;
 }
+
+.field-name-field-upload-activity-document .field-item {
+	width:auto;
+	float:left;
+	margin:5px;
+}
+
+.field field-name-field-upload-activity-image .field-label {
+	padding:5px !important;
+}
+
+.node-type-activity .field-label {
+	width:105px;
+}
+
+.node-type-activity .field-name-body .field-label {
+	width:105px;
+	float:left;
+}
 /************************************/
+table.custom-nodes {
+	line-height:50px !important;
+}
