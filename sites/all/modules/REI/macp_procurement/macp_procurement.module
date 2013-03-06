@@ -178,7 +178,7 @@ function macp_procurement_menu(){
     'title' => 'Change Password',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('change_password', 1),
-    'access callback' => 'check_user_role',
+    'access callback' => TRUE,
     'file' => 'procurement_tender_listing.inc',
   );
   $items['procurement/archives/%archives/edit'] = array(
