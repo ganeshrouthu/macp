@@ -339,6 +339,7 @@ function macp_reports_block_view($delta = ''){
 function _print_pdf_export_link() {
 	global $base_url;
 	$html = '';
+	return $html;
 	if (arg(0) == 'node') {
 		$curr_node = node_load(arg(1));
 		if ((isset($curr_node->type)) && $curr_node->type == 'report_template') {
@@ -346,11 +347,10 @@ function _print_pdf_export_link() {
 			if (! empty($pars)) {
 				$pars = array_values($pars);
 			}
-			$html .= '<div class="print-pdf-export">
-			<table cellspacing="0" cellpadding="0" border="0" align="center" class="macp-table report-filters no-borders">
+			$html .= '<div class="print-pdf-export-9">
+			<table align="center" class="macp-table report-filters no-borders">
   <tr valign="top" align="left">
-		<td align="right">
-    ';
+		<td align="right">';
 			$query_str = implode('/', $pars);
 			$module_path = drupal_get_path('module', 'macp_reports');
 			$arr = array();
@@ -368,6 +368,7 @@ function _print_pdf_export_link() {
 			$arr['export_csv']['link'] = $base_url . '/export-to-csv/' . $query_str;
 			$arr['export_csv']['image'] = $base_url .'/'.$module_path . '/css/misc/doc_excel_csv.png';
 			if (! empty($arr)) {
+				$html .= '<div>';
 				foreach ($arr as $class => $arr_child) {
 					$html .= '<span class="'.$class.'">';
 					$html .= '<a rel="nofollow" class="'.$class.'" title="'.$arr_child['title'].'" 
@@ -375,6 +376,7 @@ function _print_pdf_export_link() {
 					$html .= '<img src="'.$arr_child['image'].'" class="print-icon"></a>';
 					$html .= '</span>';
 				}
+				$html .= '</div>';
 			}
 		}
 	}
