@@ -8,7 +8,7 @@ function procurement_add_tender($form, $form_state, $tender = NULL, $addendum = 
     '#type' => 'textfield',
     '#title' => t('Title'),
     '#size' => 60,
-    '#maxlength' => 128, 
+    '#maxlength' => 128,
     '#default_value' => empty($tender->title) ? '' : $tender->title, 
     '#required' => TRUE,
   );
@@ -595,7 +595,7 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#type' => 'textfield', 
     '#title' => t('Contact Number'),
     '#size' => 60,
-    '#maxlength' => 10,
+    '#maxlength' => 15,
     //'#required' => TRUE,
   );
   
@@ -603,8 +603,9 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#type' => 'textfield', 
     '#title' => t('Mobile Number'),
     '#size' => 60,
-    '#maxlength' => 10,
+    '#maxlength' => 11,
     '#required' => TRUE,
+    '#attributes' => array('class' => array('only_numbers')),
   );
   
   $form['website'] = array(
@@ -807,6 +808,10 @@ function change_password($form_state, $record) {
 function change_password_submit($form, &$form_state){
   $email = $form_state['values']['email'];
 	$new_pass =  md5(utf8_encode($form_state['values']['new_password']));
+	
+	if (strlen($new_pass) < 5) {
+		form_set_error('new_pass', 'Password should be at least 5 characters long.');
+	}
 	$result = db_select('tuser', 'tu')
 	    ->fields('tu', array('mail', 'pass'))
 	    ->condition('tu.mail', $email, '=')
@@ -818,7 +823,7 @@ function change_password_submit($form, &$form_state){
               ))
       ->condition('mail', $email, '=')
       ->execute();
-     drupal_set_message('Your password is chnaged');
+     drupal_set_message('Your password is changed');
      $form_state['rebuild'] = TRUE;
 	  drupal_goto('procurement/tenders/list');
 	}

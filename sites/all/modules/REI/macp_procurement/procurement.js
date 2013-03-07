@@ -107,10 +107,10 @@ jQuery(document).ready(function () {
 				else if (new_pass != confirm_passord) {
 					message = 'Password and Confirm Password should be same.';
 				}
-				else if (agency_name.length > 0 && agency_name.length < 5) {
+				else if (agency_name.length > 0 && agency_name.length < 3) {
 					message = 'Agency Name should be at least 5 characters long.';
 				}
-				else if (person_name.length > 0 && person_name.length < 5) {
+				else if (person_name.length > 0 && person_name.length < 3) {
 					message = 'Person Name should be at least 5 characters long.';
 				}
 				else if (cont_number.length > 0 && cont_number.length < 5) {
@@ -119,7 +119,7 @@ jQuery(document).ready(function () {
 				else if (mobile_number.length > 0 && mobile_number.length < 10) {
 					message = 'Mobile Number should be at least 10 digits long.';
 				}
-				else if (mobile_number.length > 0 && mobile_number.length > 10) {
+				else if (mobile_number.length > 0 && mobile_number.length > 11) {
 					message = 'Agency Name should not be more than 10 characters long.';
 				}
 				jQuery("#errorContainer").html(message);
@@ -190,6 +190,25 @@ jQuery(document).ready(function () {
 		window.location = url_to;
 		//alert(url_to);
 	});
+	
+	
+	jQuery(".only_numbers").keydown(function (event) {
+    var num = event.keyCode;
+    if ((num > 95 && num < 106) || (num > 36 && num < 41) || num == 9) {
+        return;
+    }
+    if (event.shiftKey || event.ctrlKey || event.altKey) {
+        event.preventDefault();
+    } else if (num != 46 && num != 8) {
+        if (isNaN(parseInt(String.fromCharCode(event.which)))) {
+            event.preventDefault();
+        }
+    }
+});
+
+	jQuery("#edit-upload-upload").click(function(
+		jQuery(".file-upload-js-error").html('This is a test');
+	));
 })
 
 function valid_email(email) {
