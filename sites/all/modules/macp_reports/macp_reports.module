@@ -339,7 +339,6 @@ function macp_reports_block_view($delta = ''){
 function _print_pdf_export_link() {
 	global $base_url;
 	$html = '';
-	return $html;
 	if (arg(0) == 'node') {
 		$curr_node = node_load(arg(1));
 		if ((isset($curr_node->type)) && $curr_node->type == 'report_template') {
