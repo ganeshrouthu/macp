@@ -69,5 +69,3 @@ else {
 </tbody>
 </table>
 </div>
-<br clear="all"/>
-<!--<h4 align="right">*Figures are in Lk.</h4>-->

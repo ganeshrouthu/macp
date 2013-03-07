@@ -67,7 +67,7 @@ background: #F2F2F2;
 }
 
 .mis-clear-all {
-	clear:all;
+/*	clear:all;*/
 }
 
 #edit-cancel {
@@ -111,14 +111,16 @@ background: #F2F2F2;
 	float:right;
 }
 
-.print-export {
-	float:right;
-	clear:all;
+.print-pdf-export {
+/*	height:25px;*/
 }
 
-.print-pdf-export {
-	float:right;
-	clear:all;
+.no-borders td, .no-borders th {
+	border:none !important;
+}
+
+#block-macp-reports-print-pdf-export {
+	height:25px;
 }
 
 .report-filters {

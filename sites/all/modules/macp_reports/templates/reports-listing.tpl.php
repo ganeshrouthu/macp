@@ -186,7 +186,7 @@ else {
     </td>
 	</tr>
   </thead>
-</table
+</table>
 <?php
 }
 ?>
