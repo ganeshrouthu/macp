@@ -336,25 +336,6 @@ function macp_reports_block_view($delta = ''){
   return $block;
 }
 
-function export_to_csv_link() {
-	global $base_url;
-	$pars = _split_request_get_params();
-	if (empty($pars)) {
-		return '';
-	}
-	extract($pars, EXTR_PREFIX_ALL, 'P');
-	$export_csv_link = $base_url .'/export-to-csv/'.implode('/', $pars);
-	$module_path = drupal_get_path('module', 'macp_reports');
-	$export_image = $base_url .'/'.$module_path . '/css/misc/doc_excel_csv.png';
-	$html = '';
-	$html .= '<span class="print_pdf">';
-	$html .= '<a rel="nofollow" class="print-pdf" title="Export this report to CSV." 
-						href="' .$export_csv_link . '" target="_blank">';
-	$html .= '<img alt="Export to CSV" src="'.$export_image.'" class="print-icon"></a>';
-	$html .= '</span>';
-	return $html;
-}
-
 function _print_pdf_export_link() {
 	global $base_url;
 	$html = '';
@@ -365,10 +346,11 @@ function _print_pdf_export_link() {
 			if (! empty($pars)) {
 				$pars = array_values($pars);
 			}
-			$html .= '<table cellspacing="0" cellpadding="0" border="0" align="center" class="macp-table report-filters no-borders">
+			$html .= '<div class="print-pdf-export">
+			<table cellspacing="0" cellpadding="0" border="0" align="center" class="macp-table report-filters no-borders">
   <tr valign="top" align="left">
 		<td align="right">
-    <div class="print-pdf-export">';
+    ';
 			$query_str = implode('/', $pars);
 			$module_path = drupal_get_path('module', 'macp_reports');
 			$arr = array();
@@ -396,8 +378,7 @@ function _print_pdf_export_link() {
 			}
 		}
 	}
-	
-	$html .= '</div></td></tr></table>';
+	$html .= '</td></tr></table></div>';
 	return $html;
 }
 
