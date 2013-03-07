@@ -396,6 +396,7 @@ function _print_pdf_export_link() {
 			}
 		}
 	}
+	
 	$html .= '</div></td></tr></table>';
 	return $html;
 }
