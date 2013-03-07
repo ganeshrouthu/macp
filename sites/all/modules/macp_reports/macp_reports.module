@@ -346,7 +346,7 @@ function _print_pdf_export_link() {
 			if (! empty($pars)) {
 				$pars = array_values($pars);
 			}
-			$html .= '<div class="print-pdf-export-9">
+			$html .= '<div class="print-pdf-export">
 			<table align="center" class="macp-table report-filters no-borders">
   <tr valign="top" align="left">
 		<td align="right">';
@@ -377,9 +377,9 @@ function _print_pdf_export_link() {
 				}
 				$html .= '</div>';
 			}
+			$html .= '</td></tr></table></div>';
 		}
 	}
-	$html .= '</td></tr></table></div>';
 	return $html;
 }
 
