@@ -809,7 +809,7 @@ function change_password_submit($form, &$form_state){
   $email = $form_state['values']['email'];
 	$new_pass =  md5(utf8_encode($form_state['values']['new_password']));
 	
-	if (strlen($new_pass) < 5) {
+	if (strlen($form_state['values']['new_password']) < 5) {
 		form_set_error('new_pass', 'Password should be at least 5 characters long.');
 	}
 	$result = db_select('tuser', 'tu')
