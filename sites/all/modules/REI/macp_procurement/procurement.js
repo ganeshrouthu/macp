@@ -206,7 +206,7 @@ jQuery(document).ready(function () {
     }
 });
 
-	jQuery("#edit-upload-upload").click(function(
+	jQuery("#edit-upload-upload").click(function() {
 		jQuery(".file-upload-js-error").html('This is a test');
 	));
 })
