@@ -812,24 +812,26 @@ function change_password_submit($form, &$form_state){
 	if (strlen($form_state['values']['new_password']) < 5) {
 		form_set_error('new_pass', 'Password should be at least 5 characters long.');
 	}
-	$result = db_select('tuser', 'tu')
-	    ->fields('tu', array('mail', 'pass'))
-	    ->condition('tu.mail', $email, '=')
-	    ->execute()->rowCount();
-	if($result ==1) {
-	  $num_updated = db_update('tuser') // Table name no longer needs {}
-  		->fields(array(
-  		           'pass' => $new_pass,
-              ))
-      ->condition('mail', $email, '=')
-      ->execute();
-     drupal_set_message('Your password is changed');
-     $form_state['rebuild'] = TRUE;
-	  drupal_goto('procurement/tenders/list');
-	}
 	else {
-	  form_set_error('email', 'Invalid email address');
-	  drupal_goto('tuser/change_password');
+		$result = db_select('tuser', 'tu')
+				->fields('tu', array('mail', 'pass'))
+				->condition('tu.mail', $email, '=')
+				->execute()->rowCount();
+		if($result ==1) {
+			$num_updated = db_update('tuser') // Table name no longer needs {}
+				->fields(array(
+									 'pass' => $new_pass,
+								))
+				->condition('mail', $email, '=')
+				->execute();
+			 drupal_set_message('Your password is changed');
+			 $form_state['rebuild'] = TRUE;
+			drupal_goto('procurement/tenders/list');
+		}
+		else {
+			form_set_error('email', 'Invalid email address');
+			drupal_goto('tuser/change_password');
+		}
 	}
 }
 
