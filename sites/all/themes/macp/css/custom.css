@@ -865,3 +865,178 @@ text-decoration:none;
 p,pre {
 margin:1em 0;
 }
+
+/*******************************/
+#case-study-node-form .field-multiple-table {
+    margin: 0 0 0 150px;
+    width: 482px;
+}
+
+#case-study-node-form #edit-field-upload-video-und-add-more {
+    margin: 0 0 0 150px;
+}
+
+#case-study-node-form .form-actions #edit-preview{
+	margin:0 0 0 10px !important;
+}
+
+#case-study-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#case-study-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#case-study-node-form .grippie {
+	display:none !important;
+}
+
+#case-study-node-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+
+#case-study-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#case-study-node-form fieldset legend {
+	position:static;
+}
+/************************************/
+#activity-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#activity-node-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+#activity-node-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+#activity-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#activity-node-form .form-actions #edit-preview{
+	margin:0 0 0 10px !important;
+}
+
+#activity-node-form .grippie {
+	display:none !important;
+}
+
+#activity-node-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+
+#activity-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#activity-node-form fieldset legend {
+	position:static;
+}
+/************************************/
+#innovations-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+#innovations-node-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .form-actions #edit-preview {
+	margin:0 0 0 10px !important;
+}
+
+#innovations-node-form .grippie {
+	display:none !important;
+}
+
+#innovations-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#innovations-node-form fieldset legend {
+	position:static;
+}
+/************************************/
+.node-_success_story-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+.node-_success_story-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form .dropbox table {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+
+.node-_success_story-form .grippie {
+	display:none !important;
+}
+
+.node-_success_story-form .form-actions {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form .form-actions #edit-preview {
+	margin:0 0 0 10px !important;
+}
+
+.node-_success_story-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+.node-_success_story-form fieldset legend {
+	position:static;
+}
+
+.field-name-field-upload-activity-document .field-item {
+	width:auto;
+	float:left;
+	margin:5px;
+}
+
+.field field-name-field-upload-activity-image .field-label {
+	padding:5px !important;
+}
+
+.node-type-activity .field-label {
+	width:105px;
+}
+
+.node-type-activity .field-name-body .field-label {
+	width:105px;
+	float:left;
+}
+/************************************/
+table.custom-nodes {
+	line-height:50px !important;
+}

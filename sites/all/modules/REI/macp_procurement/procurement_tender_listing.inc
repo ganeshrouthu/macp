@@ -708,6 +708,7 @@ function tuser_chnage_password($form, $form_state) {
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
+		'#required' => TRUE,
     '#size' => 50,
   );
 
@@ -788,10 +789,12 @@ function change_password($form_state, $record) {
     '#type' => 'textfield',
     '#title' => t('Email'),
     '#size' => 50,
+    '#required' => TRUE,
     '#default_value' => $record['build_info']['args'][0]['email'],
   );
   $form['new_password'] = array(
     '#type' => 'password_confirm',
+		'#required' => TRUE,
     '#size' => 25,
   );
   $form['submit'] = array(
