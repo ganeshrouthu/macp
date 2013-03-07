@@ -215,7 +215,7 @@ $databases = array (
   array (
     'default' => 
     array (
-      'database' => 'macpnew1',
+      'database' => 'macp',
       'username' => 'root',
       'password' => '',
       'host' => 'localhost',
