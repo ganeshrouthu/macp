@@ -13,6 +13,8 @@ function macp_reports_init() {
   module_load_include('inc', $module_name, 'stored_procedures_data');
   drupal_add_css($curr_dir . 'css/finance.css', array('group' => CSS_DEFAULT));
   drupal_add_js($curr_dir . 'js/finance.js');
+	
+//	$custom_report = _load_custom_report(510);
 }
 
 /**
@@ -72,7 +74,44 @@ function macp_reports_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
+	$items['mis/add/custom_reports'] = array(
+    'title' => 'Add New Custom Report',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('macp_reports_add_custom_report'),
+    'access callback' => 'is_mis_admin_logged_in',
+    'file' => 'misc-functions.inc',
+  );
+	$items['mis/edit/custom_reports/%'] = array(
+    'title' => 'Edit Custom Report',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('macp_reports_add_custom_report', 3),
+    'access callback' => 'is_mis_admin_logged_in',
+		'access arguments' => array('access content'),
+    'file' => 'misc-functions.inc',
+  );
+	$items['mis/delete/custom_reports/%'] = array(
+    'title' => 'Delete custom report',
+    'page callback' => 'macp_reports_delete_custom_report',
+    'page arguments' => array(3),
+		'access callback' => 'is_mis_admin_logged_in',
+  );
+	$items['mis/custom-reports-list'] = array(
+    'title' => t('Custom Reports List'),
+    'description' => 'Display custom reports list for admin',
+    'page callback'    => 'mis_reports_custom_reports_list',
+    'access callback' => 'is_mis_admin_logged_in',
+    'file' => 'misc-functions.inc',
+  );
   return $items;
+}
+
+function is_mis_admin_logged_in() {
+	global $user;
+	$access = FALSE;
+	if ($user->uid == 1 || (in_array('site administrator', $user->roles) || in_array('content admin', $user->roles))) {
+		$access = TRUE;
+	}
+	return $access;
 }
 
 function _odbc_exec($sql) {
@@ -188,6 +227,14 @@ function macp_reports_theme($existing, $type, $theme, $path) {
       'template' => 'templates/district-wise-apmcs',
       'variables' => array('records' => array(), 'headings' => array(), ),
     ),
+		'mis_reports_index' => array(
+      'template' => 'templates/mis_reports_index',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
+		'custom_reports_index' => array(
+      'template' => 'templates/custom_reports_index',
+      'variables' => array('records' => array(), 'headings' => array(), 'index' => ''),
+    ),
   );
 }
 
@@ -260,7 +307,13 @@ function macp_reports_block_info() {
   $blocks = array();
 	$blocks['print_pdf_export'] = array(
 		'info' => t('Print PDF Export Options')
-	);	
+	);
+	$blocks['mis_reports_index'] = array(
+		'info' => t('MIS Reports Index')
+	);
+	$blocks['custom_reports_index'] = array(
+		'info' => t('Custom Reports Index')
+	);
   return $blocks;
 }
 
@@ -269,41 +322,129 @@ function macp_reports_block_view($delta = ''){
 	switch ($delta) {
 		case 'print_pdf_export':
       $block['subject'] = '';
-      $block['content'] = _place_print_pdf_export_options();
+      $block['content'] = _print_pdf_export_link();
+		break;
+		case 'mis_reports_index':
+      $block['subject'] = '';
+      $block['content'] = _mis_reports_listing();
+		break;
+		case 'custom_reports_index':
+      $block['subject'] = '';
+      $block['content'] = _custom_reports_listing();
 		break;
   }
   return $block;
 }
 
-function _place_print_pdf_export_options() {
+function _print_pdf_export_link() {
+	global $base_url;
 	$html = '';
-	$html .= '<div class="print-pdf-export">';
-	$html .= print_pdf_insert_link();
-	$html .= print_insert_link();
 	if (arg(0) == 'node') {
 		$curr_node = node_load(arg(1));
-		if ($curr_node->type == 'report_template') {
-			$html .= export_to_csv_link();
+		if ((isset($curr_node->type)) && $curr_node->type == 'report_template') {
+			$pars = _split_request_get_params();
+			if (! empty($pars)) {
+				$pars = array_values($pars);
+			}
+			$html .= '<div class="print-pdf-export-9">
+			<table align="center" class="macp-table report-filters no-borders">
+  <tr valign="top" align="left">
+		<td align="right">';
+			$query_str = implode('/', $pars);
+			$module_path = drupal_get_path('module', 'macp_reports');
+			$arr = array();
+			if (module_exists('print_pdf')) {
+				$arr['print-pdf']['title'] = 'PDF Version';
+				$arr['print-pdf']['link'] = $base_url . '/printpdf/'.arg(1). '?' . $query_str;
+				$arr['print-pdf']['image'] = $base_url .'/'.$module_path . '/css/misc/pdf_icon.gif';
+			}
+			if (module_exists('print')) {
+				$arr['print']['title'] = 'Printer Friendly Version';
+				$arr['print']['link'] = $base_url . '/print/'.arg(1). '?' . $query_str;
+				$arr['print']['image'] = $base_url .'/'.$module_path . '/css/misc/print_icon.gif';
+			}
+			$arr['export_csv']['title'] = 'Export to CSV';
+			$arr['export_csv']['link'] = $base_url . '/export-to-csv/' . $query_str;
+			$arr['export_csv']['image'] = $base_url .'/'.$module_path . '/css/misc/doc_excel_csv.png';
+			if (! empty($arr)) {
+				$html .= '<div>';
+				foreach ($arr as $class => $arr_child) {
+					$html .= '<span class="'.$class.'">';
+					$html .= '<a rel="nofollow" class="'.$class.'" title="'.$arr_child['title'].'" 
+										href="' .$arr_child['link'] . '" target="_blank">';
+					$html .= '<img src="'.$arr_child['image'].'" class="print-icon"></a>';
+					$html .= '</span>';
+				}
+				$html .= '</div>';
+			}
 		}
 	}
-	$html .= '</div>';
+	$html .= '</td></tr></table></div>';
 	return $html;
 }
 
-function export_to_csv_link() {
-	global $base_url;
-	$pars = _split_request_get_params();
-	if (empty($pars)) {
-		return '';
-	}
-	extract($pars, EXTR_PREFIX_ALL, 'P');
-	$export_csv_link = $base_url .'/export-to-csv/'.implode('/', $pars);
-	$export_image = $base_url . '/sites/default/files/misc/doc_excel_csv.png';
+function _mis_reports_listing() {
 	$html = '';
-	$html .= '<span class="print_pdf">';
-	$html .= '<a rel="nofollow" class="Export to CSV" title="Export this report to CSV." 
-						href="' .$export_csv_link . '">';
-	$html .= '<img title="PDF version" alt="Export to CSV" src="'.$export_image.'" class="print-icon"></a>';
-	$html .= '</span>';
-	return $html;
+	if (arg(0) == 'node' && arg(1) > 0) {
+		$node_type = _get_node_type(arg(1));
+		
+		
+		if ($node_type->type != 'reports') {
+			return $html;
+		}
+	}
+	$theme_parameters = array('records' => array(),
+                            'headings' => '',
+                            'index' => ''
+												);
+	return theme('mis_reports_index', $theme_parameters);
+}
+
+function _custom_reports_listing() {
+	$html = '';
+	if (arg(0) == 'node' && arg(1) > 0) {
+		$node_type = _get_node_type(arg(1));
+		if ($node_type->type != 'reports') {
+			return $html;
+		}
+	}
+	$theme_parameters = array('records' => array(),
+                            'headings' => '',
+                            'index' => ''
+												);
+	return theme('custom_reports_index', $theme_parameters);
+}
+
+function _get_node_type($nid = FALSE) {
+	if (! $nid) {
+		return FALSE;
+	}
+	return db_select('node', 'N')
+	  ->fields('N', array('type'))
+	  ->condition('N.nid', $nid, '=')
+	  ->execute()
+	  ->fetchObject();  
+}
+
+function _get_mis_report_groups() {
+  $arr = array();
+  $vocabs = taxonomy_get_vocabularies();
+  $vid = NULL;
+  if (! empty($vocabs)) {
+    foreach ($vocabs as $vocab) {
+      if ($vocab->machine_name == 'mis_report_groups') {
+        $vid = $vocab->vid;
+      }
+    }
+  }
+  if (! $vid) {
+    return $arr;
+  }
+  $report_groups = taxonomy_get_tree($vid);
+  if (! empty($report_groups)) {
+    foreach ($report_groups as $report_group) {
+      $arr[$report_group->tid] = $report_group->description;
+    }
+  }
+  return $arr;
 }

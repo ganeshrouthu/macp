@@ -83,10 +83,10 @@ if ($P_district_id != 'all' && !empty($districts)) {
 ?>
 
 <?php
-if (arg(0) == 'printpdf') {
+if (arg(0) == 'printpdf' || arg(0) == 'print') {
 ?>
 <div>
-Report Type: <?php print $P_report_type;?> | Financial Year: <?php print $P_financial_year;?> | State: Maharashtra | District: <?php print $url_district;?> 
+<strong>Report Type:</strong> <?php print $P_report_type;?> | <strong>Financial Year:</strong> <?php print $P_financial_year;?> | <strong>State</strong>: Maharashtra | <strong>District:</strong> <?php print $url_district;?> 
 </div>
 <?php
 }
@@ -95,11 +95,9 @@ else {
 <table border="0" cellspacing="0" cellpadding="0" align="center" class="macp-table report-filters">
 	<thead>
   <tr align="left" valign="top">
-		<td>State</td>
-		<td>Maharashtra</td>
-    <td>District</td>
-		<td>
-    <?php
+		<td><div class="heading"><strong>State: </strong></div>Maharashtra</td>
+		<td></td>
+    <td><div class="heading"><strong>District: </strong></div><?php
     $dist_all_url = _prepare_report_filters('district_id', 'all');
     $report_all_url = _prepare_report_filters('report_type', 'all');
 		$selected_dist_all = (isset($pars['district_id']) && $pars['district_id'] == 'all') ? 'selected="selected"' : '';
@@ -131,22 +129,25 @@ else {
       }
     }
     ?>
-		<?php print ($print_drop_downs) ? '</select>' : $dist_text;?>
+		<?php print ($print_drop_downs) ? '</select>' : $dist_text;?></td>
+		<td>
+    
 </td>
 	</tr>
 
   <tr align="left" valign="top">
-		<td>Report Type</td>
-		<td>
+		<td><div class="heading"><strong>Report Type: </strong></div>
 		<?php
 		if (isset($pars['report_type'])) {
 			print $pars['report_type'];
 		}
 		?>
-		</td>
-    <td>Financial Year</td>
 		<td>
-    <?php
+		</td>
+    <td>
+		
+		<div class="heading"><strong>Financial Year: </strong></div>
+		<?php
 		$financial_year_text = '';
 		if ($print_drop_downs) {
 		?>
@@ -178,11 +179,14 @@ else {
     }
     ?>
 <?php print ($print_drop_downs) ? '</select>' : $financial_year_text;?>
+		
+		<td>
+    
 
     </td>
 	</tr>
   </thead>
-</table
+</table>
 <?php
 }
 ?>

@@ -7,7 +7,7 @@ extract($headings, EXTR_PREFIX_ALL, 'H');
 global $base_url;
 ?>
 <div class="mis-clear-all">
-<table border="1" cellpadding="1" cellspacing="0" width="200" align="center" class="macp-table">
+<table border="1" cellpadding="1" cellspacing="0" width="100%" align="center" class="macp-table">
 <thead>
 <tr>
 <th rowspan="2" align="center">#</th>
@@ -69,5 +69,3 @@ else {
 </tbody>
 </table>
 </div>
-<br clear="all"/>
-<!--<h4 align="right">*Figures are in Lk.</h4>-->

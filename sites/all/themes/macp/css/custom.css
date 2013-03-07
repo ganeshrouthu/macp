@@ -450,6 +450,22 @@ text-align:center;
 
 /*********************************** end  *************************/
 
+/*macp menu block*/
+#block-menu-menu-macp a{
+text-decoration:none;
+font-size:11px;
+color:darkslategrey;
+
+}
+#block-menu-menu-macp ul li {
+list-style-image: url('../images/bullet.png');
+margin:4px;
+padding-left:1px;
+}
+
+/*macp menu block end*/
+
+
 
 #block-quicktabs-related-pages{
 margin-bottom:0px;
@@ -504,10 +520,9 @@ text-decoration:underline;
 #teazer-body{
 //max-height: 480px;
 overflow: hidden;
+margin-top:0px;
 }
 /*
-
-
 div#block-book-explorer-book-explorer div ul{
 margin: 7px;
 padding-left: 5px;
@@ -518,6 +533,7 @@ padding-left: 20px;
 
 table {
     width:100%;
+	
 }
 
 
@@ -684,9 +700,9 @@ width:128px;
 width:140px;
 }
 
-.field-item table th{
+/*.field-item table th{
 display:none;
-}
+}*/
 
 .field-item table{
 margin-top:5px;
@@ -721,7 +737,18 @@ margin-bottom:10%
 //float:left;
 }
 
-div.field-type-image{
+/*div.field-type-image{
+width:45%;
+float:left;
+background:#E9F1DA;
+margin-right:15px;
+padding-left:17px;
+clear:left;
+height:125px;
+}*/
+
+/*done on 28-02-2013*/
+div.field-name-field-upload-activity-image{
 width:45%;
 float:left;
 background:#E9F1DA;
@@ -731,6 +758,20 @@ clear:left;
 height:125px;
 }
 
+
+div.field-name-field-unitwise-images {
+width:170%;
+float:left;
+/*background:#E9F1DA;
+margin-right:15px;*/
+padding-left:0px;
+margin-left:-70px;
+clear:left;
+height:260px;
+margin-top:10px;
+}
+
+
 div.field-name-field-video-upload, div.field-name-field-casestudy-video, div.field-name-field-innovation-video, div.field-name-field-success-video {
 width:45%;
 float:left;
@@ -739,6 +780,14 @@ margin-right:0px;
 padding-left:17px;
 //clear:left;
 }
+/*unitwise video gallery*/
+div.field-name-field-unitwise-videos {
+width:100%;
+margin-right:0px;
+padding-left:17px;
+//clear:left;
+}
+/*end unitwise video gallery*/
 
 .field-type-image .field-label{
  //left: 70px;
@@ -776,27 +825,216 @@ margin-right:7px;
 }
 
 th {
- background-color: #B4DE85;
- font-size: 16px;
+ background-color:#9cb466;
+ font-size: 14px;
  font-weight: bold;
- padding: 0;
- text-align: center;
+ padding-left:10px;
+ text-align:left;
+ color:#25461a;
+ border:1px solid #bad19a;
 }
 
 table {
-line-height: 22px;
+line-height: 20px;
 width: 100%;
-border: 1px solid #999999;
+border: 1px solid #bad19a;
 }
 
 tbody {
 /*border-color:#999999;*/
   /*border-top: none;*/
-  text-align:center;
+  text-align: left;
+  border: 1px solid #bad19a;
 }
-tr:nth-child(even) {background: #e3eed1 }
-tr:nth-child(odd) {background: none}
+tr:nth-child(even) {background:#dee6cc }
+tr:nth-child(odd) {background: #f3f7ec}
 
 td {
-border: 1px solid #999999;
+border: 1px solid #bad19a;
+padding-left:5px;
+}
+
+h2 {
+text-align:center;
+}
+
+h2 a {
+text-decoration:none;
+}
+
+
+
+/*******************************/
+#case-study-node-form .field-multiple-table {
+    margin: 0 0 0 150px;
+    width: 482px;
+}
+
+#case-study-node-form #edit-field-upload-video-und-add-more {
+    margin: 0 0 0 150px;
+}
+
+#case-study-node-form .form-actions #edit-preview{
+	margin:0 0 0 10px !important;
+}
+
+#case-study-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#case-study-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#case-study-node-form .grippie {
+	display:none !important;
+}
+
+#case-study-node-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+
+#case-study-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#case-study-node-form fieldset legend {
+	position:static;
+}
+/************************************/
+#activity-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#activity-node-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+#activity-node-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+#activity-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#activity-node-form .form-actions #edit-preview{
+	margin:0 0 0 10px !important;
+}
+
+#activity-node-form .grippie {
+	display:none !important;
+}
+
+#activity-node-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+
+#activity-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#activity-node-form fieldset legend {
+	position:static;
+}
+/************************************/
+#innovations-node-form .dropbox table {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+#innovations-node-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .form-actions {
+	margin-left:150px !important;
+}
+
+#innovations-node-form .form-actions #edit-preview {
+	margin:0 0 0 10px !important;
+}
+
+#innovations-node-form .grippie {
+	display:none !important;
+}
+
+#innovations-node-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+#innovations-node-form fieldset legend {
+	position:static;
+}
+/************************************/
+.node-_success_story-form .field-multiple-table {
+	margin-left:150px !important;
+	width:483px;
+}
+
+.node-_success_story-form .field-add-more-submit {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form .dropbox table {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form a.launcher {
+	text-decoration:none;
+	color:#000000;
+}
+
+.node-_success_story-form .grippie {
+	display:none !important;
+}
+
+.node-_success_story-form .form-actions {
+	margin-left:150px !important;
+}
+
+.node-_success_story-form .form-actions #edit-preview {
+	margin:0 0 0 10px !important;
+}
+
+.node-_success_story-form fieldset {
+	margin-left:150px;
+	width:67%;
+}
+
+.node-_success_story-form fieldset legend {
+	position:static;
+}
+
+.field-name-field-upload-activity-document .field-item {
+	width:auto;
+	float:left;
+	margin:5px;
+}
+
+.field field-name-field-upload-activity-image .field-label {
+	padding:5px !important;
+}
+
+.node-type-activity .field-label {
+	width:105px;
+}
+
+.node-type-activity .field-name-body .field-label {
+	width:105px;
+	float:left;
+}
+/************************************/
+table.custom-nodes {
+	line-height:50px !important;
 }

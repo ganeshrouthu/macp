@@ -14,6 +14,7 @@ extract($headings, EXTR_PREFIX_ALL, 'H');
 <th align="center">Expenditure</th>
 <th align="center">In %</th>
 </tr>
+
 <?php
 if (!empty($records)) {
   $i=0;

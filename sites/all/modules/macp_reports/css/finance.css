@@ -34,19 +34,20 @@
 .macp-table {
 width: 100% !important;
 border: 1px solid #B0B0B0;
+line-height:20px;
 }
 .macp-table tbody {
 /* Kind of irrelevant unless your .css is alreadt doing something else */
 margin: 0;
 padding: 0;
-border: 0;
+border: 1px solid #B0B0B0;
 outline: 0;
 font-size: 100%;
 vertical-align: baseline;
 background: transparent;
 }
 .macp-table thead {
-text-align: left;
+	text-align: left;
 }
 .macp-table thead th {
 background: -moz-linear-gradient(top, #F0F0F0 0, #DBDBDB 100%);
@@ -66,7 +67,7 @@ background: #F2F2F2;
 }
 
 .mis-clear-all {
-	clear:all;
+/*	clear:all;*/
 }
 
 #edit-cancel {
@@ -110,16 +111,129 @@ background: #F2F2F2;
 	float:right;
 }
 
-.print-export {
-	float:right;
-	clear:all;
+.print-pdf-export {
+/*	height:25px;*/
 }
 
-.print-pdf-export {
-	float:right;
-	clear:all;
+.no-borders td, .no-borders th {
+	border:none !important;
+}
+
+#block-macp-reports-print-pdf-export {
+	height:25px;
 }
 
 .report-filters {
 	margin:40px 0 0 0;
+}
+
+.macp-report-table {
+	width:100%;
+	font-size:12px;
+}
+
+#macp-reports-add-custom-report label {
+	width:140px !important;
+	float:left;
+	display:inline;
+	padding-left:20px;
+}
+
+/*
+#macp-reports-add-custom-report .form-text {
+}
+*/
+#macp-reports-add-custom-report .form-text {
+	width:300px !important;
+}
+
+#macp-reports-add-custom-report .form-select {
+	width:300px !important;
+}
+
+#macp-reports-add-custom-report .form-file {
+	width:210px !important;
+}
+
+#macp-reports-add-custom-report .description {
+	padding-left:160px !important;
+	margin-bottom:10px;
+}
+
+#macp-reports-add-custom-report .submit-buttons {
+	padding:0px;
+	margin-left:160px;
+}
+
+
+#macp-reports-add-custom-report .cancel-btn-div {
+	padding-left:10px;
+	margin-left:0px;
+}
+
+#edit-upload-upload {
+/*	width:400px !important;*/
+}
+
+#edit-group-id {
+	width:300px !important;
+}
+
+/* Custom Report Table */
+.custom-reports-table {
+	padding:0 auto;
+	height:400px;
+	overflow-y:scroll;
+}
+
+#block-quicktabs-test {
+	width:90% !important;
+}
+
+#block-quicktabs-test h2.block-title, #block-quicktabs-macp-mis-reports-tabs h2.block-title{
+	display:none !important;
+}
+
+#macp-custom-reports ol.groups, #macp-mis-reports ol.groups {
+	list-style-type:upper-roman;
+}
+
+#macp-custom-reports ol.groups li a, #macp-mis-reports ol.groups li a{
+	color:blue;
+}
+
+#macp-mis-reports, #macp-custom-reports{
+	height:350px !important;
+	overflow-y:scroll;
+}
+
+.heading {
+	padding-left:50px !important;
+	padding-right:5px !important;
+	float:left;
+	width:90px;
+}
+
+.print-content .heading {
+	padding-left:50px !important;
+	padding-right:5px !important;
+	float:left;
+	width:120px;
+}
+
+.print-site_name, .print-logo {
+	display:none;
+}
+
+#quicktabs-test ul {
+	background:none !important!;
+	border:1px solid #D6E3B5 !important;
+}
+
+.print-pdf-export img {
+	padding:5px;
+}
+
+.print-breadcrumb {
+	display:none;
 }

@@ -39,17 +39,6 @@ function procurement_add_addendum($form, $form_state, $tender = NULL, $addendum 
     	'#default_value' => empty($addendum->aid) ? '' : $addendum->aid, 
     	'#required' => TRUE,
     );
-    
-    $form['delete'] = array(
-      '#type' => 'submit',
-      '#value' => t('Delete'),
-      '#weight' => 15,
-      '#submit' => array('addendum_delete'),
-      '#attributes' => array('class' => array('delete-add')),
-			'#prefix' => '<div class="delete-buttons">',
-		'#suffix' => '</div>'
-    );
-  	
   }else {
     $form['action'] = array(
     	'#type' => 'hidden', 
@@ -86,14 +75,10 @@ function procurement_add_addendum($form, $form_state, $tender = NULL, $addendum 
 														'file_validate_size' => array(8 * 1048576),
 														),
  	);
-	//$cancel_url = _prepare_cancel_url('procurement/manage-tenders');	
 	$cancel_url = $base_url . '/procurement/manage-tenders';	
  	$form['add_submit'] = array(
  	  '#type' => 'submit', 
- 	  //'#value' => empty($addendum) ? t('Add Addendum') :t('Edit Addendum')
  	  '#value' => t('Save'),
-		//'#suffix' => '<input class="cancel-btn" type="button" value="Cancel" alt="'.$cancel_url.'" />'
-		
 		'#prefix' => '<div class="submit-buttons">',
 		'#suffix' => '<span class="cancel-btn-div"><input class="cancel-btn" type="button" value="Cancel" alt="'.$cancel_url.'" /></span></div>'
  	);
@@ -125,10 +110,7 @@ function procurement_add_addendum_submit($form, &$form_state) {
     $file->status = FILE_STATUS_PERMANENT;
     file_save($file);
     file_usage_add($file, 'procurement', $file->filename, 1);
-    //end chnage by Nitin 1 Feb 2013
-     
-     
-     $form_state['redirect'] = 'procurement/tenders';
+    $form_state['redirect'] = 'procurement/manage-tenders';
   }else {
   	
   	db_update('addendum') // Table name no longer needs {}
@@ -149,7 +131,7 @@ function procurement_add_addendum_submit($form, &$form_state) {
     file_usage_add($file, 'procurement', $file->filename, 1);
     //end chnage by Nitin 1 Feb 2013
   	
-  	$form_state['redirect'] = 'procurement/tenders';
+  	$form_state['redirect'] = 'procurement/manage-tenders';
   }
 }
 
@@ -165,7 +147,7 @@ function delete_addendum($aid) {
   db_delete('addendum')
     ->condition('aid', $aid)
     ->execute();
-  drupal_goto('procurement/tenders');
+  drupal_goto('procurement/manage-tenders');
 }
 
 /*
@@ -213,6 +195,7 @@ function tender_download_user() {
       array('data' => $record['agency_name']),
       array('data' =>  $tender->title),
       array('data' => $file->filename),
+      array('data' =>  format_date($record['created'], 'custom', 'D j M Y')),
       array('data' =>  format_date($record['created'], 'custom', 'D j M Y')),
     );
    

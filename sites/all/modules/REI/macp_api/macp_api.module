@@ -57,3 +57,216 @@ function _get_mis_departments_for_docs() {
 	}
 	return $html;
 }
+
+function macp_api_get_allowed_values_for_field($field_name = FALSE) {
+	$allowed_values = array();
+	if ($field_name) {
+		$field_values = field_info_field($field_name);
+		if ($field_name && !empty($field_values['settings']['allowed_values'])) {
+			$allowed_values = $field_values['settings']['allowed_values'];
+		}
+	}
+	return $allowed_values;
+}
+
+/**
+ * Implementing hook_node_view()
+ */
+function macp_api_node_view($node, $view_mode, $langcode) {
+	if ($node->type == 'activity') {
+		$node_videos = _get_uploaded_files_array($node, 'field_video_upload');
+		$node->node_videos = _format_uploads($node_videos);
+		$node_images = _get_uploaded_files_array($node, 'field_upload_activity_image');
+		$node->node_images = _format_uploads_images($node_images);
+		$node_documents = _get_uploaded_files_array($node, 'field_upload_activity_document');
+		$node->node_documents = _format_uploads($node_documents);
+		$node->node_locations = _get_node_location_from_taxonomy($node, 'field_activity_location');
+		$node->node_type = _get_node_misc_types($node, 'field_type_of_activity');
+		$node->node_body = $node->body[LANGUAGE_NONE][0]['value'];
+
+		$node_type_display = 'activity';
+		$node->label_title = 'Name of the ' . $node_type_display;
+		$node->label_type = 'Type of the ' . $node_type_display;
+		$node->label_body = 'Brief Description';
+		$node->label_prev_activity = 'Previous condition';
+		$node->label_activity_implemented = 'Activity implemented';
+		$node->label_post_activity = 'Post activity condition ';
+
+		$node->label_documents = ucfirst($node_type_display. ' Documents');
+		$node->label_images = ucfirst($node_type_display . ' Images');
+		$node->label_videos = ucfirst($node_type_display . ' Videos');
+		$node->label_locations = ucfirst($node_type_display . ' Locations');
+		return $node;
+	}
+	if ($node->type == 'case_study') {
+		$node->node_body = $node->body[LANGUAGE_NONE][0]['value'];
+		// Uploaded Documents, Images and Videos
+		$node_videos = _get_uploaded_files_array($node, 'field_casestudy_video');
+		$node->node_videos = _format_uploads($node_videos);
+		$node_images = _get_uploaded_files_array($node, 'field_upload_image');
+		$node->node_images = _format_uploads_images($node_images);
+		$node_documents = _get_uploaded_files_array($node, 'field_upload_doc');
+		$node->node_documents = _format_uploads($node_documents);
+		
+		$node->node_locations = _get_node_location_from_taxonomy($node, 'field_case_location');
+		$node->node_type = (isset($node->field_type_of_case_study[LANGUAGE_NONE][0]['value'])) ? $node->field_type_of_case_study[LANGUAGE_NONE][0]['value'] : '';
+		$node->beneficiaries = (isset($node->field_name_of_the_beneficiaries_[LANGUAGE_NONE][0]['value'])) ? $node->field_name_of_the_beneficiaries_[LANGUAGE_NONE][0]['value'] : '';
+
+		$node->previous_condition = (isset($node->field_previous_condition[LANGUAGE_NONE][0]['value'])) ? $node->field_previous_condition[LANGUAGE_NONE][0]['value'] : '';
+
+		$node->activity_implemented = (isset($node->field_activity_implemented[LANGUAGE_NONE][0]['value'])) ? $node->field_activity_implemented[LANGUAGE_NONE][0]['value'] : '';
+
+		$node->post_activity_condition = (isset($node->field_post_activity_condition[LANGUAGE_NONE][0]['value'])) ? $node->field_post_activity_condition[LANGUAGE_NONE][0]['value'] : '';
+		
+		$node_type_display = 'case study';
+		$node->label_title = 'Name of the ' . $node_type_display;
+		$node->label_type = 'Type of the ' . $node_type_display;
+		$node->label_body = 'Brief Description';
+		$node->label_prev_activity = 'Previous condition';
+		$node->label_activity_implemented = 'Activity implemented';
+		$node->label_post_activity = 'Post activity condition ';
+
+		$node->label_documents = ucfirst($node_type_display. ' Documents');
+		$node->label_images = ucfirst($node_type_display . ' Images');
+		$node->label_videos = ucfirst($node_type_display . ' Videos');
+		$node->label_locations = ucfirst($node_type_display . ' Locations');
+		$node->label_beneficiaries = 'Beneficiaries';
+		return $node;
+	}
+
+	if ($node->type == 'innovations') {
+		$node->node_body = $node->body[LANGUAGE_NONE][0]['value'];
+		$node->node_type = (isset($node->field_type_of_innovation[LANGUAGE_NONE][0]['value'])) ? $node->field_type_of_innovation[LANGUAGE_NONE][0]['value'] : '';
+		$node->beneficiaries = (isset($node->field_name_of_the_beneficiaries_[LANGUAGE_NONE][0]['value'])) ? $node->field_name_of_the_beneficiaries_[LANGUAGE_NONE][0]['value'] : '';
+		$node->previous_condition = (isset($node->field_previous_condition[LANGUAGE_NONE][0]['value'])) ? $node->field_previous_condition[LANGUAGE_NONE][0]['value'] : '';
+		$node->activity_implemented = (isset($node->field_activity_implemented[LANGUAGE_NONE][0]['value'])) ? $node->field_activity_implemented[LANGUAGE_NONE][0]['value'] : '';
+		$node->post_activity_condition = (isset($node->field_post_activity_condition[LANGUAGE_NONE][0]['value'])) ? $node->field_post_activity_condition[LANGUAGE_NONE][0]['value'] : '';
+		$node_videos = _get_uploaded_files_array($node, 'field_innovation_video');
+		$node->node_videos = _format_uploads($node_videos);
+		$node_images = _get_uploaded_files_array($node, 'field_upload_image');
+		$node->node_images = _format_uploads_images($node_images);
+		$node_documents = _get_uploaded_files_array($node, 'field_upload_doc');
+		$node->node_documents = _format_uploads($node_documents);
+		$node->node_locations = _get_node_location_from_taxonomy($node, 'field_location');		
+		$node_type_display = 'innovation';
+		$node->label_title = 'Name of the ' . $node_type_display;
+		$node->label_type = 'Type of the ' . $node_type_display;
+		$node->label_body = 'Brief Description';
+		$node->label_prev_activity = 'Previous condition';
+		$node->label_activity_implemented = 'Activity implemented';
+		$node->label_post_activity = 'Post activity condition ';
+
+		$node->label_documents = ucfirst($node_type_display. ' Documents');
+		$node->label_images = ucfirst($node_type_display . ' Images');
+		$node->label_videos = ucfirst($node_type_display . ' Videos');
+		$node->label_locations = ucfirst($node_type_display . ' Locations');
+		$node->label_beneficiaries = 'Beneficiaries';
+		return $node;
+	}
+	if ($node->type == '_success_story') {
+		$node->node_body = $node->body[LANGUAGE_NONE][0]['value'];
+		$node->node_type = (isset($node->field_type_of_success_story[LANGUAGE_NONE][0]['value'])) ? $node->field_type_of_success_story[LANGUAGE_NONE][0]['value'] : '';
+		$node->beneficiaries = (isset($node->field_name_of_the_beneficiaries_[LANGUAGE_NONE][0]['value'])) ? $node->field_name_of_the_beneficiaries_[LANGUAGE_NONE][0]['value'] : '';
+		$node->previous_condition = (isset($node->field_previous_condition[LANGUAGE_NONE][0]['value'])) ? $node->field_previous_condition[LANGUAGE_NONE][0]['value'] : '';
+
+		$node->activity_implemented = (isset($node->field_activity_implemented[LANGUAGE_NONE][0]['value'])) ? $node->field_activity_implemented[LANGUAGE_NONE][0]['value'] : '';
+		$node->post_activity_condition = (isset($node->field_post_activity_condition[LANGUAGE_NONE][0]['value'])) ? $node->field_post_activity_condition[LANGUAGE_NONE][0]['value'] : '';
+		
+		// Uploaded Documents, Images and Videos
+		$node_videos = _get_uploaded_files_array($node, 'field_success_video');
+		$node->node_videos = _format_uploads($node_videos);
+		$node_images = _get_uploaded_files_array($node, 'field_upload_image');
+		$node->node_images = _format_uploads_images($node_images);
+		$node_documents = _get_uploaded_files_array($node, 'field_upload_doc');
+		$node->node_documents = _format_uploads($node_documents);
+		$node->node_locations = _get_node_location_from_taxonomy($node, 'field_location');
+
+		$node_type_display = 'success story';
+		$node->label_title = 'Name of the ' . $node_type_display;
+		$node->label_type = 'Type of the ' . $node_type_display;
+		$node->label_body = 'Brief Description';
+		$node->label_beneficiaries = 'Beneficiaries';
+
+		$node->label_prev_activity = 'Previous condition';
+		$node->label_activity_implemented = 'Activity implemented';
+		$node->label_post_activity = 'Post activity condition ';
+
+		$node->label_documents = ucfirst($node_type_display. ' Documents');
+		$node->label_images = ucfirst($node_type_display . ' Images');
+		$node->label_videos = ucfirst($node_type_display . ' Videos');
+		$node->label_locations = ucfirst($node_type_display . ' Locations');
+		return $node;
+	}
+}
+
+function _get_uploaded_files_array($node = FALSE, $field_name = FALSE) {
+	$arr = array();
+	if (! $node || ! $field_name) {
+		return $arr;
+	}
+	$field_values = $node->$field_name;
+	if (!empty($field_values[LANGUAGE_NONE])) {
+		foreach ($field_values[LANGUAGE_NONE] as $elem) {
+			if (isset($elem['uri']) && strlen($elem['uri'])) {
+				//$arr[] = file_create_url($elem['uri']);
+				$arr[] = $elem['uri'];
+			}
+		}
+	}
+	return $arr;
+}
+
+function _format_uploads($arr = array()) {
+	$output = '<ul class="custom-nodes-ul">';
+	if (! empty($arr)) {
+		foreach ($arr as $elem) {
+			$output .= '<li><a href="'.file_create_url($elem).'" target="_blank">'.basename($elem).'</a></li>';
+		}
+	}
+	$output .= '</ul>';
+	return $output;
+}
+
+function _format_uploads_images($arr = array()) {
+	$output = '<ul class="custom-nodes-ul">';
+	if (! empty($arr)) {
+		foreach ($arr as $elem) {
+			$image = file_create_url($elem);
+			$output .= '<li>';
+			$output .= '<a href="'.$image.'" target="_blank">';
+			$output .= '<img src="'.$image.'" height="100" width="100">';
+			$output .= '</a></li>';
+		}
+	}
+	$output .= '</ul>';
+	return $output;
+}
+
+function _get_node_location_from_taxonomy($node = FALSE, $field_name = FALSE) {
+	$arr = array();
+	if (! $node || ! $field_name) {
+		return $arr;
+	}
+	$field_values = $node->$field_name;
+	if (!empty($field_values[LANGUAGE_NONE])) {
+		foreach ($field_values[LANGUAGE_NONE] as $elem) {
+			if (isset($elem['taxonomy_term']->name)) {
+				$arr[] = $elem['taxonomy_term']->name;
+			}
+		}
+	}
+	$arr = array_reverse($arr);
+	return implode(', ', $arr);
+}
+
+function _get_node_misc_types($node = FALSE, $field_name = FALSE) {
+	$arr = array();
+	if (! $node || ! $field_name) {
+		return $arr;
+	}
+	$activity_types = macp_api_get_allowed_values_for_field($field_name);
+	$field_values = $node->$field_name;
+	$actvity_type_value = (isset($field_values[LANGUAGE_NONE][0]['value'])) ? $field_values[LANGUAGE_NONE][0]['value'] : '';
+	$activity_type = (isset($activity_types[$actvity_type_value])) ? $activity_types[$actvity_type_value] : '';
+	return $activity_type;
+}
