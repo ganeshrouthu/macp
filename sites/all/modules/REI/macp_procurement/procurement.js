@@ -205,11 +205,7 @@ jQuery(document).ready(function () {
         }
     }
 });
-
-	jQuery("#edit-upload-upload").click(function() {
-		jQuery(".file-upload-js-error").html('This is a test');
-	));
-})
+});
 
 function valid_email(email) {
 	var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
