@@ -791,6 +791,7 @@ function change_password($form_state, $record) {
     '#title' => t('Email'),
     '#size' => 50,
     '#required' => TRUE,
+		'#attributes' => array('disabled' => 'true'),
     '#default_value' => $record['build_info']['args'][0]['email'],
   );
   $form['new_password'] = array(
