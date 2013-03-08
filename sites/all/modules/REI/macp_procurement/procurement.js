@@ -110,6 +110,7 @@ jQuery(document).ready(function () {
 					message += 'Agency Name should not be more than 10 characters long.<br/>';
 				}
 				jQuery("#errorContainer").html(message);
+				return false;
 			}
 		},
 		errorPlacement: function(error, element) {
