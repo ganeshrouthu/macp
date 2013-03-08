@@ -108,7 +108,7 @@ jQuery(document).ready(function () {
 				else if (mobile_number.length > 0 && mobile_number.length > 11) {
 					message += 'Agency Name should not be more than 10 characters long.<br/>';
 				}
-				//jQuery("#errorContainer").html(message);
+				jQuery("#errorContainer").html(message);
 				return false;
 			}
 		},
