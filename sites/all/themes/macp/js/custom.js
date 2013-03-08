@@ -31,6 +31,6 @@ jQuery(document).ready(function(){
     jQuery("#teazer").css('display','block');
     jQuery("#gotop").hide();
   });
-  
-  
+	// Activity, Case Study, Innovations and Success Story slide shows.
+	jQuery("a.colorbox").colorbox({rel:'my-gallery'});
 });
