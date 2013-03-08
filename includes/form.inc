@@ -2856,6 +2856,9 @@ function form_process_password_confirm($element) {
   if (isset($element['#size'])) {
     $element['pass1']['#size'] = $element['pass2']['#size'] = $element['#size'];
   }
+	if (isset($element['#maxlength'])) {
+    $element['pass1']['#maxlength'] = $element['pass2']['#maxlength'] = $element['#maxlength'];
+  }
 
   return $element;
 }

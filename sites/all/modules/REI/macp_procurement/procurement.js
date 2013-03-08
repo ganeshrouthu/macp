@@ -5,19 +5,6 @@ jQuery(document).ready(function () {
   jQuery(".delete-add").click(function() {
     return confirm('Are you sure you want to delete?')
   });
-	//procurement-add-tender
-  //edit-upload-upload-button
-	//edit-upload-2-ajax-wrapper
-/*	
-	jQuery("#procurement-add-tender #edit-upload-upload-button").click(function() {
-		jQuery("#edit-upload-2-ajax-wrapper").show();
-	});
-	
-	jQuery("#upload-another").click(function() {
-		jQuery("#procurement-add-tender #edit-upload-2-ajax-wrapper").css({display:'block !important'});
-		return false;
-	});
-*/
   jQuery(".confirm-delete").click(function() {
     return confirm('Are you sure you want to delete?')
   });
@@ -31,7 +18,7 @@ jQuery(document).ready(function () {
       pass: {
         required: true,
         minlength: 5
-      },
+      }
     },
     messages: {
       pass: {
@@ -69,8 +56,7 @@ jQuery(document).ready(function () {
       },
       person_name: { 
         required: true,
-        minlength: 5,
-        maxlength: 10
+        minlength: 3
       },
       cont_number: {
 				required: false,
@@ -80,13 +66,14 @@ jQuery(document).ready(function () {
         required: true,
         minlength: 10,
 				maxlength: 11
-      },
+      }
     },
 		invalidHandler: function(form, validator) {
 			var errors = validator.numberOfInvalids();
 			if (errors) {
+				jQuery(".messages,.success,.error").hide();
 				jQuery("#errorContainer").css('color', 'red');
-				var message	=	'Highlighted fields are mandatory.';
+				var message	=	'Highlighted fields are mandatory.<br/>';
 				var email_id = jQuery.trim(jQuery("#edit-email-id").val());
 				var new_pass = jQuery.trim(jQuery("#edit-new-pass").val());
 				var confirm_passord = jQuery.trim(jQuery("#edit-confirm-passord").val());
@@ -96,31 +83,31 @@ jQuery(document).ready(function () {
 				var mobile_number = jQuery.trim(jQuery("#edit-mobile-number").val());
 
 				if (!valid_email(email_id)) {
-					message = 'Please enter valid Email ID.';
+					message += 'Please enter valid Email ID. <br/>';
 				}
 				else if (new_pass.length < 5) {
-					message = 'Password should be at least 5 characters long.';
+					message += 'Password should be at least 5 characters long.<br/>';
 				}
 				else if (confirm_passord.length < 5) {
-					message = 'Confirm Password should be at least 5 characters long.';
+					message += 'Confirm Password should be at least 5 characters long.<br/>';
 				}
 				else if (new_pass != confirm_passord) {
-					message = 'Password and Confirm Password should be same.';
+					message += 'Password and Confirm Password should be same.<br/>';
 				}
-				else if (agency_name.length > 0 && agency_name.length < 5) {
-					message = 'Agency Name should be at least 5 characters long.';
+				else if (agency_name.length > 0 && agency_name.length < 3) {
+					message += 'Agency Name should be at least 5 characters long.<br/>';
 				}
-				else if (person_name.length > 0 && person_name.length < 5) {
-					message = 'Person Name should be at least 5 characters long.';
+				else if (person_name.length > 0 && person_name.length < 3) {
+					message += 'Person Name should be at least 5 characters long.<br/>';
 				}
 				else if (cont_number.length > 0 && cont_number.length < 5) {
-					message = 'Contact Number should be at least 5 digits long.';
+					message += 'Contact Number should be at least 5 digits long.<br/>';
 				}
 				else if (mobile_number.length > 0 && mobile_number.length < 10) {
-					message = 'Mobile Number should be at least 10 digits long.';
+					message += 'Mobile Number should be at least 10 digits long.<br/>';
 				}
-				else if (mobile_number.length > 0 && mobile_number.length > 10) {
-					message = 'Agency Name should not be more than 10 characters long.';
+				else if (mobile_number.length > 0 && mobile_number.length > 11) {
+					message += 'Agency Name should not be more than 10 characters long.<br/>';
 				}
 				jQuery("#errorContainer").html(message);
 			}
@@ -137,23 +124,23 @@ jQuery(document).ready(function () {
       },
       agency_name: {
       	required: "Agency name is required",
-        minlength: "Agency name must be at least 5 cheractors",
+        minlength: "Agency name must be at least 5 cheractors"
       },
       person_name: {
       	required: "Person name is required",
-        minlength: "Person name must be at least 5 cheractors",
+        minlength: "Person name must be at least 5 cheractors"
       },
       cont_number: {
       	required: "Contact number is required",
         minlength: "Contact number must be at least 5 cheractors",
-        maxlength: "Please enter no more than 10 numbers.",
+        maxlength: "Please enter no more than 10 numbers."
       },
       mobile_number: {
         required: "Mobile number is required",
         minlength: "Mobile number must be at least 5 cheractors",
-				maxlength: "Please enter no more than 10 numbers.",
+				maxlength: "Please enter no more than 10 numbers."
       }
-    },
+    }
   });
   
   jQuery("#tuser-chnage-password").validate({
@@ -170,7 +157,7 @@ jQuery(document).ready(function () {
         required: true,
         equalTo:"#edit-new-password",
         minlength: 5
-      },
+      }
     },
     messages: {
       old_pass: {
@@ -180,17 +167,27 @@ jQuery(document).ready(function () {
       confirm_pass: {
         required: "Please provide a password",
         minlength: "Your password must be at least 5 characters long"
-      },
-      
-    },
+      }
+    }
   });
-
 	jQuery(".cancel-btn").click(function () {
 		var url_to = jQuery(this).attr("alt");
 		window.location = url_to;
-		//alert(url_to);
 	});
-})
+	jQuery(".only_numbers").keydown(function (event) {
+    var num = event.keyCode;
+    if ((num > 95 && num < 106) || (num > 36 && num < 41) || num == 9) {
+        return;
+    }
+    if (event.shiftKey || event.ctrlKey || event.altKey) {
+        event.preventDefault();
+    } else if (num != 46 && num != 8) {
+        if (isNaN(parseInt(String.fromCharCode(event.which)))) {
+            event.preventDefault();
+        }
+    }
+});
+});
 
 function valid_email(email) {
 	var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;

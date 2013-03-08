@@ -66,7 +66,7 @@ ul.tender-addendums {
 	margin:0px;
 }
 
-#procurement-add-tender .submit-buttons, #procurement-add-addendum .submit-buttons, #user-register-download-tender .submit-buttons {
+#user-register-download-tender .submit-buttons {
 	padding:10px;
 	margin-left:120px;
 }
@@ -323,4 +323,55 @@ table.view-tender td, table.view-tender th{
 .group-title-li {
 	list-style:none;
 	font-weight:bold;
+}
+
+#procurement-add-addendum .file-upload-js-error {
+	margin:10px 485px 0 !important;
+	position:absolute !important;
+	width:230px;
+	font-size:11px;
+}
+
+/*
+#procurement-add-tender .file-upload-js-error {
+	margin:10px 485px 0 !important;
+	position:absolute !important;
+	width:230px;
+	font-size:11px;
+}
+*/
+
+#procurement-add-tender .file-upload-js-error {
+    font-size: 11px;
+    height: 30px;
+    margin: 85px 0 0 140px !important;
+    padding: 2px 0 0 36px;
+    position: absolute !important;
+    width: 293px;
+}
+
+#procurement-add-addendum .file-upload-js-error {
+    font-size: 11px;
+    height: 30px;
+    margin: 50px 0 0 140px !important;
+    padding: 2px 0 0 36px;
+    position: absolute !important;
+    width: 293px;
+}
+
+#procurement-add-tender .description, #procurement-add-addendum .description {
+    margin: -12px 0 0 -21px !important;
+    padding-left: 160px !important;
+}
+
+#procurement-add-tender .submit-buttons {
+	padding:0 10px;
+	margin-left:120px;
+	margin-top:35px;
+}
+
+#procurement-add-addendum .submit-buttons {
+	padding:0 10px;
+	margin-left:120px;
+	margin-top:35px;
 }

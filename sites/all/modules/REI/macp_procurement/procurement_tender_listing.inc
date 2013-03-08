@@ -8,7 +8,7 @@ function procurement_add_tender($form, $form_state, $tender = NULL, $addendum = 
     '#type' => 'textfield',
     '#title' => t('Title'),
     '#size' => 60,
-    '#maxlength' => 128, 
+    '#maxlength' => 128,
     '#default_value' => empty($tender->title) ? '' : $tender->title, 
     '#required' => TRUE,
   );
@@ -571,7 +571,7 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
   $form['confirm_passord'] = array(
     '#type' => 'password',
     '#title' => t('Confirm Password'),
-    '#size' => 25,
+    '#size' => 15,
 		'#required' => TRUE,
   );
   
@@ -595,7 +595,7 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#type' => 'textfield', 
     '#title' => t('Contact Number'),
     '#size' => 60,
-    '#maxlength' => 10,
+    '#maxlength' => 15,
     //'#required' => TRUE,
   );
   
@@ -603,8 +603,9 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#type' => 'textfield', 
     '#title' => t('Mobile Number'),
     '#size' => 60,
-    '#maxlength' => 10,
+    '#maxlength' => 11,
     '#required' => TRUE,
+    '#attributes' => array('class' => array('only_numbers')),
   );
   
   $form['website'] = array(
@@ -639,7 +640,7 @@ function user_register_download_tender_submit($form, &$form_state) {
 	  ->execute();
 	if($details->rowCount() > 0) {
 	  $user_det = $details->fetchObject();
-	  form_set_error('email_id', 'Email ID already exist');
+	  form_set_error('email_id', 'Email ID already exists.');
 	}
 	else {
 	  $rec = db_insert('tuser') // Table name no longer needs {}
@@ -796,6 +797,8 @@ function change_password($form_state, $record) {
     '#type' => 'password_confirm',
 		'#required' => TRUE,
     '#size' => 25,
+    '#maxlength' => 15,
+//		'#default_value' => $record['build_info']['args'][0]['email'],
   );
   $form['submit'] = array(
  	  '#type' => 'submit', 
@@ -807,24 +810,30 @@ function change_password($form_state, $record) {
 function change_password_submit($form, &$form_state){
   $email = $form_state['values']['email'];
 	$new_pass =  md5(utf8_encode($form_state['values']['new_password']));
-	$result = db_select('tuser', 'tu')
-	    ->fields('tu', array('mail', 'pass'))
-	    ->condition('tu.mail', $email, '=')
-	    ->execute()->rowCount();
-	if($result ==1) {
-	  $num_updated = db_update('tuser') // Table name no longer needs {}
-  		->fields(array(
-  		           'pass' => $new_pass,
-              ))
-      ->condition('mail', $email, '=')
-      ->execute();
-     drupal_set_message('Your password is chnaged');
-     $form_state['rebuild'] = TRUE;
-	  drupal_goto('procurement/tenders/list');
+	extract($form_state['values'], EXTR_PREFIX_ALL, 'fv');
+	if (strlen($fv_new_password) < 5 || strlen($fv_new_password) > 15) {
+		form_set_error('new_pass', 'Password should be at least 5 and max 15 characters long.');
 	}
 	else {
-	  form_set_error('email', 'Invalid email address');
-	  drupal_goto('tuser/change_password');
+		$result = db_select('tuser', 'tu')
+				->fields('tu', array('mail', 'pass'))
+				->condition('tu.mail', $email, '=')
+				->execute()->rowCount();
+		if($result ==1) {
+			$num_updated = db_update('tuser') // Table name no longer needs {}
+				->fields(array(
+									 'pass' => $new_pass,
+								))
+				->condition('mail', $email, '=')
+				->execute();
+			 drupal_set_message('Your password is changed');
+			 $form_state['rebuild'] = TRUE;
+			drupal_goto('procurement/tenders/list');
+		}
+		else {
+			form_set_error('email', 'Invalid email address');
+			drupal_goto('tuser/change_password');
+		}
 	}
 }
 

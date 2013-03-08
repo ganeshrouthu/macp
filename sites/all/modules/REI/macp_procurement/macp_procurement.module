@@ -610,3 +610,15 @@ function macp_procurement_form_user_login_alter(&$form, &$form_state, $form_id) 
 function _user_login_form_submit($form, &$form_state) {
 	$form_state['redirect'] = '<front>';
 }
+
+function macp_procurement_js_alter(&$javascript) {
+	
+	
+//	_p($javascript['modules/file/file.js']);
+	$file_path = drupal_get_path('module', 'macp_procurement') . '/file.js';
+	$javascript['modules/file/file.js']['data'] = $file_path;
+//	_p($javascript['modules/file/file.js']);
+// $javascript['misc/jquery.js']['data'] = drupal_get_path('module', 'jquery_update') . '/jquery.js'; // Swap out jQuery to use an updated version of the library
+}
+
+//file.js
