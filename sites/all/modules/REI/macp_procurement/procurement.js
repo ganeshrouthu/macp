@@ -73,7 +73,7 @@ jQuery(document).ready(function () {
 			var errors = validator.numberOfInvalids();
 			if (errors) {
 				jQuery("#errorContainer").css('color', 'red');
-				var message	=	'Highlighted fields are mandatory.';
+				var message	=	'Highlighted fields are mandatory.<br/>';
 				var email_id = jQuery.trim(jQuery("#edit-email-id").val());
 				var new_pass = jQuery.trim(jQuery("#edit-new-pass").val());
 				var confirm_passord = jQuery.trim(jQuery("#edit-confirm-passord").val());
@@ -83,31 +83,31 @@ jQuery(document).ready(function () {
 				var mobile_number = jQuery.trim(jQuery("#edit-mobile-number").val());
 
 				if (!valid_email(email_id)) {
-					message = 'Please enter valid Email ID.';
+					message += 'Please enter valid Email ID. <br/>';
 				}
 				else if (new_pass.length < 5) {
-					message = 'Password should be at least 5 characters long.';
+					message += 'Password should be at least 5 characters long.<br/>';
 				}
 				else if (confirm_passord.length < 5) {
-					message = 'Confirm Password should be at least 5 characters long.';
+					message += 'Confirm Password should be at least 5 characters long.<br/>';
 				}
 				else if (new_pass != confirm_passord) {
-					message = 'Password and Confirm Password should be same.';
+					message += 'Password and Confirm Password should be same.<br/>';
 				}
 				else if (agency_name.length > 0 && agency_name.length < 3) {
-					message = 'Agency Name should be at least 5 characters long.';
+					message += 'Agency Name should be at least 5 characters long.<br/>';
 				}
 				else if (person_name.length > 0 && person_name.length < 3) {
-					message = 'Person Name should be at least 5 characters long.';
+					message += 'Person Name should be at least 5 characters long.<br/>';
 				}
 				else if (cont_number.length > 0 && cont_number.length < 5) {
-					message = 'Contact Number should be at least 5 digits long.';
+					message += 'Contact Number should be at least 5 digits long.<br/>';
 				}
 				else if (mobile_number.length > 0 && mobile_number.length < 10) {
-					message = 'Mobile Number should be at least 10 digits long.';
+					message += 'Mobile Number should be at least 10 digits long.<br/>';
 				}
 				else if (mobile_number.length > 0 && mobile_number.length > 11) {
-					message = 'Agency Name should not be more than 10 characters long.';
+					message += 'Agency Name should not be more than 10 characters long.<br/>';
 				}
 				jQuery("#errorContainer").html(message);
 			}
