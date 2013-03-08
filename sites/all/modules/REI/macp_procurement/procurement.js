@@ -5,19 +5,6 @@ jQuery(document).ready(function () {
   jQuery(".delete-add").click(function() {
     return confirm('Are you sure you want to delete?')
   });
-	//procurement-add-tender
-  //edit-upload-upload-button
-	//edit-upload-2-ajax-wrapper
-/*	
-	jQuery("#procurement-add-tender #edit-upload-upload-button").click(function() {
-		jQuery("#edit-upload-2-ajax-wrapper").show();
-	});
-	
-	jQuery("#upload-another").click(function() {
-		jQuery("#procurement-add-tender #edit-upload-2-ajax-wrapper").css({display:'block !important'});
-		return false;
-	});
-*/
   jQuery(".confirm-delete").click(function() {
     return confirm('Are you sure you want to delete?')
   });
@@ -31,7 +18,7 @@ jQuery(document).ready(function () {
       pass: {
         required: true,
         minlength: 5
-      },
+      }
     },
     messages: {
       pass: {
@@ -80,7 +67,7 @@ jQuery(document).ready(function () {
         required: true,
         minlength: 10,
 				maxlength: 11
-      },
+      }
     },
 		invalidHandler: function(form, validator) {
 			var errors = validator.numberOfInvalids();
@@ -137,23 +124,23 @@ jQuery(document).ready(function () {
       },
       agency_name: {
       	required: "Agency name is required",
-        minlength: "Agency name must be at least 5 cheractors",
+        minlength: "Agency name must be at least 5 cheractors"
       },
       person_name: {
       	required: "Person name is required",
-        minlength: "Person name must be at least 5 cheractors",
+        minlength: "Person name must be at least 5 cheractors"
       },
       cont_number: {
       	required: "Contact number is required",
         minlength: "Contact number must be at least 5 cheractors",
-        maxlength: "Please enter no more than 10 numbers.",
+        maxlength: "Please enter no more than 10 numbers."
       },
       mobile_number: {
         required: "Mobile number is required",
         minlength: "Mobile number must be at least 5 cheractors",
-				maxlength: "Please enter no more than 10 numbers.",
+				maxlength: "Please enter no more than 10 numbers."
       }
-    },
+    }
   });
   
   jQuery("#tuser-chnage-password").validate({
@@ -170,7 +157,7 @@ jQuery(document).ready(function () {
         required: true,
         equalTo:"#edit-new-password",
         minlength: 5
-      },
+      }
     },
     messages: {
       old_pass: {
@@ -180,18 +167,13 @@ jQuery(document).ready(function () {
       confirm_pass: {
         required: "Please provide a password",
         minlength: "Your password must be at least 5 characters long"
-      },
-      
-    },
+      }
+    }
   });
-
 	jQuery(".cancel-btn").click(function () {
 		var url_to = jQuery(this).attr("alt");
 		window.location = url_to;
-		//alert(url_to);
 	});
-	
-	
 	jQuery(".only_numbers").keydown(function (event) {
     var num = event.keyCode;
     if ((num > 95 && num < 106) || (num > 36 && num < 41) || num == 9) {
