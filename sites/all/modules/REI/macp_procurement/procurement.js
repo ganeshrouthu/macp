@@ -80,6 +80,7 @@ jQuery(document).ready(function () {
 				var person_name = jQuery.trim(jQuery("#edit-person-name").val());
 				var cont_number = jQuery.trim(jQuery("#edit-cont-number").val());
 				var mobile_number = jQuery.trim(jQuery("#edit-mobile-number").val());
+
 				if (!valid_email(email_id)) {
 					message += 'Please enter valid Email ID. <br/>';
 				}
