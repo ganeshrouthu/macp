@@ -56,8 +56,7 @@ jQuery(document).ready(function () {
       },
       person_name: { 
         required: true,
-        minlength: 5,
-        maxlength: 10
+        minlength: 3
       },
       cont_number: {
 				required: false,
