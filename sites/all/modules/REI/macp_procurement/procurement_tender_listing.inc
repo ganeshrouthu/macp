@@ -597,8 +597,9 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#size' => 60,
     '#maxlength' => 15,
     //'#required' => TRUE,
+		'#attributes' => array('class' => array('no_characters')),
   );
-  
+
   $form['mobile_number'] = array(
     '#type' => 'textfield', 
     '#title' => t('Mobile Number'),

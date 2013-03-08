@@ -186,7 +186,13 @@ jQuery(document).ready(function () {
             event.preventDefault();
         }
     }
-});
+	});
+	jQuery(".no_characters").keydown(function (event) {
+    var num = event.keyCode;
+		if (num > 64 && num < 90) {
+			return false;
+		}
+	});
 });
 
 function valid_email(email) {
