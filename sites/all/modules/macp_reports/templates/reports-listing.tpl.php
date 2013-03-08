@@ -96,7 +96,6 @@ else {
 	<thead>
   <tr align="left" valign="top">
 		<td><div class="heading"><strong>State: </strong></div>Maharashtra</td>
-		<td></td>
     <td><div class="heading"><strong>District: </strong></div><?php
     $dist_all_url = _prepare_report_filters('district_id', 'all');
     $report_all_url = _prepare_report_filters('report_type', 'all');
@@ -130,9 +129,6 @@ else {
     }
     ?>
 		<?php print ($print_drop_downs) ? '</select>' : $dist_text;?></td>
-		<td>
-    
-</td>
 	</tr>
 
   <tr align="left" valign="top">
@@ -142,10 +138,8 @@ else {
 			print $pars['report_type'];
 		}
 		?>
-		<td>
 		</td>
-    <td>
-		
+		<td>
 		<div class="heading"><strong>Financial Year: </strong></div>
 		<?php
 		$financial_year_text = '';
@@ -179,11 +173,7 @@ else {
     }
     ?>
 <?php print ($print_drop_downs) ? '</select>' : $financial_year_text;?>
-		
-		<td>
-    
-
-    </td>
+</td>
 	</tr>
   </thead>
 </table>

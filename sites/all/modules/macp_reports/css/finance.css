@@ -124,7 +124,7 @@ background: #F2F2F2;
 }
 
 .report-filters {
-	margin:40px 0 0 0;
+	margin:10px 0 0 0;
 }
 
 .macp-report-table {
@@ -236,4 +236,20 @@ background: #F2F2F2;
 
 .print-breadcrumb {
 	display:none;
+}
+
+.macp-export-options {
+	margin:0 !important;
+	padding:0 !important;
+	border-collapse:collapse;
+	line-height:20px !important;
+}
+
+.block-macp-reports {
+	margin:0 !important;
+	padding:0 !important;
+}
+
+.report-filters select {
+	width:160px;
 }

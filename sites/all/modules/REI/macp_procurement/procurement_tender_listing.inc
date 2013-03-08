@@ -571,7 +571,7 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
   $form['confirm_passord'] = array(
     '#type' => 'password',
     '#title' => t('Confirm Password'),
-    '#size' => 25,
+    '#size' => 15,
 		'#required' => TRUE,
   );
   
@@ -640,7 +640,7 @@ function user_register_download_tender_submit($form, &$form_state) {
 	  ->execute();
 	if($details->rowCount() > 0) {
 	  $user_det = $details->fetchObject();
-	  form_set_error('email_id', 'Email ID already exist');
+	  form_set_error('email_id', 'Email ID already exists.');
 	}
 	else {
 	  $rec = db_insert('tuser') // Table name no longer needs {}
@@ -797,6 +797,8 @@ function change_password($form_state, $record) {
     '#type' => 'password_confirm',
 		'#required' => TRUE,
     '#size' => 25,
+    '#maxlength' => 15,
+//		'#default_value' => $record['build_info']['args'][0]['email'],
   );
   $form['submit'] = array(
  	  '#type' => 'submit', 
@@ -808,9 +810,9 @@ function change_password($form_state, $record) {
 function change_password_submit($form, &$form_state){
   $email = $form_state['values']['email'];
 	$new_pass =  md5(utf8_encode($form_state['values']['new_password']));
-	
-	if (strlen($form_state['values']['new_password']) < 5) {
-		form_set_error('new_pass', 'Password should be at least 5 characters long.');
+	extract($form_state['values'], EXTR_PREFIX_ALL, 'fv');
+	if (strlen($fv_new_password) < 5 || strlen($fv_new_password) > 15) {
+		form_set_error('new_pass', 'Password should be at least 5 and max 15 characters long.');
 	}
 	else {
 		$result = db_select('tuser', 'tu')

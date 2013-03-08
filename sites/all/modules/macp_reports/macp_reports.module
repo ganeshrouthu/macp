@@ -347,7 +347,13 @@ function _print_pdf_export_link() {
 				$pars = array_values($pars);
 			}
 			$html .= '<div class="print-pdf-export">
-			<table align="center" class="macp-table report-filters no-borders">
+			<!--[if IE]>
+<style type="text/css">
+  .macp-export-options {
+	height:100px !important;
+}
+</style>
+<![endif]--><table align="center" class="macp-export-options">
   <tr valign="top" align="left">
 		<td align="right">';
 			$query_str = implode('/', $pars);
