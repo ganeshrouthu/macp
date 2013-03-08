@@ -1039,3 +1039,7 @@ text-decoration:none;
 table.custom-nodes {
 	line-height:50px !important;
 }
+
+#edit-custom-search-types {
+display:none;
+}
