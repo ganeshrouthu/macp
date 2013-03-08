@@ -640,7 +640,7 @@ function user_register_download_tender_submit($form, &$form_state) {
 	  ->execute();
 	if($details->rowCount() > 0) {
 	  $user_det = $details->fetchObject();
-	  form_set_error('email_id', 'Email ID already exist');
+	  form_set_error('email_id', 'Email ID already exists.');
 	}
 	else {
 	  $rec = db_insert('tuser') // Table name no longer needs {}

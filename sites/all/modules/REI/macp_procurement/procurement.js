@@ -71,6 +71,7 @@ jQuery(document).ready(function () {
 		invalidHandler: function(form, validator) {
 			var errors = validator.numberOfInvalids();
 			if (errors) {
+				jQuery(".messages,.success,.error").hide();
 				jQuery("#errorContainer").css('color', 'red');
 				var message	=	'Highlighted fields are mandatory.<br/>';
 				var email_id = jQuery.trim(jQuery("#edit-email-id").val());
