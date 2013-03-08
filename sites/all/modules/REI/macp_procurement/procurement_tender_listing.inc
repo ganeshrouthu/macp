@@ -571,7 +571,7 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
   $form['confirm_passord'] = array(
     '#type' => 'password',
     '#title' => t('Confirm Password'),
-    '#size' => 25,
+    '#size' => 15,
 		'#required' => TRUE,
   );
   
@@ -797,6 +797,7 @@ function change_password($form_state, $record) {
     '#type' => 'password_confirm',
 		'#required' => TRUE,
     '#size' => 25,
+    '#maxlength' => 15,
   );
   $form['submit'] = array(
  	  '#type' => 'submit', 
