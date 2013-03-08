@@ -249,3 +249,7 @@ background: #F2F2F2;
 	margin:0 !important;
 	padding:0 !important;
 }
+
+.report-filters select {
+	width:160px;
+}
