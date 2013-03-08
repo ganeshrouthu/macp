@@ -114,8 +114,7 @@ jQuery(document).ready(function () {
 		},
 		errorPlacement: function(error, element) {
 			return true;
-		},
-		
+		},		
     messages: {
     	email_id: "Please enter a valid email address",
       pass: {
