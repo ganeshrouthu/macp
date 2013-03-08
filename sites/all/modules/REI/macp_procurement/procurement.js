@@ -84,7 +84,6 @@ jQuery(document).ready(function () {
 				if (!valid_email(email_id)) {
 					message += 'Please enter valid Email ID. <br/>';
 				}
-				
 				else if (new_pass.length < 5) {
 					message += 'Password should be at least 5 characters long.<br/>';
 				}
