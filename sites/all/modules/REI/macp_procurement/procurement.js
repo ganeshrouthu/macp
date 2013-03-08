@@ -112,7 +112,6 @@ jQuery(document).ready(function () {
 				return false;
 			}
 		},
-
 		errorPlacement: function(error, element) {
 			return true;
 		},		
