@@ -556,7 +556,7 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#title' => t('Email ID'),
     '#size' => 60,
     '#maxlength' => 128,
-    '#prefix' => '<div id="errorContainer" clear="all"></div>',
+    '#prefix' => '<div id="errorContainer"></div>',
     '#required' => TRUE,
   );
   
@@ -597,8 +597,9 @@ function user_register_download_tender($form, $form_state, $tid, $fid) {
     '#size' => 60,
     '#maxlength' => 15,
     //'#required' => TRUE,
+		'#attributes' => array('class' => array('no_characters')),
   );
-  
+
   $form['mobile_number'] = array(
     '#type' => 'textfield', 
     '#title' => t('Mobile Number'),
@@ -791,6 +792,7 @@ function change_password($form_state, $record) {
     '#title' => t('Email'),
     '#size' => 50,
     '#required' => TRUE,
+		'#attributes' => array('disabled' => 'true'),
     '#default_value' => $record['build_info']['args'][0]['email'],
   );
   $form['new_password'] = array(
