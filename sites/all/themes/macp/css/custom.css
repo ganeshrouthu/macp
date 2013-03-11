@@ -217,7 +217,7 @@ div#footer{
 }
 .useful li {
 	//line-height:20px;
-	 padding-bottom: 4px;
+	 //padding-bottom: 4px;
         padding-top: 4px;
 }
 
@@ -388,6 +388,23 @@ margin-left:-3px;
 	margin-left:775px !important;
 	margin-top:10px;
 }
+
+.region-sidebar-second  .block{
+margin-bottom:0px;
+}
+
+.ui-accordion .ui-accordion-content{
+padding:0px;
+}
+
+ div#block-menu-menu-macp ul.menu{
+padding:0 0 0 25px;
+margin:0.5em 0;
+}
+ div#block-menu-menu-macp ul.menu li a:hover{
+ text-decoration:underline;
+ }
+
 
 
 /************************** for teaser view of basic pages ***********************/
