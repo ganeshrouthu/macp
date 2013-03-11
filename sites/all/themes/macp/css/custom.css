@@ -149,7 +149,7 @@ left: 150px;
 	font-family: Arial, Helvetica, sans-serif;
 	color: #000000;
 	font-size: 12px;
-	line-height: 22px;
+	line-height: 20px;
 	padding-left: 0px;
 	padding-right: 0px;
 	margin-bottom:20px;
@@ -217,7 +217,7 @@ div#footer{
 }
 .useful li {
 	//line-height:20px;
-	 padding-bottom: 4px;
+	 //padding-bottom: 4px;
         padding-top: 4px;
 }
 
@@ -321,7 +321,8 @@ div.sf-megamenu-column > a {
 	margin-bottom:12px;
 	text-decoration:none;
 	margin-top:7px;
-      pointer-events:none;
+/*modified on 11313*/ // pointer-events:none;
+
 }
 
 #menu-581-1 ul li ol li a ,#menu-584-1 ul li ol li a{
@@ -387,6 +388,23 @@ margin-left:-3px;
 	margin-left:775px !important;
 	margin-top:10px;
 }
+
+.region-sidebar-second  .block{
+margin-bottom:0px;
+}
+
+.ui-accordion .ui-accordion-content{
+padding:0px;
+}
+
+ div#block-menu-menu-macp ul.menu{
+padding:0 0 0 25px;
+margin:0.5em 0;
+}
+ div#block-menu-menu-macp ul.menu li a:hover{
+ text-decoration:underline;
+ }
+
 
 
 /************************** for teaser view of basic pages ***********************/
@@ -471,9 +489,10 @@ padding-left:1px;
 margin-bottom:0px;
 }
 
-#block-quicktabs-common-links .ui-icon-triangle-1-s, #block-quicktabs-related-pages .ui-icon-triangle-1-s{
-display:none;
+#quickset-macp_sidebar2{
+margin-bottom:1.5em;
 }
+
 
 h3.ui-accordion-header{
 background-image:url('../images/section-head.jpg');
@@ -766,9 +785,9 @@ float:left;
 /*background:#E9F1DA;
 margin-right:15px;*/
 padding-left:0px;
-margin-left:-70px;
+margin-left:-55px;
 clear:left;
-height:260px;
+height:190px;
 margin-top:10px;
 }
 
@@ -1038,4 +1057,8 @@ text-decoration:none;
 /************************************/
 table.custom-nodes {
 	line-height:50px !important;
+}
+
+#edit-custom-search-types {
+display:none;
 }

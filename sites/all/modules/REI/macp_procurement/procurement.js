@@ -71,7 +71,6 @@ jQuery(document).ready(function () {
 		invalidHandler: function(form, validator) {
 			var errors = validator.numberOfInvalids();
 			if (errors) {
-				jQuery(".messages,.success,.error").hide();
 				jQuery("#errorContainer").css('color', 'red');
 				var message	=	'Highlighted fields are mandatory.<br/>';
 				var email_id = jQuery.trim(jQuery("#edit-email-id").val());
@@ -110,12 +109,13 @@ jQuery(document).ready(function () {
 					message += 'Agency Name should not be more than 10 characters long.<br/>';
 				}
 				jQuery("#errorContainer").html(message);
+				return false;
 			}
 		},
+
 		errorPlacement: function(error, element) {
 			return true;
-		},
-		
+		},		
     messages: {
     	email_id: "Please enter a valid email address",
       pass: {
@@ -186,7 +186,13 @@ jQuery(document).ready(function () {
             event.preventDefault();
         }
     }
-});
+	});
+	jQuery(".no_characters").keydown(function (event) {
+    var num = event.keyCode;
+		if (num > 64 && num < 90) {
+			return false;
+		}
+	});
 });
 
 function valid_email(email) {
