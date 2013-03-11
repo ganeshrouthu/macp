@@ -489,9 +489,10 @@ padding-left:1px;
 margin-bottom:0px;
 }
 
-#block-quicktabs-common-links .ui-icon-triangle-1-s, #block-quicktabs-related-pages .ui-icon-triangle-1-s{
-display:none;
+#quickset-macp_sidebar2{
+margin-bottom:1.5em;
 }
+
 
 h3.ui-accordion-header{
 background-image:url('../images/section-head.jpg');
