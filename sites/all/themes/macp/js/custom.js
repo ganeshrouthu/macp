@@ -19,7 +19,7 @@ jQuery(document).ready(function(){
   //var minheight = Math.max(jQuery(".region-sidebar-first").height(),jQuery(".region-sidebar-second").height());
   var minheight = jQuery(".region-sidebar-first").height();
   
-  //var hgt = minheight - jQuery("h1#page-title").height()-Math.max(jQuery(".breadcrumb").height())-50;
+  
   var hgt = minheight - jQuery("h1#page-title").height()-60;
   if(jQuery("#teazer-body").height()<hgt){
   jQuery("#gotop").hide();
