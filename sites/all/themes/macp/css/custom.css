@@ -321,7 +321,7 @@ div.sf-megamenu-column > a {
 	margin-bottom:12px;
 	text-decoration:none;
 	margin-top:7px;
-     // pointer-events:none;
+    /*modified on 11313*/ // pointer-events:none;
 }
 
 #menu-581-1 ul li ol li a ,#menu-584-1 ul li ol li a{
